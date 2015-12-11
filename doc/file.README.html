@@ -62,38 +62,60 @@
     <iframe id="search_frame"></iframe>
 
     <div id="content"><div id='filecontents'>
-<h2 id="label-README">README</h2>
+<h1 id="label-Archivesspace+Preprocessing+System">Archivesspace Preprocessing System</h1>
 
-<p>This README would normally document whatever steps are necessary to get the
-application up and running.</p>
+<h2 id="label-Project+Description">Project Description</h2>
 
-<p>Things you may want to cover:</p>
+<p>The Archivesspace Preprocessing system is a system intended to process EAD
+files and apply changes to them to allow for successful ingest into <a
+href="https://github.com/archivesspace/archivesspace">Archivesspace</a></p>
+
+<h2 id="label-System+Requirements">System Requirements</h2>
+
+<h3 id="label-General">General</h3>
 <ul><li>
-<p>Ruby version</p>
+<p>A JVM capable of running JRuby 9.0.0.0</p>
 </li><li>
-<p>System dependencies</p>
+<p>JRuby 9.0.0.0 (targets MRI 2.2)</p>
 </li><li>
-<p>Configuration</p>
-</li><li>
-<p>Database creation</p>
-</li><li>
-<p>Database initialization</p>
-</li><li>
-<p>How to run the test suite</p>
-</li><li>
-<p>Services (job queues, cache servers, search engines, etc.)</p>
-</li><li>
-<p>Deployment instructions</p>
-</li><li>
-<p>…</p>
+<p>Bundler</p>
 </li></ul>
 
-<p>Please feel free to use a different markup language if you do not plan to
-run <code>rake doc:app</code>.</p>
+<p>This system is tested and run in production in the following environment:</p>
+
+<p>| Components | | |————————|———————-| | <em>Operating System</em> | OSX,
+Linux (RHEL 6.7)| | <em>Database</em> | PostgreSQL 9.x | | <em>Web
+Server</em> | Apache 2.x | | <em>Application Server</em> | Passenger | |
+<em>Ruby version manager</em> | RVM</p>
+
+<h3 id="label-Development%2FTest">Development/Test</h3>
+
+<p>In order to run the test suite, you&#39;ll need to install <a
+href="http://phantomjs.org">PhantomJS</a></p>
+
+<h2 id="label-Application+Set-up+Steps">Application Set-up Steps</h2>
+<ol><li>
+<p>Run bundle install. You will probably have to install OS-vendor supplied
+libraries to satisfy some gem install requirements.</p>
+</li><li>
+<p>Create the database and run <code>rake db:schema:load</code>, after
+modifying “config/database.yml” to suit your environment.</p>
+</li></ol>
+
+<h2 id="label-Contributors">Contributors</h2>
+<ul><li>
+<p>Dave Mayo: <a href="http://github.com/pobocks">github.com/pobocks</a></p>
+</li></ul>
+
+<h2 id="label-License+and+Copyright">License and Copyright</h2>
+
+<p>This application is released under a GPLv3 license.</p>
+
+<p>2011 President and Fellows of Harvard College</p>
 </div></div>
 
     <div id="footer">
-  Generated on Wed Nov 25 09:46:43 2015 by
+  Generated on Fri Dec 11 08:49:28 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.2.2).
 </div>
