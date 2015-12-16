@@ -1,3 +1,4 @@
+require 'test_helper'
 class RootTest < ActionDispatch::IntegrationTest
 
   describe "root path" do
