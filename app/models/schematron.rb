@@ -7,7 +7,7 @@ class Schematron < ActiveRecord::Base
 
   validates :digest, presence: true, length: {is: 64}, format: /[a-zA-Z0-9]+/
   validates_each :digest do |record, attr, value|
-    record.errors.add(attr, "must be associated with an extant SchematronFile") unless record.file
+    record.errors.add(attr, "must be associated with an extant SchematronFile") unless record.file.is_a? SchematronFile
   end
 
   # @return [SchematronFile] the SchematronFile associated with this record

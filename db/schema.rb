@@ -11,17 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151104153734) do
+ActiveRecord::Schema.define(version: 20160104173356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "concrete_issues", force: :cascade do |t|
-    t.integer  "run_id",                                   null: false
-    t.integer  "issue_id",                                 null: false
-    t.string   "location",        limit: 255,              null: false
-    t.integer  "line_number",                              null: false
-    t.text     "diagnostic_info",             default: "", null: false
+    t.integer  "run_id",                       null: false
+    t.integer  "issue_id",                     null: false
+    t.text     "location",                     null: false
+    t.integer  "line_number",                  null: false
+    t.text     "diagnostic_info", default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -57,13 +57,16 @@ ActiveRecord::Schema.define(version: 20151104153734) do
   add_index "finding_aids", ["repository_id"], name: "index_finding_aids_on_repository_id", using: :btree
 
   create_table "issues", force: :cascade do |t|
-    t.integer  "schematron_id",                  null: false
-    t.string   "identifier",         limit: 255, null: false
+    t.integer  "schematron_id",                                  null: false
+    t.string   "identifier",         limit: 255,                 null: false
     t.string   "alternate_issue_id", limit: 255
-    t.string   "rule_context",       limit: 255
-    t.string   "message",            limit: 255
+    t.text     "rule_context"
+    t.text     "message"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.jsonb    "tags"
+    t.text     "rule_label"
+    t.boolean  "manual",                         default: false, null: false
   end
 
   add_index "issues", ["identifier", "schematron_id"], name: "index_issues_on_identifier_and_schematron_id", using: :btree
@@ -80,7 +83,7 @@ ActiveRecord::Schema.define(version: 20151104153734) do
   create_table "remediations", force: :cascade do |t|
     t.string   "issue_identifier", limit: 255, null: false
     t.string   "identifier",       limit: 255, null: false
-    t.string   "description",      limit: 255, null: false
+    t.text     "description",                  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

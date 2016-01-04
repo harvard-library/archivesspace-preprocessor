@@ -33,8 +33,8 @@ class CreateInitialTables < ActiveRecord::Migration
 
       t.string :identifier, null: false
       t.string :alternate_issue_id
-      t.string :rule_context
-      t.string :message
+      t.text :rule_context
+      t.text :message
 
       t.timestamps
     end
@@ -46,7 +46,7 @@ class CreateInitialTables < ActiveRecord::Migration
       t.references :run, index: true, foreign_key: true, null: false
       t.references :issue, index: true, foreign_key: true, null: false
 
-      t.string :location, null: false
+      t.text :location, null: false
       t.integer :line_number, null: false
       t.text :diagnostic_info, null: false, default: ""
 
@@ -77,7 +77,7 @@ class CreateInitialTables < ActiveRecord::Migration
     create_table :remediations do |t|
       t.string :issue_identifier, null: false, index: :unique # effective FKey to issues.identifier
       t.string :identifier, null: false
-      t.string :description, null: false
+      t.text :description, null: false
 
       t.timestamps
     end
