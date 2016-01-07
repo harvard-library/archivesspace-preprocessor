@@ -54,6 +54,35 @@ class SchematronFile < SimpleDelegator
     pp.text inspect
   end
 
+  # Return an array of hashes of issue attribute values suitable
+  #   for passing in as nested attributes to Schematron constructor
+  #
+  # @return [Hash] A representation of the XML content for use
+  #   in constructing DB representations of individual issues
+  def issue_attrs
+    rep = {}
+    xml = Nokogiri::XML(self)
+    xml.remove_namespaces!
+    diags = xml.xpath('//diagnostic')
+    xml.xpath('//rule').map do |rule|
+      label = rule.xpath('./comment()').text.strip
+      context = rule['context']
+      manual = rule.ancestors('pattern').first['id'].match(/-manual\Z/) ? true : false
+      issues = rule.xpath('./assert').map do |assert|
+        {
+          rule_label: label, rule_context: context, manual: manual, #rule stuff
+          identifier: assert['diagnostics'],
+          test: assert['test'],
+          message: assert.content.strip,
+          alternate_issue_id: diags.filter("[@id='#{assert['diagnostics']}']")
+            .first
+            .content
+            .match(/(?<=Ref-number: ).*$/)[0]
+        }
+      end
+    end.flatten
+  end
+
   # Convenience method for fetching file
   #
   # @param [String] digest SHA256 digest in hex format
@@ -71,7 +100,7 @@ class SchematronFile < SimpleDelegator
   #
   # @return [Array<String>] filenames
   def self.filenames
-    Dir[File.join(SCH_FILE_DIR, '*.xml')]
+    Dir[File.join(SCH_FILE_DIR, '*.xml')].sort_by { |fn| File.ctime fn }
   end
 
   # SHA digests of all Schematron files in directory

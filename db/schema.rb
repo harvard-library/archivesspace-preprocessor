@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104173356) do
+ActiveRecord::Schema.define(version: 20160104190553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20160104173356) do
     t.jsonb    "tags"
     t.text     "rule_label"
     t.boolean  "manual",                         default: false, null: false
+    t.text     "test",                                           null: false
   end
 
   add_index "issues", ["identifier", "schematron_id"], name: "index_issues_on_identifier_and_schematron_id", using: :btree
