@@ -1,7 +1,5 @@
 require 'test_helper'
 
-::SchematronFile::SCH_FILE_DIR = File.join(Rails.root, 'test', 'sch_file_dir')
-
 class SchematronFileTest < ActiveSupport::TestCase
   before do
     @population = Dir[File.join(SchematronFile::SCH_FILE_DIR, '*.xml')].count
@@ -9,7 +7,9 @@ class SchematronFileTest < ActiveSupport::TestCase
   end
 
   describe SchematronFile do
-    let(:content) {"<test></test>"}
+    let(:content) {
+      IO.read(File.join(Rails.root, 'test', 'test_data', 'test_schematron.sch'))
+    }
     let(:expected_digest) {Digest::SHA256.hexdigest(content)}
     let(:expected_path) {File.join(SchematronFile::SCH_FILE_DIR,
                                  "#{expected_digest}.xml")}

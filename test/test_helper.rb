@@ -9,6 +9,11 @@ require 'poltergeist/suppressor'
 
 Capybara.javascript_driver = :poltergeist
 
+SchematronFile # make sure Rails loads SchematronFile
+
+# Set test sch_file_dir for tests
+::SchematronFile::SCH_FILE_DIR = File.join(Rails.root, 'test', 'sch_file_dir')
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all

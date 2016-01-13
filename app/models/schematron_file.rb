@@ -70,7 +70,9 @@ class SchematronFile < SimpleDelegator
       manual = rule.ancestors('pattern').first['id'].match(/-manual\Z/) ? true : false
       issues = rule.xpath('./assert').map do |assert|
         {
-          rule_label: label, rule_context: context, manual: manual, #rule stuff
+          rule_label: label,
+          rule_context: context,
+          manual: manual, #rule stuff
           identifier: assert['diagnostics'],
           test: assert['test'],
           message: assert.content.strip,
