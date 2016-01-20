@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Checker
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!Checker.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (C)</a> &raquo;
+    
+    
+    <span class="title">Checker</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Checker
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Checker</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">app/models/checker.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Schematron-based XSLT checker that finds and reports errors in EAD files</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check-instance_method" title="#check (instance method)">- (Array) <strong>check</strong>(faid) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Issues found when running schematron over an EAD file, in the form of an
+Array of Hashes suitable for passing to ConcreteIssue constructor.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Checker) <strong>initialize</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Checker.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Checker (class)">Checker</a></span></tt>) <strong>initialize</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Checker</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/checker.rb', line 3</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
+  <span class='ivar'>@checker</span> <span class='op'>=</span> <span class='const'>Schematronium</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>Schematron</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='period'>.</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="check-instance_method">
+  
+    - (<tt>Array</tt>) <strong>check</strong>(faid) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Issues found when running schematron over an EAD file, in the form
+of an Array of Hashes suitable for passing to ConcreteIssue constructor</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>faid</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FindingAid.html" title="FindingAid (class)">FindingAid</a></span></tt>, <tt><span class='object_link'><a href="FindingAidVersion.html" title="FindingAidVersion (class)">FindingAidVersion</a></span></tt>, <tt><span class='object_link'><a href="FindingAidFile.html" title="FindingAidFile (class)">FindingAidFile</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An input EAD file to be checked via Schematron</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Issues found when running schematron over an EAD file, in the form of an
+Array of Hashes suitable for passing to ConcreteIssue constructor</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/checker.rb', line 10</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_check'>check</span><span class='lparen'>(</span><span class='id identifier rubyid_faid'>faid</span><span class='rparen'>)</span>
+  <span class='comment'># Resolve down to concrete FindingAidFile for passing to Schematronium
+</span>  <span class='id identifier rubyid_faid'>faid</span> <span class='op'>=</span> <span class='id identifier rubyid_faid'>faid</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span> <span class='kw'>if</span> <span class='id identifier rubyid_faid'>faid</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>FindingAid</span>
+  <span class='id identifier rubyid_faid'>faid</span> <span class='op'>=</span> <span class='id identifier rubyid_faid'>faid</span><span class='period'>.</span><span class='id identifier rubyid_file'>file</span> <span class='kw'>if</span> <span class='id identifier rubyid_faid'>faid</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>FindingAidVersion</span>
+
+  <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='ivar'>@checker</span><span class='period'>.</span><span class='id identifier rubyid_check'>check</span><span class='lparen'>(</span><span class='id identifier rubyid_faid'>faid</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_remove_namespaces!'>remove_namespaces!</span>
+  <span class='id identifier rubyid_errs'>errs</span> <span class='op'>=</span> <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_xpath'>xpath</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>//failed-assert | //successful-report</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+  <span class='comment'># start here
+</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Wed Jan 20 14:57:35 2016 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.2.2).
+</div>
+
+  </body>
+</html>

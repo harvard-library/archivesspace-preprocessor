@@ -17,9 +17,9 @@ class Schematron < ActiveRecord::Base
   after_destroy :delete_file
 
   validates :digest,
-            presence: true,
             length: {is: 64},
             format: {with: /[a-zA-Z0-9]+/},
+            presence: true,
             uniqueness: true,
             schematron_file: true
 

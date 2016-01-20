@@ -12,11 +12,13 @@ class SchematronFile < SimpleDelegator
   INSPECT_SLUG = 'Schematron'
 
   include DigestedFile
+  #@!parse include DigestedFile
+  #@!parse extend DigestedFile::ClassMethods
 
   # Return an array of hashes of issue attribute values suitable
   #   for passing in as nested attributes to Schematron constructor
   #
-  # @return [Hash] A representation of the XML content for use
+  # @return [Array<Hash>] A representation of the XML content for use
   #   in constructing DB representations of individual issues
   def issue_attrs
     rep = {}

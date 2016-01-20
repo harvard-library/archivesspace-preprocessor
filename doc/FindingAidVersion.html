@@ -114,7 +114,17 @@
 <div class="tags">
   
 
-</div>
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="FindingAidVersion/FindingAidFileValidator.html" title="FindingAidVersion::FindingAidFileValidator (class)">FindingAidFileValidator</a></span>
+    
+  
+</p>
+
 
 
 
@@ -264,6 +274,39 @@
       
     </ul>
   
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#file-instance_method" title="#file (instance method)">- (FindingAidFile) <strong>file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The FindingAidFile associated with this record.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
 
 
   
@@ -353,18 +396,69 @@
   
 </ul>
 
-</div><table class="source_code">
+</div><p class="tag_title">Validations:</p>
+<ul class="validations">
+  
+    
+      <li>
+        
+            <a href="http://edgeguides.rubyonrails.org/active_record_validations.html#length" target="_parent" title="Length">Length</a>
+        
+         ({is: 64}) 
+      </li>
+    
+      <li>
+        
+            <a href="http://edgeguides.rubyonrails.org/active_record_validations.html#format" target="_parent" title="Format">Format</a>
+        
+         ({with: /[a-zA-Z0-9]+/}) 
+      </li>
+    
+      <li>
+        
+            <a href="http://edgeguides.rubyonrails.org/active_record_validations.html#presence" target="_parent" title="Presence">Presence</a>
+        
+        
+      </li>
+    
+      <li>
+        
+            <a href="http://edgeguides.rubyonrails.org/active_record_validations.html#uniqueness" target="_parent" title="Uniqueness">Uniqueness</a>
+        
+        
+      </li>
+    
+      <li>
+        
+            Finding_aid_file
+        
+        
+      </li>
+    
+  
+</ul>
+<table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-34</pre>
+20
+21
+22
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'db/schema.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'app/models/finding_aid_version.rb', line 20</span>
 
-<span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_string'>string</span>   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digest</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>         <span class='label'>limit:</span> <span class='int'>255</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span></pre>
+<span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:digest</span><span class='comma'>,</span>
+<span class='label'>length:</span> <span class='lbrace'>{</span><span class='label'>is:</span> <span class='int'>64</span><span class='rbrace'>}</span><span class='comma'>,</span>
+<span class='label'>format:</span> <span class='lbrace'>{</span><span class='label'>with:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[a-zA-Z0-9]+</span><span class='regexp_end'>/</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+<span class='label'>presence:</span> <span class='kw'>true</span><span class='comma'>,</span>
+<span class='label'>uniqueness:</span> <span class='kw'>true</span><span class='comma'>,</span>
+<span class='label'>finding_aid_file:</span> <span class='kw'>true</span></pre>
     </td>
   </tr>
 </table>
@@ -428,7 +522,66 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="finding_aid-instance_method">
+  <h3 class="signature first" id="file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="FindingAidFile.html" title="FindingAidFile (class)">FindingAidFile</a></span></tt>) <strong>file</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the FindingAidFile associated with this record</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FindingAidFile.html" title="FindingAidFile (class)">FindingAidFile</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the FindingAidFile associated with this record</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/finding_aid_version.rb', line 28</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_file'>file</span>
+  <span class='const'>FindingAidFile</span><span class='lbracket'>[</span><span class='id identifier rubyid_digest'>digest</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="finding_aid-instance_method">
   
     - (<tt><span class='object_link'><a href="FindingAid.html" title="FindingAid (class)">FindingAid</a></span></tt>) <strong>finding_aid</strong> 
   
@@ -471,10 +624,10 @@
       <pre class="lines">
 
 
-5</pre>
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/finding_aid_version.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'app/models/finding_aid_version.rb', line 15</span>
 
 <span class='id identifier rubyid_belongs_to'>belongs_to</span> <span class='symbol'>:finding_aid</span></pre>
     </td>
@@ -526,10 +679,10 @@
       <pre class="lines">
 
 
-6</pre>
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/finding_aid_version.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'app/models/finding_aid_version.rb', line 16</span>
 
 <span class='id identifier rubyid_has_and_belongs_to_many'>has_and_belongs_to_many</span> <span class='symbol'>:runs</span></pre>
     </td>
@@ -542,7 +695,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Dec 21 16:45:49 2015 by
+  Generated on Wed Jan 20 14:57:36 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.2.2).
 </div>
