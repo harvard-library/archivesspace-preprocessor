@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SchematronFileTest < ActiveSupport::TestCase
   before do
-    @population = Dir[File.join(SchematronFile::SCH_FILE_DIR, '*.xml')].count
+    @population = Dir[File.join(SchematronFile::FILE_DIR, '*.xml')].count
     @sf = SchematronFile.new(content)
   end
 
@@ -11,7 +11,7 @@ class SchematronFileTest < ActiveSupport::TestCase
       IO.read(File.join(Rails.root, 'test', 'test_data', 'test_schematron.sch'))
     }
     let(:expected_digest) {Digest::SHA256.hexdigest(content)}
-    let(:expected_path) {File.join(SchematronFile::SCH_FILE_DIR,
+    let(:expected_path) {File.join(SchematronFile::FILE_DIR,
                                  "#{expected_digest}.xml")}
 
     it "creates file at expected location" do
@@ -23,7 +23,7 @@ class SchematronFileTest < ActiveSupport::TestCase
 
     it "is named based on digest, and digest is correct" do
       @sf.digest.must_equal expected_digest
-      @sf.path.must_equal(File.join(SchematronFile::SCH_FILE_DIR,
+      @sf.path.must_equal(File.join(SchematronFile::FILE_DIR,
                                     "#{@sf.digest}.xml"))
     end
 
@@ -54,6 +54,8 @@ class SchematronFileTest < ActiveSupport::TestCase
 
   after do
     File.unlink @sf
-    raise "Detritus SchematronFiles left by test" unless Dir[File.join(SchematronFile::SCH_FILE_DIR, '*.xml')].count == @population
+    unless Dir[File.join(SchematronFile::FILE_DIR, '*.xml')].count == @population
+      raise "Detritus SchematronFiles left by test"
+    end
   end
 end

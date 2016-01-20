@@ -8,18 +8,17 @@ class SchematronTest < ActiveSupport::TestCase
   end
 
   describe Schematron do
-
     it "can save a schematron" do
-      binding.pry
       stron = Schematron.find(@schematron.id)
       stron.touch
       assert stron.save, "Schematron failed with: #{stron.errors.keys.join(', ')}"
     end
-
   end
 
   after do
     @schematron.destroy!
-    raise "Detritus SchematronFiles left by test" unless Dir[File.join(SchematronFile::SCH_FILE_DIR, '*.xml')].count == @population
+    unless Dir[File.join(SchematronFile::FILE_DIR, '*.xml')].count == @population
+      raise "Detritus SchematronFiles left by test"
+    end
   end
 end
