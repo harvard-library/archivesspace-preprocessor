@@ -4,4 +4,7 @@
 class FindingAidVersion < ActiveRecord::Base
   belongs_to :finding_aid
   has_and_belongs_to_many :runs
+
+  validates :digest, presence: true, length: {is: 64}, format: /[a-zA-Z0-9]+/, uniqueness: true
+
 end
