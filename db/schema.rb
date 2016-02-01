@@ -11,21 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104190553) do
+ActiveRecord::Schema.define(version: 20160201194159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "concrete_issues", force: :cascade do |t|
-    t.integer  "run_id",                       null: false
-    t.integer  "issue_id",                     null: false
-    t.text     "location",                     null: false
-    t.integer  "line_number",                  null: false
-    t.text     "diagnostic_info", default: "", null: false
+    t.integer  "run_id",                              null: false
+    t.integer  "issue_id",                            null: false
+    t.text     "location",                            null: false
+    t.integer  "line_number",                         null: false
+    t.text     "diagnostic_info",        default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.jsonb    "tags"
+    t.integer  "finding_aid_version_id",              null: false
   end
 
+  add_index "concrete_issues", ["finding_aid_version_id"], name: "index_concrete_issues_on_finding_aid_version_id", using: :btree
   add_index "concrete_issues", ["issue_id"], name: "index_concrete_issues_on_issue_id", using: :btree
   add_index "concrete_issues", ["run_id"], name: "index_concrete_issues_on_run_id", using: :btree
 
@@ -64,7 +67,6 @@ ActiveRecord::Schema.define(version: 20160104190553) do
     t.text     "message"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb    "tags"
     t.text     "rule_label"
     t.boolean  "manual",                         default: false, null: false
     t.text     "test",                                           null: false
@@ -99,10 +101,10 @@ ActiveRecord::Schema.define(version: 20160104190553) do
   end
 
   create_table "runs", force: :cascade do |t|
-    t.integer  "schematron_id",                  null: false
+    t.integer  "schematron_id",                      null: false
     t.datetime "completed_at"
-    t.integer  "eads_processed",     default: 0, null: false
-    t.boolean  "run_for_processing",             null: false
+    t.integer  "eads_processed",     default: 0,     null: false
+    t.boolean  "run_for_processing", default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

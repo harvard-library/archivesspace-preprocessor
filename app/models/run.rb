@@ -7,5 +7,6 @@
 # 4. Record ProcessingEvents
 class Run < ActiveRecord::Base
   belongs_to :schematron
-  has_many :processing_events
+  has_many :concrete_issues, dependent: :destroy
+  has_many :processing_events, dependent: :destroy
 end

@@ -11,13 +11,15 @@ Capybara.javascript_driver = :poltergeist
 
 SchematronFile # make sure Rails loads SchematronFile
 
-# Set test sch_file_dir for tests
+# Set test schematron and finding aid file dirs for tests
 ::SchematronFile::FILE_DIR = File.join(Rails.root, 'test', 'sch_file_dir')
+
+::FindingAidFile::FILE_DIR = File.join(Rails.root, 'test', 'faid_file_dir')
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
-  
+
   # Add more helper methods to be used by all tests here...
 end
 

@@ -22,11 +22,17 @@ class FindingAidFile < SimpleDelegator
     xml = Nokogiri::XML(self)
     xml.remove_namespaces!
     eadid = xml.xpath('/ead/eadheader/eadid')[0]
+    repo = Repository.find_or_initialize_by(code: eadid.text[0..2])
+    unless repo.id
+      repo.name = 'unknown repository'
+      repo.save!
+    end
+
     {
       eadid: eadid.text,
       ext_id_type: 'hollis',
       ext_id: eadid['identifier'],
-      repository_id: Repository.find_by(code: eadid.text[0..2]).id
+      repository_id: repo.id
     }
   end
 end

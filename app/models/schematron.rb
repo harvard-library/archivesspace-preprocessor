@@ -23,6 +23,18 @@ class Schematron < ActiveRecord::Base
             uniqueness: true,
             schematron_file: true
 
+  # Alternate convenience constructor
+  #
+  # @param [SchematronFile] the schematronFile to find or create a record from
+  def self.create_from_file(sf)
+    if sf.kind_of? IO
+      sf = SchematronFile.new(sf.read)
+    end
+
+    Schematron.create(digest: sf.digest,
+                      issues_attributes: sf.issue_attrs)
+  end
+
   # Gets most recently created Schematron
   #
   # @return [Schematron] the most recently created Schematron record
