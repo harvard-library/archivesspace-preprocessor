@@ -36,3 +36,7 @@ config/deploy/*.rb
 \#*
 .#*
 *.swp
+
+# Generated Docs
+doc
+doc/*

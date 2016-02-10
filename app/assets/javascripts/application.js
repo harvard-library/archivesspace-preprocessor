@@ -12,5 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//= require jquery.jqplot
+//= require jqplot-plugins/jqplot.highlighter
 //= require_tree .

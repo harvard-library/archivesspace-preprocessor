@@ -25,7 +25,7 @@ class Schematron < ActiveRecord::Base
 
   # Alternate convenience constructor
   #
-  # @param [SchematronFile] the schematronFile to find or create a record from
+  # @param sf [SchematronFile] the schematronFile to find or create a record from
   def self.create_from_file(sf)
     if sf.kind_of? IO
       sf = SchematronFile.new(sf.read)

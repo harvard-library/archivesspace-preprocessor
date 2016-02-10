@@ -6,7 +6,7 @@ class Checker
     @run = run
   end
 
-  # @param faid [FindingAid, FindingAidVersion, FindingAidFile] An input EAD file to be checked via Schematron
+  # @param faid [FindingAid, FindingAidVersion] An input EAD to be checked via Schematron
   # @return [Array] Issues found when running schematron over an EAD file, in the form of
   #   an Array of Hashes that are suitable for passing to ConcreteIssues constructor
   def check(faid)
