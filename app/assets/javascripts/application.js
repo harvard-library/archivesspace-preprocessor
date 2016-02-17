@@ -14,4 +14,7 @@
 //= require jquery_ujs
 //= require jquery.jqplot
 //= require jqplot-plugins/jqplot.highlighter
+//= require jqplot-plugins/jqplot.barRenderer
+//= require jqplot-plugins/jqplot.categoryAxisRenderer
+//= require jqplot-plugins/jqplot.logAxisRenderer
 //= require_tree .

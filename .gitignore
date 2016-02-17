@@ -24,7 +24,7 @@ config/database.yml
 
 public/uploads/*
 public/schematrons/*
-
+public/finding_aids/*
 .yardoc
 .ruby-version
 

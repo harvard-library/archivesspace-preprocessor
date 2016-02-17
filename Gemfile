@@ -20,6 +20,7 @@ gem 'outfielding-jqplot-rails', '~> 1.0.0'
 
 group :development do
   gem 'puma' # Because Webrick is terrible 
+  gem 'capistrano-rails', '~> 1.1'
 end
 
 group :doc do

@@ -6,7 +6,7 @@
 # Delegates most operations to File object.
 class FindingAidFile < SimpleDelegator
   # Directory that processed schematron files are stored in
-  FILE_DIR = File.join(Rails.root, 'public', 'schematrons')
+  FILE_DIR = File.join(Rails.root, 'public', 'finding_aids')
 
   # Slug to prepend to File in console description of object
   INSPECT_SLUG = 'FindingAid'
