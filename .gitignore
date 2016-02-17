@@ -29,7 +29,6 @@ public/finding_aids/*
 .ruby-version
 
 # capistrano stuff to ignore
-config/deploy.rb
 config/deploy/*.rb
 
 # various editor/config files
