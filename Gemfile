@@ -17,10 +17,13 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 # jqPlot-Rails - least outdated package
 gem 'outfielding-jqplot-rails', '~> 1.0.0'
+gem 'dotenv-rails'
 
 group :development do
   gem 'puma' # Because Webrick is terrible 
   gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-rvm'
+  gem 'capistrano-passenger'
 end
 
 group :doc do
