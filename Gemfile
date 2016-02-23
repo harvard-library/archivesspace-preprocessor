@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+# Because RVM can't parse the ruby declaration, the following comment is needed
+#ruby=jruby-9.0.5.0
 ruby '2.2.3', :engine => 'jruby', :engine_version => '9.0.5.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
