@@ -29,6 +29,8 @@ class Fixes
   end
 
   # Convenience accessor - Fixes[:name] gets back the fix in question
+  # @param name [Symbol, String] identifier this fix is associated
+  # @return [Lambda] the lambda associated with this identifier
   def self.[](name)
     @@fixes[name]
   end
@@ -36,7 +38,7 @@ class Fixes
   # Define an individual fix
   # @param name [String, Symbol] key for retrieving the fix, should match an identifier in Issues
   # @param block [Block] implementation of the fix
-  # @return the lambda defined by this fix_for
+  # @return [Lambda] the lambda defined by this fix_for
   def fix_for(name, &block)
     @@fixes[name] = -> (xml) do
       @xml = xml
