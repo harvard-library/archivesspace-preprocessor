@@ -22,7 +22,7 @@ class SchematronFile < SimpleDelegator
   #   in constructing DB representations of individual issues
   def issue_attrs
     rep = {}
-    xml = Nokogiri::XML(self)
+    xml = Nokogiri::XML(self, nil, 'UTF-8') {|config| config.nonet}
     xml.remove_namespaces!
     diags = xml.xpath('//diagnostic')
     xml.xpath('//rule').map do |rule|

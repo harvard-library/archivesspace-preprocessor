@@ -6,15 +6,20 @@ require 'capybara/poltergeist'
 require 'minitest-metadata'
 require 'minitest/pride'
 require 'poltergeist/suppressor'
+require 'stringio'
 
 Capybara.javascript_driver = :poltergeist
 
 SchematronFile # make sure Rails loads SchematronFile
 
-# Set test schematron and finding aid file dirs for tests
-::SchematronFile::FILE_DIR = File.join(Rails.root, 'test', 'sch_file_dir')
+# Set test schematron, fixes, and finding aid file dirs for tests
+$stderr = StringIO.new # silence stderr
 
+::SchematronFile::FILE_DIR = File.join(Rails.root, 'test', 'sch_file_dir')
 ::FindingAidFile::FILE_DIR = File.join(Rails.root, 'test', 'faid_file_dir')
+::Fixes::FILE_DIR = File.join(Rails.root, 'test', 'test_data', 'fixes')
+
+$stderr = STDERR       # noisify stderr
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.

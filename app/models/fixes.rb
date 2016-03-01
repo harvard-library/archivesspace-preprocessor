@@ -49,12 +49,12 @@ class Fixes
 
   # For each file in the FILE_DIR, create or replace a fix
   # Uses the file's name to determine fix name
-  def self.refresh_fixes(dir = FILE_DIR)
+  def self.refresh_fixes()
     definitions do
-      Dir[File.join(dir, '*.rb')].each do |fname|
+      Dir[File.join(FILE_DIR, '*.rb')].each do |fname|
         name = File.basename(fname).sub(/.rb$/, '')
         fix_for name do
-          load fname
+          eval IO.read(fname)
         end
       end
     end

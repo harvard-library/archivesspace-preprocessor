@@ -13,6 +13,17 @@ class FindingAidVersionTest < ActiveSupport::TestCase
       faid.touch
       assert faid.save, "FindingAidVersion failed with: #{faid.errors.keys.join(', ')}"
     end
+
+    it "can return an XML representation of itself" do
+      xml = @finding_aid_version.xml
+      xml.must_be_kind_of(Nokogiri::XML::Document)
+      xml.at_xpath("//eadid")["identifier"].must_equal "007903030"
+    end
+
+    it "will not create a finding_aid_version without a valid digest" do
+      record = FindingAidVersion.create
+      record.persisted?.must_equal false
+    end
   end
 
   after do

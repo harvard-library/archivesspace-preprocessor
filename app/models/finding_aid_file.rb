@@ -19,7 +19,7 @@ class FindingAidFile < SimpleDelegator
   #
   # @return [Hash] attributes suitable for passing to FindingAid constructor
   def faid_attr
-    xml = Nokogiri::XML(self)
+    xml = Nokogiri::XML(self, nil, 'UTF-8') {|config| config.nonet}
     xml.remove_namespaces!
     eadid = xml.xpath('/ead/eadheader/eadid')[0]
     repo = Repository.find_or_initialize_by(code: eadid.text[0..2])

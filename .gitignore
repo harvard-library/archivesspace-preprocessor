@@ -27,6 +27,7 @@ public/schematrons/*
 public/finding_aids/*
 
 system/fixes/*
+system/output/*
 
 .yardoc
 .ruby-version
@@ -40,5 +41,5 @@ config/deploy/*.rb
 *.swp
 
 # Generated Docs
-doc
-doc/*
+/doc
+/doc/*

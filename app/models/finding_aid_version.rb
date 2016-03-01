@@ -30,6 +30,10 @@ class FindingAidVersion < ActiveRecord::Base
     FindingAidFile[digest]
   end
 
+  def xml
+    Nokogiri.XML(file, nil, 'UTF-8') {|config| config.nonet;config.noent}
+  end
+
   private
   # Callback to delete related FindingAidFile
   def delete_file
