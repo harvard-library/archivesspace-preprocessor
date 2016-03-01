@@ -23,7 +23,6 @@ group :development do
   gem 'puma' # Because Webrick is terrible 
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-rvm'
-  gem 'capistrano-passenger'
 end
 
 group :doc do
