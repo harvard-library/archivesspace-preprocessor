@@ -10,5 +10,15 @@ namespace :aspace do
         end
       )
     end
+
+    task :analyze_and_fix => :environment do
+      raise "EADS environment variable must be set to directory with input EADS" unless ENV['EADS']
+      run = Run.create(schematron: Schematron.current)
+      run.perform_processing_run(
+        Dir[File.join(File.expand_path(ENV['EADS']), "*.xml")].map do |f|
+          FindingAidVersion.find_or_create_by(digest: FindingAidFile.new(IO.read(f)).digest)
+        end
+      )
+    end
   end
 end

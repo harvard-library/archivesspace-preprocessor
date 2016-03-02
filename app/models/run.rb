@@ -3,7 +3,7 @@
 #
 # 1. Execute schematron checker against each finding aid
 # 2. Record ConcreteIssues against FindingAidVersions
-# 3. Apply Remediations to finding aids to produce amended versions
+# 3. Apply Fixes to finding aids to produce amended versions
 # 4. Record ProcessingEvents
 class Run < ActiveRecord::Base
   # Directory to output processed files
@@ -31,7 +31,9 @@ class Run < ActiveRecord::Base
 
   end
 
-  def perform_processing
+  def perform_processing!
+    raise "This run is already processed!" if run_for_processing
+    update(run_for_processing: true)
     outdir = File.join(OUTPUT_DIR, "#{id}")
     Dir.mkdir(outdir, 0700) unless File.directory?(outdir)
 
@@ -47,7 +49,7 @@ class Run < ActiveRecord::Base
                  .to_h
                  .select {|issue_id, _| fa.identifiers.include? issue_id}
                  .reduce(fa.xml) do|xml, (issue_id, fix)|
-        # Add processing event logic here
+        ProcessingEvent.create(issue_id: Issue.find_by(identifier: issue_id).pluck(:id), finding_aid_id: fa.id)
         fix.(xml)
       end
 
@@ -56,5 +58,10 @@ class Run < ActiveRecord::Base
       end
     end
 
+  end
+
+  def perform_processing_run(faids)
+    perform_analysis(faids)
+    perform_processing
   end
 end

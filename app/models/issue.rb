@@ -2,6 +2,7 @@
 class Issue < ActiveRecord::Base
   belongs_to :schematron, inverse_of: :issues
   has_many :concrete_issues, dependent: :destroy
+  has_many :processing_events
 
   validates *%w{ identifier
                  alternate_issue_id

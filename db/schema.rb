@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160201194159) do
+ActiveRecord::Schema.define(version: 20160302155504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,22 +76,14 @@ ActiveRecord::Schema.define(version: 20160201194159) do
   add_index "issues", ["schematron_id"], name: "index_issues_on_schematron_id", using: :btree
 
   create_table "processing_events", force: :cascade do |t|
-    t.integer  "remediation_id"
     t.integer  "run_id"
     t.integer  "finding_aid_version_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "issue_id",               null: false
   end
 
-  create_table "remediations", force: :cascade do |t|
-    t.string   "issue_identifier", limit: 255, null: false
-    t.string   "identifier",       limit: 255, null: false
-    t.text     "description",                  null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "remediations", ["issue_identifier"], name: "index_remediations_on_issue_identifier", using: :btree
+  add_index "processing_events", ["issue_id"], name: "index_processing_events_on_issue_id", using: :btree
 
   create_table "repositories", force: :cascade do |t|
     t.string   "code",       limit: 255, null: false
