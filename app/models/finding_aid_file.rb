@@ -1,7 +1,7 @@
 # Class representing the file containing an EAD finding aid
 #
-# Should be considered immutable in principle after creation - in principle,
-# there's not a simple way to render a File object stateless.
+# Should be considered immutable in principle after creation - in practice,
+# there's not a simple way to render a File object immutable.
 #
 # Delegates most operations to File object.
 class FindingAidFile < SimpleDelegator
@@ -21,7 +21,7 @@ class FindingAidFile < SimpleDelegator
   def faid_attr
     xml = Nokogiri::XML(self, nil, 'UTF-8') {|config| config.nonet}
     xml.remove_namespaces!
-    eadid = xml.xpath('/ead/eadheader/eadid')[0]
+    eadid = xml.at_xpath('/ead/eadheader/eadid')
     repo = Repository.find_or_initialize_by(code: eadid.text[0..2])
     unless repo.id
       repo.name = 'unknown repository'

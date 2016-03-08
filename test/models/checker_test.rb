@@ -17,7 +17,7 @@ class CheckerTest < ActiveSupport::TestCase
 
   describe Checker do
     let(:sch_content) {
-      IO.read(File.join(Rails.root, 'test', 'test_data', 'test_schematron.sch'))
+      IO.read(File.join(Rails.root, 'test', 'test_data', 'test_schematron.xml'))
     }
     let(:faid_content) {
       IO.read(File.join(Rails.root, 'test', 'test_data', 'test_ead.xml'))

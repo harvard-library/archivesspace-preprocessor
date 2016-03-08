@@ -8,7 +8,7 @@ class SchematronFileTest < ActiveSupport::TestCase
 
   describe SchematronFile do
     let(:content) {
-      IO.read(File.join(Rails.root, 'test', 'test_data', 'test_schematron.sch'))
+      IO.read(File.join(Rails.root, 'test', 'test_data', 'test_schematron.xml'))
     }
     let(:expected_digest) {Digest::SHA256.hexdigest(content)}
     let(:expected_path) {File.join(SchematronFile::FILE_DIR,

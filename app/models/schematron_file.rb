@@ -1,7 +1,7 @@
 # Class representing the file containing schematron
 #
-# Should be considered immutable in principle after creation - in principle,
-# there's not a simple way to render a File object stateless.
+# Should be considered immutable in principle after creation - in practice,
+# there's not a simple way to render a File object immutable.
 #
 # Delegates most operations to File object.
 class SchematronFile < SimpleDelegator

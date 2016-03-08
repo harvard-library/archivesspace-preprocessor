@@ -52,6 +52,7 @@ gem 'railroady', group: :development
 gem 'pry-rails'
 gem 'pry-nav'
 gem 'pry-remote'
+gem 'pry-doc'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

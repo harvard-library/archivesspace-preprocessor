@@ -1,10 +1,11 @@
 # A process consisting of the following steps, repeated over
 # the current version of each FindingAid:
 #
-# 1. Execute schematron checker against each finding aid
+# 1. Execute schematron checker against finding aid
 # 2. Record ConcreteIssues against FindingAidVersions
-# 3. Apply Fixes to finding aids to produce amended versions
-# 4. Record ProcessingEvents
+# 3. Apply relevant Fixes to finding aids, producing amended XML
+# 4. Record ProcessingEvents (this step happens fix application)
+# 5. Save final XML result to file
 class Run < ActiveRecord::Base
   # Directory to output processed files
   OUTPUT_DIR = File.join(Rails.root, 'system', 'output')
@@ -31,6 +32,8 @@ class Run < ActiveRecord::Base
 
   end
 
+  # Take an analyzed run, and process the finding aids through all
+  # relevant fixes.  Record events in ProcessingEvents table.
   def perform_processing!
     raise "This run is already processed!" if run_for_processing
     update(run_for_processing: true)
@@ -49,7 +52,7 @@ class Run < ActiveRecord::Base
                  .to_h
                  .select {|issue_id, _| fa.identifiers.include? issue_id}
                  .reduce(fa.xml) do|xml, (issue_id, fix)|
-        ProcessingEvent.create(issue_id: Issue.find_by(identifier: issue_id).pluck(:id), finding_aid_id: fa.id)
+        ProcessingEvent.create(issue_id: Issue.find_by(identifier: issue_id).id, finding_aid_version_id: fa.id)
         fix.(xml)
       end
 
@@ -60,8 +63,9 @@ class Run < ActiveRecord::Base
 
   end
 
+  # Convenience method for doing analysis and processing in one go.
   def perform_processing_run(faids)
     perform_analysis(faids)
-    perform_processing
+    perform_processing!
   end
 end

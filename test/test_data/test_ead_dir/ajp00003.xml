@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8" ?><ead digitalLinks="false" fileSize="25936" maxcomponentid="81" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://hul.harvard.edu/ois/xml/xsd/oasis/ead2002/ead.xsd">
+   <eadheader countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b" repositoryencoding="iso15511" scriptencoding="iso15924">
+      <eadid identifier="000603240">ajp00003</eadid>
+      <filedesc>
+         <titlestmt>
+            <titleproper>Wyman, Donald, 1904-1993. Records of Horticulturist Donald Wyman, 1935-1970 (inclusive): A Finding Aid.</titleproper>
+         </titlestmt>
+      </filedesc>
+      <profiledesc>
+         <creation>
+            <date calendar="gregorian" era="ce">August 1999. </date>Carol David </creation>
+      </profiledesc>
+      <revisiondesc>
+         <change>
+            <date calendar="gregorian" era="ce" normal="20131107">11/07/2013</date>
+            <item>Loaded into OASIS</item>
+         </change>
+         <change>
+            <date calendar="gregorian" era="ce" normal="20060517">June 8, 2006</date>
+            <item>ajp00003 converted from EAD 1.0 to 2002 by v1to02.xsl (sy2006-06-08).</item>
+         </change>
+      </revisiondesc>
+   </eadheader>
+   <frontmatter>
+      <titlepage>
+         <num>IV A-3 DW</num>
+         <titleproper>Wyman, Donald, 1904-1993. Records of Horticulturist Donald Wyman, 1935-1970
+(inclusive): A Finding Aid.</titleproper>
+         <author>Archives of the Arnold Arboretum of Harvard University</author>
+         <p>
+            <extptr xlink:actuate="onLoad" xlink:href="http://nrs.harvard.edu/urn-3:ARB.JPLIB:3007484" xlink:show="embed" xlink:type="simple"></extptr>
+         </p>
+         <publisher>Harvard University</publisher>
+         <p>© 1999 The President and Fellows of Harvard College</p>
+      </titlepage>
+   </frontmatter>
+   <archdesc level="collection">
+      <did>
+         <repository>Archives of the Arnold Arboretum of Harvard University, Jamaica Plain, MA 02130.</repository>
+         <unitid>IV A-3 DW</unitid>
+         <origination>
+            <persname role="originator"> Donald Wyman, 1904-1993.</persname>
+         </origination>
+         <unittitle>Records of Horticulturist Donald Wyman, <unitdate calendar="gregorian" endYear="1970" era="ce" startYear="1935">1935-1970</unitdate>
+(inclusive).</unittitle>
+         <physdesc>
+            <extent>10 Boxes</extent>
+         </physdesc>
+         <abstract>Donald
+Wyman served as the Arnold Arboretum horticulturist from 1935-1970. His papers reflect over
+35 years of dedication to the study and advancement of horticulture within the academic
+community and in service of the gardening public at large. Wyman authored several books,
+including the acclaimed <title xlink:type="simple">Shrubs and Vines for American Gardens</title>, <title xlink:type="simple">Trees for
+American Gardens</title>, and the widely used and respected <title xlink:type="simple">Wyman&#39;s Gardening
+Encyclopedia</title>. </abstract>
+      </did>
+      <note>
+         <p>Access to Finding Aid record in <extref xlink:actuate="onRequest" xlink:href="http://hollisclassic.harvard.edu/F/?func=find-c&amp;CCL_TERM=sys=000603240" xlink:show="new" xlink:type="simple">Hollis Classic</extref> or <extref xlink:actuate="onRequest" xlink:href="http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|000603240" xlink:show="new" xlink:type="simple">Hollis</extref>.</p>
+      </note>
+      <otherfindaid>
+         <p>Additional (firstname lastname) correspondence can be found by searching the <extref xlink:actuate="onRequest" xlink:href="http://tinyurl.com/aacorresdb" xlink:show="new" xlink:type="simple">Arnold Arboretum Correspondence Index.</extref>
+         </p>
+      </otherfindaid>
+      <processinfo>
+         <p>Processed:<date calendar="gregorian" era="ce"> June 1988</date>
+            <persname role="processor"> Carol David</persname>
+         </p>
+      </processinfo>
+      <acqinfo>
+         <p>Provenance: The majority of the material was acquired upon Dr. Wyman&#39;s retirement in 1970
+        with a small amount of biographical material added after his death in 1993.  This collection
+        was transferred from the Arnold Arboretum’s departmental holdings to the Arboretum’s Archives in 1984. </p>
+      </acqinfo>
+      <accessrestrict>
+         <head>Terms of Access</head>
+         <p>Researchers seeking to examine archival materials are strongly encouraged to make an appointment. The Director, or an office of origin, may place restrictions on the use of some or all of its records. The extent and length of the restriction will be determined by the Director, office of origin, and the Archivist and will be enforced equally for all researchers.</p>
+      </accessrestrict>
+      <userestrict>
+         <head>Terms of Use</head>
+         <p>
+            The copyright is held by The President and Fellows of Harvard College for the Arnold Arboretum Archives of Harvard University. The copyright on some materials in the collection may be held by the original author or the author&#39;s heirs or assigns. Researchers are responsible for obtaining written permission from the holder(s) of copyright and the Arnold Arboretum Archives prior to publishing any quotations or images from materials in this collection. 
+        </p>
+         <p>
+            Photocopies may be made at the discretion of the Arnold Arboretum Archives staff. Permission to make photocopies does not constitute permission to reproduce or publish materials outside the bounds of the fair use guidelines.
+        </p>
+      </userestrict>
+      <bioghist>
+         <p>
+            <persname>Donald Wyman </persname>(1904-1993) served as Horticulturist of
+the Arnold Arboretum from<date calendar="gregorian" era="ce"> 1935-1970. </date>Taking responsibility at a difficult period,
+following the deaths of founding director Charles Sprague Sargent in 1927 and Keeper of the
+Arboretum E. H. Wilson in 1930, in the midst of the Great Depression Wyman lead a
+comprehensive plant labeling and mapping program and initiated a thinning of old and declining
+specimens. As head of living collections, Dr. Wyman promoted and introduced many species and
+varieties of plants new to the Arboretum and in some cases to the United States. </p>
+         <p>Wyman
+received a B.A. in horticulture from Pennsylvania State College, and at Cornell University
+received an M.A. in forestry, and a Ph.D. in horticulture in 1935. His work at the<corpname>Arnold Arboretum </corpname>focused on the scientific evaluation of ornamental trees and
+shrubs, and the practical application for public consumption through lectures, publications,
+publicity, and various means including field classes at the Arboretum for 35 years. A prolific
+writer, Wyman published hundreds of articles and as editor of the<title xlink:type="simple"> Bulletin of Popular
+Information</title> and <title xlink:type="simple">Arnoldia</title>, which achieved broader circulation for the
+Arboretum publication. Wyman wrote several books, including the acclaimed <title xlink:type="simple">Shrubs and
+Vines for American Gardens, </title>
+            <title xlink:type="simple">Trees for American Gardens, </title>and the widely
+used and respected<title xlink:type="simple"> Wyman&#39;s Gardening Encyclopedia.</title>
+         </p>
+         <p>Donald Wyman
+was president, director, and trustee of the American Horticultural Society and trustee of the
+Massachusetts Horticultural Society. His contributions to horticulture were recognized with the
+top medals of the American Horticultural Society—the Liberty Hyde Bailey Medal, the
+Massachusetts Horticultural Society--the George Robert White Medal, and the Royal
+Horticultural Society of London--the Veitch memorial Gold Medal. </p>
+      </bioghist>
+      <scopecontent>
+         <p>Dr. Wyman was concerned with maintaining and developing the living
+collections, editing the Arboretum&#39;s<title xlink:type="simple"> Bulletin of Popular Information </title>and<title xlink:type="simple">Arnoldia, </title>and promoting the Arboretum through publicity, publications, and lectures.
+Wyman focused on advancing the science of horticulture and the practice of gardens and arboreta
+through published books and articles. Wyman&#39;s papers reflect these activities. The research files
+he created are arranged in alphabetical sequence. Topics include detailed lists of hurricane
+damage to Arboretum plants for the years 1954, 1960, and to Mt. Auburn Cemetery for 1938;
+plant propagations of William H. Judd, 1945-1947; guides, brochures, postcards, and lists of
+special plant collections of arboreta and botanical gardens of the world; Arboreum plant
+collection notes 1948-1969; current Arboretum planting lists, 1968-1970; and lilac fertilizer
+experiments, 1938. </p>
+         <arrangement>
+            <p>The collection is maintained in the alphabetical
+sequence created by Dr. Donald Wyman.</p>
+         </arrangement>
+      </scopecontent>
+      <dsc type="in-depth">
+         <c id="ajp00003c00001" level="otherlevel">
+            <did>
+               <container>Box 1</container>
+            </did>
+         </c>
+         <c id="ajp00003c00002" level="file">
+            <did>
+               <unitid>Folder 1 - </unitid>
+               <unittitle>Botanical Gardens and Arboreta</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00003" level="file">
+            <did>
+               <unitid>Folder 2 - </unitid>
+               <unittitle>U. S. National Arboretum / Botanical Gardens
+Questionnaire</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00004" level="file">
+            <did>
+               <unitid>Folder 3 - </unitid>
+               <unittitle>Arboreta - Golden Gate Park / Highland Park</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00005" level="file">
+            <did>
+               <unitid>Folder 4 - </unitid>
+               <unittitle>Arnold Arboretum Collections - Notes</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00006" level="file">
+            <did>
+               <unitid>Folder 5 - </unitid>
+               <unittitle>Arboretums and Botanical Gardens 1957</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00007" level="file">
+            <did>
+               <unitid>Folder 6 - </unitid>
+               <unittitle>Seeds collected by Jose Diem in Argentina 1952
+(Summary)</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00008" level="file">
+            <did>
+               <unitid>Folder 7 - </unitid>
+               <unittitle>Books</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00009" level="otherlevel">
+            <did>
+               <container>Box 2</container>
+            </did>
+         </c>
+         <c id="ajp00003c00010" level="file">
+            <did>
+               <unitid>Folder 1 - </unitid>
+               <unittitle>Biographical Sketches</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00011" level="file">
+            <did>
+               <unitid>Folder 2 - </unitid>
+               <unittitle>Autumn Color Notes</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00012" level="file">
+            <did>
+               <unitid>Folder 3 - </unitid>
+               <unittitle>Bulbs</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00013" level="file">
+            <did>
+               <unitid>Folder 4 - </unitid>
+               <unittitle>Columnar Trees</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00014" level="file">
+            <did>
+               <unitid>Folder 5 - </unitid>
+               <unittitle>Sources for Columnar Trees</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00015" level="file">
+            <did>
+               <unitid>Folder 6 - </unitid>
+               <unittitle>Conifers - Dwarf, etc. Including Bonsai</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00016" level="file">
+            <did>
+               <unitid>Folder 7 - </unitid>
+               <unittitle>Contacts</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00017" level="file">
+            <did>
+               <unitid>Folder 8 - </unitid>
+               <unittitle>Current Planting Lists</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00018" level="file">
+            <did>
+               <unitid>Folder 9 - </unitid>
+               <unittitle>Dutch Elm Disease</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00019" level="file">
+            <did>
+               <unitid>Folder 10 - </unitid>
+               <unittitle>Espalier</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00020" level="file">
+            <did>
+               <unitid>Folder 11 - </unitid>
+               <unittitle>Export Regulations</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00021" level="file">
+            <did>
+               <unitid>Folder 12 - </unitid>
+               <unittitle>Fences</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00022" level="otherlevel">
+            <did>
+               <container>Box 3</container>
+            </did>
+         </c>
+         <c id="ajp00003c00023" level="file">
+            <did>
+               <unitid>Folder 1 - </unitid>
+               <unittitle>Fertilizers</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00024" level="file">
+            <did>
+               <unitid>Folder 2 - </unitid>
+               <unittitle>Flower Shows</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00025" level="file">
+            <did>
+               <unitid>Folder 3 - </unitid>
+               <unittitle>Massachusetts Horticulture Flower Show 1977</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00026" level="file">
+            <did>
+               <unitid>Folder 4 - </unitid>
+               <unittitle>Flower Show - Christmas 1956</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00027" level="file">
+            <did>
+               <unitid>Folder 5 - </unitid>
+               <unittitle>Flower Show 1958 - 1959</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00028" level="file">
+            <did>
+               <unitid>Folder 6 - </unitid>
+               <unittitle>Christmas 1960</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00029" level="file">
+            <did>
+               <unitid>Folder 7 - </unitid>
+               <unittitle>Bound personal notes on plant genera</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00030" level="otherlevel">
+            <did>
+               <container>Box 4</container>
+            </did>
+         </c>
+         <c id="ajp00003c00031" level="file">
+            <did>
+               <unitid>Folder 1 - </unitid>
+               <unittitle>Fragrant Plants</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00032" level="file">
+            <did>
+               <unitid>Folder 2 - </unitid>
+               <unittitle>Fruits and Nuts</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00033" level="file">
+            <did>
+               <unitid>Folder 3 - </unitid>
+               <unittitle>Ground Covers</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00034" level="file">
+            <did>
+               <unitid>Folder 4 - </unitid>
+               <unittitle>Hardiness</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00035" level="file">
+            <did>
+               <unitid>Folder 5 - </unitid>
+               <unittitle>Hedges</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00036" level="file">
+            <did>
+               <unitid>Folder 6 - </unitid>
+               <unittitle>Hurricane Damage to the Arnold Arboretum</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00037" level="file">
+            <did>
+               <unitid>Folder 7 - </unitid>
+               <unittitle>Hurricane</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00038" level="file">
+            <did>
+               <unitid>Folder 8 - </unitid>
+               <unittitle>Instructions to Secretary</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00039" level="file">
+            <did>
+               <unitid>Folder 9 - </unitid>
+               <unittitle>Kalmia</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00040" level="otherlevel">
+            <did>
+               <container>Box 5</container>
+            </did>
+         </c>
+         <c id="ajp00003c00041" level="file">
+            <did>
+               <unitid>Folder 1 - </unitid>
+               <unittitle>Landscape Judges Course 1960, 1963
+Pittsburgh, PA and Boston, MA</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00042" level="file">
+            <did>
+               <unitid>Folder 2 - </unitid>
+               <unittitle>Miscellaneous</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00043" level="otherlevel">
+            <did>
+               <container>Box 6</container>
+            </did>
+         </c>
+         <c id="ajp00003c00044" level="file">
+            <did>
+               <unitid>Folder 1 - </unitid>
+               <unittitle>Plant Introduction and Introducers</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00045" level="file">
+            <did>
+               <unitid>Folder 2 - </unitid>
+               <unittitle>Plants that have died in the nursery</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00046" level="file">
+            <did>
+               <unitid>Folder 3 - </unitid>
+               <unittitle>Mulches, Peat Moss , Etc.</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00047" level="file">
+            <did>
+               <unitid>Folder 4 - </unitid>
+               <unittitle>List of important Nursery Catalogues 1964</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00048" level="file">
+            <did>
+               <unitid>Folder 5 - </unitid>
+               <unittitle>Arnold Arboretum Plant Introductions 1923
+-1972</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00049" level="file">
+            <did>
+               <unitid>Folder 6 - </unitid>
+               <unittitle>1953 list of plants requested from nurseries</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00050" level="otherlevel">
+            <did>
+               <container>Box 7</container>
+            </did>
+         </c>
+         <c id="ajp00003c00051" level="file">
+            <did>
+               <unitid>Folder 1 - </unitid>
+               <unittitle>Plant Propagation - Notes</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00052" level="file">
+            <did>
+               <unitid>Folder 2 - </unitid>
+               <unittitle>Plant Names</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00053" level="file">
+            <did>
+               <unitid>Folder 3 - </unitid>
+               <unittitle>Plants given to Harvard University</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00054" level="file">
+            <did>
+               <unitid>Folder 4 - </unitid>
+               <unittitle>Plant and Seed Distribution</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00055" level="file">
+            <did>
+               <unitid>Folder 5 - </unitid>
+               <unittitle>Plants to be given away</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00056" level="file">
+            <did>
+               <unitid>Folder 6 - </unitid>
+               <unittitle>Plant Quarantine - Interstate</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00057" level="file">
+            <did>
+               <unitid>Folder 7 - </unitid>
+               <unittitle>Plants from European Nurseries prior to 1960 -
+1966</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00058" level="file">
+            <did>
+               <unitid>Folder 8 - </unitid>
+               <unittitle>Plant Quarantine - Importations from Foreign
+Countries</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00059" level="file">
+            <did>
+               <unitid>Folder 9 - </unitid>
+               <unittitle>Information about New Plants requested in the
+Arnold Arboretum</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00060" level="otherlevel">
+            <did>
+               <container>Box 8</container>
+            </did>
+         </c>
+         <c id="ajp00003c00061" level="file">
+            <did>
+               <unitid>Folder 1 - </unitid>
+               <unittitle>Plants requested for the Arnold Arboretum</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00062" level="file">
+            <did>
+               <unitid>Folder 2 - </unitid>
+               <unittitle>Propagation 1945 -1947 (plants propagated by
+William H. Judd.)</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00063" level="file">
+            <did>
+               <unitid>Folder 3 - </unitid>
+               <unittitle>Sources for Plants Requested</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00064" level="file">
+            <did>
+               <unitid>Folder 4 - </unitid>
+               <unittitle>Positions opened or wanted</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00065" level="file">
+            <did>
+               <unitid>Folder 5 - </unitid>
+               <unittitle>Sources for rare plants</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00066" level="file">
+            <did>
+               <unitid>Folder 6 - </unitid>
+               <unittitle>Rootstocks</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00067" level="file">
+            <did>
+               <unitid>Folder 7 - </unitid>
+               <unittitle>Soil Sterilization and Testing</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00068" level="file">
+            <did>
+               <unitid>Folder 8 - </unitid>
+               <unittitle>Tsuga</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00069" level="otherlevel">
+            <did>
+               <container>Box 9</container>
+            </did>
+         </c>
+         <c id="ajp00003c00070" level="file">
+            <did>
+               <unitid>Folder 1 - </unitid>
+               <unittitle>Photographs of Donald Wyman</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00071" level="file">
+            <did>
+               <unitid>Folder 2 - </unitid>
+               <unittitle>
+                  <title xlink:type="simple">Arnoldia </title>53 (3) 1993 p. 2.
+Remembering Donald Wyman</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00072" level="file">
+            <did>
+               <unitid>Folder 3 - </unitid>
+               <unittitle>Letter to Gary Koller from D.W. (May 1990)</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00073" level="file">
+            <did>
+               <unitid>Folder 4 - </unitid>
+               <unittitle>The Arboretums and Botanical Gardens of
+North America</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00074" level="file">
+            <did>
+               <unitid>Folder 5 - </unitid>
+               <unittitle>Memorandum 1969</unittitle>
+            </did>
+            <note>
+               <p>&quot;Making a planting List&quot; memorandum from Dr.Wyman October 28, 1969. &quot;Searching for
+New Plants&quot; memorandum from Dr. Wyman October 30, 1969.</p>
+            </note>
+         </c>
+         <c id="ajp00003c00075" level="file">
+            <did>
+               <unitid>Folder 6 - </unitid>
+               <unittitle>Ulmus</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00076" level="file">
+            <did>
+               <unitid>Folder 7 - </unitid>
+               <unittitle>Vaccinium</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00077" level="file">
+            <did>
+               <unitid>Folder 8 - </unitid>
+               <unittitle>Viburnum</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00078" level="file">
+            <did>
+               <unitid>Folder 9 - </unitid>
+               <unittitle>Weeds and Weed Eradication</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00079" level="file">
+            <did>
+               <unitid>Folder 10 - </unitid>
+               <unittitle>Weigela</unittitle>
+            </did>
+         </c>
+         <c id="ajp00003c00080" level="otherlevel">
+            <did>
+               <container>Box 10</container>
+            </did>
+         </c>
+         <c id="ajp00003c00081" level="file">
+            <did>
+               <unittitle>Notebook containing Crab Apple Notes</unittitle>
+            </did>
+            <note>
+               <p>sent to
+Donald Wyman by Arie F. den Boer from Des Moines, Iowa. Received June 16, 1961.</p>
+            </note>
+         </c>
+      </dsc>
+   </archdesc>
+</ead>

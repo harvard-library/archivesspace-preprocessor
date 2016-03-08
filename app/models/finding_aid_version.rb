@@ -15,6 +15,7 @@ class FindingAidVersion < ActiveRecord::Base
   belongs_to :finding_aid
   has_and_belongs_to_many :runs
   has_many :concrete_issues, dependent: :destroy
+  has_many :processing_events
 
   after_destroy :delete_file
 
