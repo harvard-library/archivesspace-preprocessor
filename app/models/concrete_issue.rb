@@ -8,7 +8,7 @@ class ConcreteIssue < ActiveRecord::Base
 
   # Process the raw <diagnostic_info> into a hash suitable for JSON storage
   #
-  # @returns [Hash]
+  # @return [Hash] tags
   def generate_tags_from_diagnostic_info
     self.tags = diagnostic_info
                 .split("\n")

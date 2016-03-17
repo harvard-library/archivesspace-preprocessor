@@ -29,6 +29,9 @@ public/finding_aids/*
 system/fixes/*
 system/output/*
 
+test/test_data/individual_fixes
+test/test_data/individual_fixes/*
+
 .yardoc
 .ruby-version
 

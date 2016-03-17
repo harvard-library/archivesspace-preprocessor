@@ -8,7 +8,8 @@ class RakeIngestTest < ActionDispatch::IntegrationTest
   end
 
   before do
-    @population = SchematronFile.all.count
+    @s_population = SchematronFile.all.count
+    @f_population = FindingAidFile.all.count
     @sch_fname  = File.join(Rails.root, *%w|test test_data test_schematron.xml|)
     @sch_sha    = Digest::SHA256.file(@sch_fname).hexdigest
     @fa_fname   = File.join(Rails.root, *%w|test test_data test_ead.xml|)
@@ -67,12 +68,63 @@ class RakeIngestTest < ActionDispatch::IntegrationTest
 
   end
 
+  describe "aspace:process:analyze" do
+    it "can analyze EADs" do
+      ENV['FILE'] = @sch_fname
+      rake "aspace:ingest:schematron"
+
+      ENV['EADS'] = @fa_dir
+      rake "aspace:process:analyze"
+      Run.count.must_equal(1)
+
+      run = Run.first
+      run.finding_aid_versions.count.must_equal(Dir[File.join(@fa_dir, "*")].count)
+      run.run_for_processing.must_equal(false)
+      run.processing_events.count.must_equal(0)
+    end
+
+    it "can process EADs" do
+
+      # set up "fix" for issue known to exist in ajp00002.xml
+      Fixes.definitions do
+        fix_for "didm-4" do
+          @xml.at_xpath('/ead')['didm4-got-done'] = "true"
+        end
+      end
+
+      skip('slow') if ENV['SKIP_SLOW_TESTS']
+      ENV['FILE'] = @sch_fname
+      rake "aspace:ingest:schematron"
+
+      ENV['EADS'] = @fa_dir
+      rake "aspace:process:analyze_and_fix"
+      Run.count.must_equal(1)
+
+      run = Run.first
+      run.run_for_processing.must_equal(true)
+
+      run.processing_events.count.must_equal 2
+      assert(
+        run.processing_events.map {|e| e.issue.identifier}.all? {|i| i = 'didm-4'},
+        "all issues should be didm-4"
+      )
+
+    end
+  end
+
   after do
-    %w|FILE DIR|.each { |k| ENV.delete(k) }
-    Schematron.destroy_all
-    FindingAid.destroy_all
-    unless Dir[File.join(SchematronFile::FILE_DIR, '*.xml')].count == @population
+    # Clear input values out of ENV
+    %w|FILE DIR EADS|.each { |k| ENV.delete(k) }
+
+    # Classes with files attached (and Run, because of FKey issues)
+    # need to be destroyed so the file will get rm'd
+    [Run, Schematron, FindingAid].each { |klass| klass.destroy_all }
+
+    unless Dir[File.join(SchematronFile::FILE_DIR, '*.xml')].count == @s_population
       raise "Detritus SchematronFiles left by test"
+    end
+    unless Dir[File.join(FindingAidFile::FILE_DIR, '*.xml')].count == @f_population
+      raise "Detritus FindingAidFiles left by test"
     end
   end
 

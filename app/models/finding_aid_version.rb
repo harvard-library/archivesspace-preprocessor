@@ -26,11 +26,24 @@ class FindingAidVersion < ActiveRecord::Base
             uniqueness: true,
             finding_aid_file: true
 
+  # Alternate convenience constructor
+  #
+  # @param fa [FindingAidVersions] the finding aid to find or create a record from
+  def self.create_from_file(fa)
+    if fa.kind_of? IO
+      fa = FindingAidFile.new(fa.read)
+    end
+
+    FindingAidVersion.find_or_create_by(digest: fa.digest)
+  end
+
+
   # @return [FindingAidFile] the FindingAidFile associated with this record
   def file
     FindingAidFile[digest]
   end
 
+  # @return [Nokogiri::XML::Document] parsed XML representation of FindingAidFile
   def xml
     Nokogiri.XML(file, nil, 'UTF-8') {|config| config.nonet;config.noent}
   end

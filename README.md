@@ -31,6 +31,25 @@ In order to run the test suite, you'll need to install [PhantomJS](http://phanto
 1. Run bundle install. You will probably have to install OS-vendor supplied libraries to satisfy some gem install requirements.
 2. Create the database and run `rake db:schema:load`, after modifying "config/database.yml" to suit your environment.
 
+## Fixes
+
+Fixes are corrections for individual issues defined in a schematron file.  They're loaded from `system/fixes` on Rails initialization.  They're relatively simple - they're little bits of Ruby code, which gets run over finding aids.
+
+Within a fix, the following variable is defined:
+
+| Variable      |                                                                    |
+|---------------|--------------------------------------------------------------------|
+| *@xml*        | A Nokogiri::XML::Document representing the finding aid             |
+
+### Example Fix
+
+``` ruby
+# Fix for "my-test-fix"
+fix_for "my-test-fix", depends_on: ["other-fix-I-rely-on"] do
+  @xml.at_xpath('/ead')['level'] = "addLevelToEAD"
+end
+```
+
 ## Contributors
 
 * Dave Mayo: http://github.com/pobocks

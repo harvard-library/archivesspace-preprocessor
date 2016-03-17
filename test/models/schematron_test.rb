@@ -3,8 +3,10 @@ require 'test_helper'
 class SchematronTest < ActiveSupport::TestCase
   before do
     @population = SchematronFile.all.count
-    @sf = SchematronFile.new( IO.read(File.join(Rails.root, 'test', 'test_data', 'test_schematron.xml')) )
-    @schematron = Schematron.create( digest: @sf.digest, issues_attributes: @sf.issue_attrs )
+
+    @schematron = Schematron.create_from_file(
+      File.open(File.join(Rails.root, 'test', 'test_data', 'test_schematron.xml'))
+    )
   end
 
   describe Schematron do

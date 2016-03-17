@@ -20,7 +20,7 @@ class Checker
 
 
     errs.map do |el|
-      diag =  el.xpath('./diagnostic-reference').first
+      diag = el.at_xpath('./diagnostic-reference')
       {
         run_id: @run.try(:id),
         finding_aid_version_id: faid.id,

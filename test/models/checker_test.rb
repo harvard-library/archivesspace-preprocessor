@@ -7,11 +7,9 @@ class CheckerTest < ActiveSupport::TestCase
 
     @sch_file = SchematronFile.new(sch_content)
 
-    @sch = Schematron.create!(digest: @sch_file.digest,
-                             issues_attributes: @sch_file.issue_attrs)
+    @sch = Schematron.create_from_file(@sch_file)
 
     @faid = FindingAidVersion.create!(digest: FindingAidFile.new(faid_content).digest)
-
     @run = Run.create!(schematron: @sch, run_for_processing: false)
   end
 

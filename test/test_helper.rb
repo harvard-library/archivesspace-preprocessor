@@ -21,6 +21,8 @@ $stderr = StringIO.new # silence stderr
 
 $stderr = STDERR       # noisify stderr
 
+Fixes.refresh_fixes
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all

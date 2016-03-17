@@ -1,31 +1,83 @@
-# Actual implementations for fixes to run over Finding Aids
+# Singleton representing a collection of arbitrary transformations to apply to
+# Finding Aids, with dependency resolution.
 #
-# Individual fixes are essentially lambdas which take an XML object, yield it
-# to a block provided by the user, and returning the same XML object
+# Each "fix" is a key-value pair, with the key consisting of a string that matches an
+# Issue.identifier, and the value consisting of a lambda
+#
+# Within a fix, the instance variable `@xml` represents the current state of the
+# finding aid being altered.
+#
+# To get all the Fixes in the order that they should be run.
 class Fixes
   # Directory that fix files are stored in
   FILE_DIR = File.join(Rails.root, 'system', 'fixes')
 
   # All fixes known by the system
   # Populated by initializer on system start
-  @@fixes ||= {}.with_indifferent_access
+  @@fixes       ||= {}.with_indifferent_access
 
-  # Definitions block, which sets the context to a Fix instantiation
-  def self.definitions(&block)
-    instance = new
-    instance.instance_eval(&block)
-  end
+  # Constraints on fixes
+  # Represents a depends_on relationship, represented as
+  # basically a big ol' list of graph edges
+  #   [[x, y], [x, z]] means y and z depend on x
+  @@constraints ||= []
 
   # Make the class enumberable to support iteration over fixes
   class << self
     include Enumerable
 
+    # Iterates over fixes as hash
     def each(&block)
       return @@fixes.to_enum unless block_given?
       @@fixes.each do |member|
         yield member
       end
     end
+
+  end
+
+  # Definitions block, which sets the context to a Fix instantiation
+  # Within this block, {#fix_for} can be used to define new fixes.
+  def self.definitions(&block)
+    instance = new
+    instance.instance_eval(&block)
+    @@fixes = reorder
+  end
+
+  # Ensures that order-dependent fixes are ordered properly
+  # Depends on Ruby's ordered hash semantics
+  # For implementation details, search on "topological sort" and "Kahn's Algorithm"
+  # @return [Hash{String => Lambda}] fixes
+  def self.reorder
+    order = {}.with_indifferent_access
+    edges = @@constraints.dup
+    incoming = edges.map(&:last).uniq
+    nodes = edges.flatten.uniq
+    s = Set.new(nodes.reject{|e| incoming.include? e})
+    while !s.empty?
+      n = s.first
+      n = s.first
+      s.delete n
+      order[n] = @@fixes[n]
+      nodes.each do |m|
+        if edges.member? [n,m]
+          edges.delete [n,m]
+          s.add m if edges.none? {|(_,y)| y == m}
+        end
+      end
+    end
+    raise(<<-ERROR_TXT) if edges.any?
+Cyclical dependency found in your fixes.  Please inspect your @depends_on statements.
+The following edges remain in your dependency graph after processing:
+  #{edges}
+    ERROR_TXT
+
+    # Add fixes without dependency concerns
+    @@fixes.keys.reject {|fix_id| order.key? fix_id}.each do |fix_id|
+      order[fix_id] = @@fixes[fix_id]
+    end
+
+    order
   end
 
   # Convenience accessor - Fixes[:name] gets back the fix in question
@@ -36,10 +88,23 @@ class Fixes
   end
 
   # Define an individual fix
-  # @param name [String, Symbol] key for retrieving the fix, should match an identifier in Issues
+  #
+  # {#fix_for} is always called with a block.  The contents of this block constiutute a
+  # transformation to be applied later to finding aids.
+  #
+  # Within this block, the instance variable `@xml` refers to a
+  # [Nokogiri::XML::Document] that represents the current state of a finding aid.
+  # Any changes made to `@xml` will be applied to the eventual output.
+  #
+  # @param name [String, Symbol] key for retrieving the fix, should match an {Issue} identifier
+  # @param depends_on [Array?] fixes that must be run before this fix
   # @param block [Block] implementation of the fix
-  # @return [Lambda] the lambda defined by this fix_for
-  def fix_for(name, &block)
+  # @return [Lambda] the fix
+  def fix_for(name, depends_on: [], &block)
+    depends_on.each do |dep|
+      @@constraints << [dep, name]
+    end
+
     @@fixes[name] = -> (xml) do
       @xml = xml
       yield
@@ -49,13 +114,13 @@ class Fixes
 
   # For each file in the FILE_DIR, create or replace a fix
   # Uses the file's name to determine fix name
-  def self.refresh_fixes()
+  # @param dir [String?] directory name to refresh fixes from, defaults to Fixes::FILE_DIR at runtime
+  def self.refresh_fixes(dir = nil)
+    @@fixes.clear
+    @@constraints.clear
     definitions do
-      Dir[File.join(FILE_DIR, '*.rb')].each do |fname|
-        name = File.basename(fname).sub(/.rb$/, '')
-        fix_for name do
-          eval IO.read(fname)
-        end
+      Dir[File.join(dir || FILE_DIR, '*.rb')].each do |fname|
+        eval IO.read(fname)
       end
     end
   end
