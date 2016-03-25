@@ -56,7 +56,6 @@ class Fixes
     s = Set.new(nodes.reject{|e| incoming.include? e})
     while !s.empty?
       n = s.first
-      n = s.first
       s.delete n
       order[n] = @@fixes[n]
       nodes.each do |m|
@@ -81,10 +80,10 @@ The following edges remain in your dependency graph after processing:
   end
 
   # Convenience accessor - Fixes[:name] gets back the fix in question
-  # @param name [Symbol, String] identifier this fix is associated
+  # @param identifier [Symbol, String] identifier this fix is associated
   # @return [Lambda] the lambda associated with this identifier
-  def self.[](name)
-    @@fixes[name]
+  def self.[](identifier)
+    @@fixes[identifier]
   end
 
   # Define an individual fix
@@ -96,16 +95,16 @@ The following edges remain in your dependency graph after processing:
   # [Nokogiri::XML::Document] that represents the current state of a finding aid.
   # Any changes made to `@xml` will be applied to the eventual output.
   #
-  # @param name [String, Symbol] key for retrieving the fix, should match an {Issue} identifier
+  # @param identifier [String, Symbol] key for retrieving the fix, should match an {Issue} identifier
   # @param depends_on [Array?] fixes that must be run before this fix
   # @param block [Block] implementation of the fix
   # @return [Lambda] the fix
-  def fix_for(name, depends_on: [], &block)
+  def fix_for(identifier, depends_on: [], &block)
     depends_on.each do |dep|
-      @@constraints << [dep, name]
+      @@constraints << [dep, identifier]
     end
 
-    @@fixes[name] = -> (xml) do
+    @@fixes[identifier] = -> (xml) do
       @xml = xml
       yield
       @xml
@@ -120,7 +119,9 @@ The following edges remain in your dependency graph after processing:
     @@constraints.clear
     definitions do
       Dir[File.join(dir || FILE_DIR, '*.rb')].each do |fname|
-        eval IO.read(fname)
+        fixes_content = IO.read(fname)
+        raise "File `#{fname}` does not contain fixes" unless fixes_content.index('fix_for')
+        eval fixes_content
       end
     end
   end

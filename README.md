@@ -1,8 +1,8 @@
-# Archivesspace Preprocessing System
+# ArchivesSpace Preprocessing System
 
 ## Project Description
 
-The Archivesspace Preprocessing system is a system intended to process EAD files and apply changes to them to allow for successful ingest into [Archivesspace](https://github.com/archivesspace/archivesspace)
+The ArchivesSpace Preprocessing system is a system intended to process EAD files and apply changes to them to allow for successful ingest into [ArchivesSpace](https://github.com/archivesspace/archivesspace)
 
 ## System Requirements
 
@@ -33,7 +33,9 @@ In order to run the test suite, you'll need to install [PhantomJS](http://phanto
 
 ## Fixes
 
-Fixes are corrections for individual issues defined in a schematron file.  They're loaded from `system/fixes` on Rails initialization.  They're relatively simple - they're little bits of Ruby code, which gets run over finding aids.
+Fixes are corrections for individual issues defined in a schematron file.  They're loaded from `system/fixes` on Rails initialization.  An individual fix is defined by the fix_for function, which takes an identifier for the issue it fixes, an optional array of dependencies (identifiers of other fixes that must be run before this fix), and a block containing the actual code to be run.
+
+There's no hard requirements around nameing, but local practice at Harvard has been to put each fix in its own file, named after the identifier.
 
 Within a fix, the following variable is defined:
 
@@ -41,12 +43,18 @@ Within a fix, the following variable is defined:
 |---------------|--------------------------------------------------------------------|
 | *@xml*        | A Nokogiri::XML::Document representing the finding aid             |
 
-### Example Fix
+### Example Fixes
 
 ``` ruby
-# Fix for "my-test-fix"
-fix_for "my-test-fix", depends_on: ["other-fix-I-rely-on"] do
+# Fix for "issue-1"
+fix_for "issue-1" do
   @xml.at_xpath('/ead')['level'] = "addLevelToEAD"
+end
+
+# Fix for "issue-2"
+fix_for "issue-2", depends_on: ["issue-1"] do
+  ead = @xml.at_xpath('/ead')
+  ead['level'] += "_stuff_added_to_level"
 end
 ```
 

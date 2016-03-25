@@ -10,7 +10,7 @@ class CheckerTest < ActiveSupport::TestCase
     @sch = Schematron.create_from_file(@sch_file)
 
     @faid = FindingAidVersion.create!(digest: FindingAidFile.new(faid_content).digest)
-    @run = Run.create!(schematron: @sch, run_for_processing: false)
+    @run = Run.create!(name: 'Test Run', schematron: @sch, run_for_processing: false)
   end
 
   describe Checker do

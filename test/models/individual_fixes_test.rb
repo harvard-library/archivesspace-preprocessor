@@ -7,15 +7,18 @@ require 'test_helper'
 #   2. Put finding aids that contain the errors your fixes correct into /test/test_data/individual_fixes/eads/,
 #          making sure to name them after the issue they present that you mean to test.
 #   3. Fixes will be picked up from the application's system/fixes directory, as in dev/production
-# Example: to test a fix for an issue with identifier "squirrel-7", you would need:
+#
+# To provide a concrete example: to test a fix for an issue with identifier "squirrel-7", you would need:
 #
 #   1. A schematron covering issue "squirrel-7", located at /test/test_data/individual_fixes/schematron.xml
-#
+#   2. A finding aid with the problem described by "squirrel-7", located at
+#      /test/test_data/individual_fixes/eads/suirrel-7.xml
+#   3. A fix, located at
 class IndividualFixesTest < ActiveSupport::TestCase
   # HAX: This setup needs to be done at load time, because, it needs to be
   #      available to the metaprogramming below
 
-  # HAX: Use actual installed fixes, not test fixes, for metaprogramming below
+  # Use actual installed fixes, not test fixes, for metaprogramming below
   Fixes.refresh_fixes(File.join(Rails.root, 'system', 'fixes'))
 
   # File directory to pull EADs from
@@ -42,17 +45,21 @@ class IndividualFixesTest < ActiveSupport::TestCase
       @checker = Checker.new(@sf)
     end
 
-
+    # Metaprogramming ahoy! This loop and if run at file load, and are the reason for HAX above
     Fixes.to_h.each do |k,v|
       if FAIDS_LIST.include? k
         it "tests that fix '#{k}' works" do
           issue_id = Issue.find_by(schematron: @sf, identifier: k).id
+
+          # State of the Finding Aid before fix
           pre = @checker.check(@faids[k])
-          post = @checker.check(FindingAidVersion.find_or_create_by(digest:
-                                                                      FindingAidFile.new(
-                                                                     Fixes[k].(
-                                                                       Nokogiri.XML(@faids[k].file.read)).to_s
-                                                                   ).digest))
+
+          # State of the finding Aid after fix
+          fa_xml = Nokogiri.XML(@faids[k].file.read)
+          fixed_file = FindingAidFile.new(Fixes[k].(fa_xml).to_s)
+          fixed_fa = FindingAidVersion.find_or_create_by(digest: fixed_file.digest)
+          post = @checker.check(fixed_fa)
+
           assert(pre.any? {|hsh| hsh[:issue_id] == issue_id}, "no issues present in test case '#{k}.xml' before processing")
           assert(post.none? {|hsh| hsh[:issue_id] == issue_id}, "issues present in test case '#{k}.xml' after processing")
         end
@@ -61,10 +68,12 @@ class IndividualFixesTest < ActiveSupport::TestCase
 
     after do
       Fixes.refresh_fixes
+
+      # Make destroy callbacks run on tables with associated files
       FindingAid.destroy_all
       Schematron.destroy_all
     end
   end
 
-  Fixes.refresh_fixes # HAX: Needs to be returned to normal post metaprogramming
+  Fixes.refresh_fixes # Needs to be returned to normal in case other tests use test fixes
 end

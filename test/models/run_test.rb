@@ -12,7 +12,7 @@ class RunTest < ActiveSupport::TestCase
 
   describe Run do
     it "can be run for analysis" do
-      Run.create(schematron: @schematron).perform_analysis(@faids)
+      Run.create(name: 'Test Run', schematron: @schematron).perform_analysis(@faids)
     end
   end
 

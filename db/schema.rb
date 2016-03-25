@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302155504) do
+ActiveRecord::Schema.define(version: 20160325135532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,12 +93,14 @@ ActiveRecord::Schema.define(version: 20160302155504) do
   end
 
   create_table "runs", force: :cascade do |t|
-    t.integer  "schematron_id",                      null: false
+    t.integer  "schematron_id",                                  null: false
     t.datetime "completed_at"
-    t.integer  "eads_processed",     default: 0,     null: false
-    t.boolean  "run_for_processing", default: false, null: false
+    t.integer  "eads_processed",                 default: 0,     null: false
+    t.boolean  "run_for_processing",             default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name",               limit: 255,                 null: false
+    t.jsonb    "data"
   end
 
   add_index "runs", ["schematron_id"], name: "index_runs_on_schematron_id", using: :btree

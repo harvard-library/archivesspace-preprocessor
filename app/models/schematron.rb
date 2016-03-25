@@ -31,8 +31,8 @@ class Schematron < ActiveRecord::Base
       sf = SchematronFile.new(sf.read)
     end
 
-    Schematron.create(digest: sf.digest,
-                      issues_attributes: sf.issue_attrs)
+    Schematron.find_by(digest: sf.digest) || Schematron.create(digest: sf.digest,
+                                                               issues_attributes: sf.issue_attrs)
   end
 
   # Gets most recently created Schematron

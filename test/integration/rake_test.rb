@@ -79,11 +79,24 @@ class RakeIngestTest < ActionDispatch::IntegrationTest
 
       run = Run.first
       run.finding_aid_versions.count.must_equal(Dir[File.join(@fa_dir, "*")].count)
+      run.name.must_equal("test_ead_dir")
       run.run_for_processing.must_equal(false)
       run.processing_events.count.must_equal(0)
     end
 
+    it "can set name explicitly" do
+      ENV['FILE'] = @sch_fname
+      rake "aspace:ingest:schematron"
+
+      ENV['EADS'] = @fa_dir
+      ENV['NAME'] = 'Charles'
+      rake "aspace:process:analyze"
+
+      Run.first.name.must_equal('Charles')
+    end
+
     it "can process EADs" do
+      skip('slow') if ENV['SKIP_SLOW_TESTS']
 
       # set up "fix" for issue known to exist in ajp00002.xml
       Fixes.definitions do
@@ -92,7 +105,6 @@ class RakeIngestTest < ActionDispatch::IntegrationTest
         end
       end
 
-      skip('slow') if ENV['SKIP_SLOW_TESTS']
       ENV['FILE'] = @sch_fname
       rake "aspace:ingest:schematron"
 
