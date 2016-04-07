@@ -29,7 +29,6 @@ class Run < ActiveRecord::Base
         self.increment! :eads_processed
       end
     end
-
   end
 
   # Take an analyzed run, and process the finding aids through all
@@ -52,16 +51,21 @@ class Run < ActiveRecord::Base
                  .to_h
                  .select {|issue_id, _| fa.identifiers.include? issue_id}
                  .reduce(fa.xml) do|xml, (issue_id, fix)|
-        processing_events.create(issue_id: Issue.find_by(identifier: issue_id).id,
-                                 finding_aid_version_id: fa.id)
-        fix.(xml)
-      end
+        pe = processing_events.create(issue_id: Issue.find_by(identifier: issue_id).id,
+                                      finding_aid_version_id: fa.id)
+        pre_fix_xml = xml.dup
+        begin # In case of failure, catch the XML
+          fix.(xml)
+        rescue Fixes::Failure => e
+          pre_fix_xml
+        end
+      end # end of .reduce
 
       File.open(File.join(outdir, "#{fa.eadid}.xml"), 'w') do |f|
         repaired.write_xml_to(f, encoding: 'UTF-8')
       end
     end
-
+    update(completed_at: DateTime.now)
   end
 
   # Convenience method for doing analysis and processing in one go.

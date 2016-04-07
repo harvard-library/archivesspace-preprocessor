@@ -33,7 +33,9 @@ In order to run the test suite, you'll need to install [PhantomJS](http://phanto
 
 ## Fixes
 
-Fixes are corrections for individual issues defined in a schematron file.  They're loaded from `system/fixes` on Rails initialization.  An individual fix is defined by the fix_for function, which takes an identifier for the issue it fixes, an optional array of dependencies (identifiers of other fixes that must be run before this fix), and a block containing the actual code to be run.
+Fixes are corrections for individual issues defined in a schematron file.  They're loaded from `system/fixes` on Rails initialization (start up or restart).  An individual fix is defined by the fix_for function, which takes an identifier for the issue it fixes, an optional keyword argument `depends_on` with an array of dependencies (identifiers of other fixes that must be run before this fix), and a block containing the actual code to be run.
+
+Note that YOU are responsible for not making circular dependencies - don't make fix-1 and fix-2 both depend on each other, for example, or things will break.
 
 There's no hard requirements around nameing, but local practice at Harvard has been to put each fix in its own file, named after the identifier.
 

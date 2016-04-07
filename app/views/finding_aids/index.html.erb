@@ -1,0 +1,9 @@
+<h2>Finding Aids</h2>
+<table class="table table-striped">
+  <thead />
+  <tbody>
+    <% @faids.each do |fa| %>
+      <tr><td><%= link_to fa.eadid, fa %></td></tr>
+    <% end %>
+  </tbody>
+</table>

@@ -7,6 +7,8 @@ gem 'rails', '4.2.5.2'
 gem 'activerecord-jdbcpostgresql-adapter'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+# Bootstrap
+gem 'bootstrap-sass', '~> 3.3.6'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -20,7 +22,7 @@ gem 'outfielding-jqplot-rails', '~> 1.0.0'
 gem 'dotenv-rails'
 
 group :development do
-  gem 'puma' # Because Webrick is terrible 
+  gem 'puma' # Because Webrick is terrible
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-rvm'
 end
@@ -55,6 +57,6 @@ gem 'pry-remote'
 gem 'pry-doc'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data'
 
 gem 'schematronium'

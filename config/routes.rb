@@ -3,5 +3,9 @@ Rails.application.routes.draw do
     get "issues-per-repo", to: 'reports#issues_per_repo'
   end
 
+  resources :runs,                 only: [:index, :show]
+  resources :finding_aids,         only: [:index, :show], param: :eadid
+  resources :finding_aid_versions, only: [:show],         param: :digest
+
   root to: 'dashboards#index'
 end

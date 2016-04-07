@@ -1,0 +1,15 @@
+<h2><%= @faid.eadid %></h2>
+<%= link_to "Current version", @faid.current %>
+<table class="table table-striped">
+  <thead>
+    <tr><th>Digest</th> <th>Creation time</th></tr>
+  </thead>
+  <tbody>
+    <%  @faid.finding_aid_versions.order(created_at: :desc).drop(1).each do |fav| %>
+      <tr>
+        <td><%= link_to fav.digest, fav %></td>
+        <td><%= pp_time(fav.created_at) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -7,6 +7,10 @@ class FindingAid < ActiveRecord::Base
   has_many :finding_aid_versions, dependent: :destroy
   has_many :runs, through: :finding_aid_versions
 
+  def to_param
+    eadid
+  end
+
   # Gets most recent version of this FindingAid
   #
   # @return [FindingAidVersion] the most recent version of this FindingAid

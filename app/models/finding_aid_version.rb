@@ -13,6 +13,7 @@ class FindingAidVersion < ActiveRecord::Base
   end
 
   belongs_to :finding_aid
+  delegate :eadid, to: :finding_aid
   has_and_belongs_to_many :runs
   has_many :concrete_issues, dependent: :destroy
   has_many :processing_events
@@ -25,6 +26,11 @@ class FindingAidVersion < ActiveRecord::Base
             presence: true,
             uniqueness: true,
             finding_aid_file: true
+
+  # Param for URL is digest
+  def to_param
+    digest
+  end
 
   # Alternate convenience constructor
   #

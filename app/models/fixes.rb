@@ -125,4 +125,9 @@ The following edges remain in your dependency graph after processing:
       end
     end
   end
+
+  # Custom error to throw when a fix doesn't work right
+  class Failure < StandardError
+    # No additional features to StandardError
+  end
 end

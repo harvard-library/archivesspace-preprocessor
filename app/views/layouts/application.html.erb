@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AspaceProcessor</title>
+  <title>ArchivesSpacePreprocessor</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-
-<%= yield %>
-
+<body class="c_<% controller.controller_name %> a_<% controller.action_name %>">
+  <div class="container-fluid">
+    <h1>ArchivesSpacePreprocessor</h1>
+    <%= yield %>
+  </div>
 </body>
 </html>
