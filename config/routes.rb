@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :runs,                 only: [:index, :show]
   resources :finding_aids,         only: [:index, :show], param: :eadid
   resources :finding_aid_versions, only: [:show],         param: :digest
+  resources :schematrons,          only: [:index, :show], param: :digest
 
   root to: 'dashboards#index'
 end

@@ -11,11 +11,19 @@
 </table>
 
 <h3>Finding Aids</h3>
-<table id="finding-aids" class="table table-striped table-filtered">
-  <thead />
+<table id="finding-aids" class="table table-striped table-filtered" data-filter-on="td:first-child">
+  <thead>
+    <th>EADID</th>
+    <th>Digest (version identifier)</th>
+    <th>Repository (Code)</th>
+  </thead>
   <tbody>
     <% @run.finding_aid_versions.each do |fav| %>
-      <tr><td><%= link_to fav.eadid, fav %></td></tr>
+      <tr>
+        <td><%= link_to fav.eadid, fav %></td>
+        <td><%= fav.digest %></td>
+        <td><%= fav.finding_aid.repository.pp_name %></td>
+      </tr>
     <% end %>
   </tbody>
 </table>

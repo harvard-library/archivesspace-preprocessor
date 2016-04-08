@@ -10,11 +10,11 @@
     </tr>
   </thead>
   <tbody>
-     <% @runs.each do |run| %>
+    <% @runs.each do |run| %>
       <tr>
         <td><%= link_to "#{run.name} (#{run.id})", run %></td>
         <% %i|created_at
-              updated_at|.each do |attr| %>
+        updated_at|.each do |attr| %>
           <td><%= pp_time run.send(attr) %></td>
         <% end %>
         <td>

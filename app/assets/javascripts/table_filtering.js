@@ -43,11 +43,15 @@ $(function () {
   var filter = function (e) {
     /* Matches strings with all positive tokens present
        and no negative tokens present */
-    var val      = e.target.value,
-        re       = construct_regex(val),
+    var val       = e.target.value,
+        re        = construct_regex(val),
         $table    = $('#' + $(e.target).data('table-id')),
-        els      = $table.find('> tbody > tr').get(),
-        len      = els.length;
+        /* Perf note: els is DELIBERATELY not jq, loop over it *
+           MUST be as fast as possible for UX reasons          */
+        els       = $table.find('> tbody > tr').get(),
+        current,   // Current element ptr
+        len       = els.length,
+        filter_on = $table.data('filter-on') || 'a';
 
     if (!val || !re) {
       while (len--) {
@@ -56,11 +60,15 @@ $(function () {
     }
     else {
       while (len--) {
-        if (els[len].querySelector('a') &&
-            !els[len].querySelector('a').textContent.match(re)) {
-          els[len].className = "hidden";
+        current = els[len];
+
+        if (!$.map(current.querySelectorAll(filter_on),
+                   function (el, i) { return el.textContent }).
+            join("\v").
+            match(re)) {
+          current.className = "hidden";
         }
-        else { els[len].className = '' }
+        else { current.className = '' }
       }
     }
     $table.removeClass('busy');
@@ -68,15 +76,17 @@ $(function () {
 
   $('table.table-filtered').each(function (i, table) {
     var timeout = null,
-        input;
+        $input;
 
     $(table).before('<div>Filter: <input type="text" data-table-id="'+ table.id + '" /></div>');
-    input = $(table).prev().children('input').get(0);
+    $input = $(table).prev().children('input');
 
-    input.addEventListener('keyup', function (e) {
+    $input.on('input propertychange', function (e) {
       clearTimeout(timeout);
-      table.className += ' busy';
-      setTimeout(filter, 200, e);
+      if (table.className.indexOf(' busy') === -1) {
+        table.className += ' busy';
+      }
+      timeout = setTimeout(filter, 200, e);
     });
   });
 });

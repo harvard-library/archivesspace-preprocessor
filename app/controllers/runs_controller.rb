@@ -4,7 +4,7 @@ class RunsController < ApplicationController
   end
 
   def show
-    @run = Run.includes(finding_aid_versions: :finding_aid).find(params[:id])
+    @run = Run.includes(finding_aid_versions: {finding_aid: :repository}).find(params[:id])
   end
 
   def run_params
