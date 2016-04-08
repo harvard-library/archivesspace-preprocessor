@@ -51,7 +51,8 @@ $(function () {
         els       = $table.find('> tbody > tr').get(),
         current,   // Current element ptr
         len       = els.length,
-        filter_on = $table.data('filter-on') || 'a';
+        filter_on = $table.data('filter-on') || 'a',
+        sub_els, sub_els_len, sstring;
 
     if (!val || !re) {
       while (len--) {
@@ -61,14 +62,16 @@ $(function () {
     else {
       while (len--) {
         current = els[len];
-
-        if (!$.map(current.querySelectorAll(filter_on),
-                   function (el, i) { return el.textContent }).
-            join("\v").
-            match(re)) {
-          current.className = "hidden";
+        sub_els = current.querySelectorAll(filter_on);
+        sub_els_len = sub_els.length;
+        sstring = "";
+        while (sub_els_len--) {
+          sstring += sub_els[sub_els_len].textContent + "\v";
         }
-        else { current.className = '' }
+        if (!sstring.match(re)) {
+          current.className += " hidden";
+        }
+        else { current.className = current.className.replace('/ hidden/', '') }
       }
     }
     $table.removeClass('busy');
@@ -82,11 +85,11 @@ $(function () {
     $input = $(table).prev().children('input');
 
     $input.on('input propertychange', function (e) {
-      clearTimeout(timeout);
+      if (timeout) {clearTimeout(timeout)};
       if (table.className.indexOf(' busy') === -1) {
         table.className += ' busy';
       }
-      timeout = setTimeout(filter, 200, e);
+      timeout = setTimeout(filter, 300, e);
     });
   });
 });
