@@ -57,6 +57,7 @@ class Run < ActiveRecord::Base
         begin # In case of failure, catch the XML
           fix.(xml)
         rescue Fixes::Failure => e
+          pe.update(failed: true)
           pre_fix_xml
         end
       end # end of .reduce
