@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160408181612) do
+ActiveRecord::Schema.define(version: 20160411142309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 20160408181612) do
     t.string   "digest",         limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "unittitle",      limit: 255
+    t.string   "unitid",         limit: 255
   end
 
   add_index "finding_aid_versions", ["digest"], name: "index_finding_aid_versions_on_digest", using: :btree

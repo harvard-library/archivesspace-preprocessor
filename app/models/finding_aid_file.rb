@@ -35,4 +35,22 @@ class FindingAidFile < SimpleDelegator
       repository_id: repo.id
     }
   end
+
+  # Parse <unit[title|id]> for data applicable to version of finding aid described by this file
+  #
+  # @return [Hash] attributes suitable for passing to FindingAidVersion constructor
+  def fav_attr
+    xml = Nokogiri::XML(self, nil, 'UTF-8') {|config| config.nonet}
+    xml.remove_namespaces!
+
+    attrs = {}
+    if ut  = xml.at_xpath('/ead/archdesc/did/unittitle')
+      attrs[:unittitle] =  ut.content.gsub(/\s+/, ' ').sub(/[\s,]+$/, '')
+    end
+    if uid = xml.at_xpath('/ead/archdesc/did/unitid')
+      attrs[:unitid]    = uid.content.rstrip
+    end
+
+    attrs.merge(digest: digest)
+  end
 end

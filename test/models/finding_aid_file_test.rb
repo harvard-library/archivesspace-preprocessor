@@ -50,6 +50,23 @@ class FindingAidFileTest < ActiveSupport::TestCase
     it "can list all digests that including the digest of test object" do
       assert FindingAidFile.digests.include? @fa.digest
     end
+
+    it "can produce attributes suitable for creation of FindingAidVersion" do
+      attrs = @fa.fav_attr
+      attrs[:unittitle].must_equal 'Henry James letters to various correspondents and other material'
+      attrs[:unitid].must_equal 'MS Am 1094.1'
+      fav = FindingAidVersion.new(attrs)
+      fav.save.wont_equal false
+    end
+
+    it "can produce attributes suitable for creation of a FindingAid" do
+      attrs = @fa.faid_attr
+
+      attrs.keys.sort.must_equal %i|eadid ext_id ext_id_type repository_id|
+      fav = FindingAidVersion.new(@fa.fav_attr)
+      fav.save # implicitly creates FindingAid in after_create callback
+      fav.finding_aid.must_be_kind_of FindingAid
+    end
   end
 
   after do

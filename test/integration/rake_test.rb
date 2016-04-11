@@ -126,7 +126,7 @@ class RakeIngestTest < ActionDispatch::IntegrationTest
 
   after do
     # Clear input values out of ENV
-    %w|FILE DIR EADS|.each { |k| ENV.delete(k) }
+    %w|FILE DIR EADS NAME|.each { |k| ENV.delete(k) }
 
     # Classes with files attached (and Run, because of FKey issues)
     # need to be destroyed so the file will get rm'd

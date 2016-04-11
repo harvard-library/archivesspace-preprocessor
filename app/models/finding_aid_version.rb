@@ -40,7 +40,8 @@ class FindingAidVersion < ActiveRecord::Base
       fa = FindingAidFile.new(fa.read)
     end
 
-    FindingAidVersion.find_or_create_by(digest: fa.digest)
+    attr = fa.fav_attr
+    FindingAidVersion.find_by(digest: attr[:digest]) || FindingAidVersion.create(attr)
   end
 
 
