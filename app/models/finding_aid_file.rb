@@ -21,6 +21,7 @@ class FindingAidFile < SimpleDelegator
   def faid_attr
     xml = Nokogiri::XML(self, nil, 'UTF-8') {|config| config.nonet}
     xml.remove_namespaces!
+
     eadid = xml.at_xpath('/ead/eadheader/eadid')
     repo = Repository.find_or_initialize_by(code: eadid.text[0..2])
     unless repo.id
