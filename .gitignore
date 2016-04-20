@@ -25,9 +25,10 @@ config/database.yml
 public/uploads/*
 public/schematrons/*
 public/finding_aids/*
+public/output/*
+public/input/*
 
 system/fixes/*
-system/output/*
 
 test/test_data/individual_fixes
 test/test_data/individual_fixes/*
