@@ -90,13 +90,6 @@ module DigestedFile
     def digests
       filenames.map {|f| File.basename(f).sub(/\.xml$/, '') }
     end
-
-    # All Files in directory
-    #
-    # @return [Array<DigestedFile>] All known files in FILE_DIR
-    def all
-      digests.map {|d| self[d] }
-    end
   end
 
 end
