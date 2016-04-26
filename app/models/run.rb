@@ -41,11 +41,11 @@ class Run < ActiveRecord::Base
     update(run_for_processing: true)
     outdir = File.join(OUTPUT_DIR, "#{id}").shellescape
     indir =  File.join(INPUT_DIR,  "#{id}").shellescape
-    Dir.mkdir(outdir, 0700) unless File.directory?(outdir)
-    Dir.mkdir(indir, 0700) unless File.directory?(indir)
+    Dir.mkdir(outdir, 0755) unless File.directory?(outdir)
+    Dir.mkdir(indir, 0755) unless File.directory?(indir)
 
     # Stream input files to zip
-    zout = java.util.zip.ZipOutputStream.new(File.open(File.join(indir, 'input.zip'), 'wb').to_outputstream)
+    zout = java.util.zip.ZipOutputStream.new(File.open(File.join(indir, 'input.zip'), 'wb', 0644).to_outputstream)
 
     finding_aid_versions
       .joins(:finding_aid, :concrete_issues => :issue)
@@ -73,7 +73,7 @@ class Run < ActiveRecord::Base
 
         end # end of .reduce
 
-        File.open(File.join(outdir, "#{fa.eadid}.xml"), 'w') do |f|
+        File.open(File.join(outdir, "#{fa.eadid}.xml"), 'w', 0644) do |f|
           repaired.write_xml_to(f, encoding: 'UTF-8')
         end
     end

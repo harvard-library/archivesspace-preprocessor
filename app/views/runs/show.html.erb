@@ -6,14 +6,15 @@
     <tr><td class="bold">Finished at</td>        <td><%= pp_time @run.updated_at %></td></tr>
     <tr><td class="bold">Run for Processing</td> <td><%= @run.run_for_processing? ? "✓" : "❌" %></td></tr>
     <tr><td class="bold">Eads Processed</td>     <td><%= @run.eads_processed %></td></tr>
+    <tr><td class="bold">Input EADs</td>         <td><%= link_to "Zip file", input_path(@run), download: "#{@run.name}_input.zip" %></td></tr>
     <% if @run.run_for_processing? && @run.completed_at %>
-      <tr><td class="bold">Output EADs</td>        <td><%= link_to "Zip file", output_path(@run), download: "#{@run.name}.zip" %></td></tr>
+      <tr><td class="bold">Output EADs</td>        <td><%= link_to "Zip file", output_path(@run), download: "#{@run.name}_output.zip" %></td></tr>
     <% end %>
   </tbody>
 </table>
 
 <h3>Finding Aids</h3>
-<table id="finding-aids" class="table table-striped table-filtered" data-filter-on="td:first-child,td:nth-child(2)">
+<table id="finding-aids" class="table table-striped table-filtered" data-filter-on="td:first-child,td:nth-child(4)">
   <thead>
     <th>EADID</th>
     <th>Input</th>
@@ -29,7 +30,7 @@
         <td><%= fav.eadid %></td>
         <td><%= link_to "Input EAD", finding_aid_version_path(fav, format: :xml), download: "#{fav.eadid}.xml" %></td>
         <% if @run.run_for_processing? && @run.completed_at %>
-          <td><%= link_to "Output EAD", "/#{output_path(@run, fav.eadid)}", download: "#{fav.eadid}.xml" %></td>
+          <td><%= link_to "Output EAD", "#{output_path(@run, fav.eadid)}", download: "#{fav.eadid}.xml" %></td>
         <% end %>
         <td><%= "#{fav.unittitle} (#{fav.unitid})" %></td>
         <td><%= fav.finding_aid.repository.pp_name %></td>

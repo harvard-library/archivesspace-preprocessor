@@ -5,7 +5,10 @@ module ApplicationHelper
   end
 
   def output_path(run, eadid = nil)
-    "output/#{run.id.to_s}/#{eadid ? "#{eadid}.xml" : 'out.zip'}"
+    "/output/#{run.id.to_s}/#{eadid ? "#{eadid}.xml" : 'out.zip'}"
   end
 
+  def input_path(run)
+    "/input/#{run.id.to_s}/input.zip"
+  end
 end

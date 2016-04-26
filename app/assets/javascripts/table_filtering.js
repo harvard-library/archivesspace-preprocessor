@@ -69,9 +69,9 @@ $(function () {
           sstring += sub_els[sub_els_len].textContent + "\v";
         }
         if (!sstring.match(re)) {
-          current.className += " hidden";
+          current.classList.add("hidden");
         }
-        else { current.className = current.className.replace('/ hidden/', '') }
+        else { current.classList.remove('hidden') }
       }
     }
     $table.removeClass('busy');
