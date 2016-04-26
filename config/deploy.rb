@@ -32,7 +32,8 @@ set :linked_dirs, fetch(:linked_dirs, []).push(*%w|log
                                                    tmp/sockets
                                                    vendor/bundle
                                                    system/fixes
-                                                   system/output
+                                                   public/input
+                                                   public/output
                                                    public/schematrons
                                                    public/finding_aids|)
 
