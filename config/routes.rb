@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   resources :finding_aid_versions, only: [:show],         param: :digest
   resources :schematrons,          only: [:index, :show], param: :digest
 
-  root to: 'dashboards#index'
+  root to: 'runs#index'
 end
