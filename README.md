@@ -30,6 +30,8 @@ This system is tested and run in production in the following environment:
 
 In order to run the test suite, you'll need to install [PhantomJS](http://phantomjs.org)
 
+Developer documentation, generated via Yard, is available [here](http://harvard-library.github.io/archivesspace-preprocessor/).
+
 ## Application Set-up Steps
 
 1. Run bundle install. You will probably have to install OS-vendor supplied libraries to satisfy some gem install requirements.
@@ -162,6 +164,8 @@ fix_for "issue-1"
   ead['level'] = "addLevelToEAD"
 end
 ```
+
+
 
 ## Contributors
 
