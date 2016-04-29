@@ -1,3 +1,0 @@
-'app/**/*.rb'
-'db/schema.rb'
-'lib/tasks/**/*.rake'
