@@ -2,8 +2,8 @@ require 'test_helper'
 
 class CheckerTest < ActiveSupport::TestCase
   before do
-    @sch_count = SchematronFile.all.count
-    @faid_count = FindingAidFile.all.count
+    @sch_count = Dir[File.join(SchematronFile::FILE_DIR, '*.xml')].count
+    @faid_count = Dir[File.join(FindingAidFile::FILE_DIR, '*.xml')].count
 
     @sch_file = SchematronFile.new(sch_content)
 
@@ -41,12 +41,12 @@ class CheckerTest < ActiveSupport::TestCase
     @sch.destroy!
     @faid.destroy!
 
-    if SchematronFile.all.count > @sch_count
+    if Dir[File.join(SchematronFile::FILE_DIR, '*.xml')].count > @sch_count
       raise "Detritus SchematronFiles left over after test"
     end
 
 
-    if FindingAidFile.all.count > @faid_count
+    if Dir[File.join(FindingAidFile::FILE_DIR, '*.xml')].count > @faid_count
       raise "Detritus FindingAidFiles left over after test"
     end
   end

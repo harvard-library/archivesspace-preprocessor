@@ -39,10 +39,6 @@ class FindingAidFileTest < ActiveSupport::TestCase
       assert dup_stronfile.ctime < beforetimes
     end
 
-    it "can list all FindingAidFiles" do
-      assert FindingAidFile.all.map(&:digest).include?(@fa.digest), "does not contain @fa"
-    end
-
     it "can list paths of all finding aid files containing test object" do
       assert FindingAidFile.filenames.include? @fa.path
     end

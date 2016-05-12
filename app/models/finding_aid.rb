@@ -7,6 +7,7 @@ class FindingAid < ActiveRecord::Base
   has_many :finding_aid_versions, dependent: :destroy
   has_many :runs, through: :finding_aid_versions
 
+  # @visibility private
   def to_param
     eadid
   end

@@ -9,9 +9,11 @@ require 'java'
 # 4. Record ProcessingEvents (this step happens fix application)
 # 5. Save final XML result to file
 class Run < ActiveRecord::Base
+  # Directory to output files as ingested
+  INPUT_DIR =  File.join(Rails.root, 'public', 'input')
+
   # Directory to output processed files
   OUTPUT_DIR = File.join(Rails.root, 'public', 'output')
-  INPUT_DIR =  File.join(Rails.root, 'public', 'input')
 
   belongs_to :schematron
   has_and_belongs_to_many :finding_aid_versions

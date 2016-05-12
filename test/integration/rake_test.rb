@@ -8,8 +8,8 @@ class RakeIngestTest < ActionDispatch::IntegrationTest
   end
 
   before do
-    @s_population = SchematronFile.all.count
-    @f_population = FindingAidFile.all.count
+    @s_population = Dir[File.join(SchematronFile::FILE_DIR, '*.xml')].count
+    @f_population = Dir[File.join(FindingAidFile::FILE_DIR, '*.xml')].count
     @sch_fname  = File.join(Rails.root, *%w|test test_data test_schematron.xml|)
     @sch_sha    = Digest::SHA256.file(@sch_fname).hexdigest
     @fa_fname   = File.join(Rails.root, *%w|test test_data test_ead.xml|)

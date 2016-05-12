@@ -7,6 +7,7 @@ class FindingAidsController < ApplicationController
     @faid = FindingAid.find_by(eadid: params[:eadid])
   end
 
+  # @visibility private
   def finding_aid_params
     params.require(:eadid)
   end

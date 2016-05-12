@@ -39,10 +39,6 @@ class SchematronFileTest < ActiveSupport::TestCase
       assert dup_stronfile.ctime < beforetimes
     end
 
-    it "can list all SchematronFiles" do
-      assert SchematronFile.all.map(&:digest).include?(@sf.digest), "does not contain @sf"
-    end
-
     it "can list paths of all schematron files containing test object" do
       assert SchematronFile.filenames.include? @sf.path
     end

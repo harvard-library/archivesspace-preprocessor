@@ -8,6 +8,7 @@ class FindingAidVersionsController < ApplicationController
     end
   end
 
+  # @visibility private
   def finding_aid_version_params
     params.require(:digest)
   end

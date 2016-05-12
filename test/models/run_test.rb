@@ -2,7 +2,7 @@ require 'test_helper'
 
 class RunTest < ActiveSupport::TestCase
   before do
-    @sch_population = SchematronFile.all.count
+    @sch_population = Dir[File.join(SchematronFile::FILE_DIR, '*.xml')].count
     @sf = SchematronFile.new( IO.read(File.join(Rails.root, 'test', 'test_data', 'test_schematron.xml')))
     @schematron = Schematron.create( digest: @sf.digest, issues_attributes: @sf.issue_attrs)
     @faids = Dir[File.join(Rails.root, *%w|test test_data test_ead_dir *.xml|)].map do |fname|

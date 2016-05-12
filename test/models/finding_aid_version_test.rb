@@ -2,7 +2,7 @@ require 'test_helper'
 
 class FindingAidVersionTest < ActiveSupport::TestCase
   before do
-    @population = FindingAidFile.all.count
+    @population = Dir[File.join(FindingAidFile::FILE_DIR, '*.xml')].count
     @faf = FindingAidFile.new( IO.read(File.join(Rails.root, 'test', 'test_data', 'test_ead.xml')) )
     @finding_aid_version = FindingAidVersion.create( @faf.fav_attr )
   end
