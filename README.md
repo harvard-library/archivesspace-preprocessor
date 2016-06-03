@@ -12,7 +12,6 @@ The ArchivesSpace Preprocessing system processes EAD files and applies changes (
 * A JVM capable of running JRuby 9.0.5.0+
 * JRuby 9.0.5.0+ (targets MRI 2.2)
 * Bundler
-* zip utility
 
 This system is tested and run in production in the following environment:
 

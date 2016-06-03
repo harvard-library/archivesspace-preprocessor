@@ -47,7 +47,8 @@ class Run < ActiveRecord::Base
     Dir.mkdir(indir, 0755) unless File.directory?(indir)
 
     # Stream input files to zip
-    zout = java.util.zip.ZipOutputStream.new(File.open(File.join(indir, 'input.zip'), 'wb', 0644).to_outputstream)
+    zout_in = java.util.zip.ZipOutputStream.new(File.open(File.join(indir, 'input.zip'), 'wb', 0644).to_outputstream)
+    zout_out = java.util.zip.ZipOutputStream.new(File.open(File.join(outdir, 'out.zip'), 'wb', 0644).to_outputstream)
 
     finding_aid_versions
       .joins(:finding_aid, :concrete_issues => :issue)
@@ -56,7 +57,7 @@ class Run < ActiveRecord::Base
                ARRAY_AGG(DISTINCT issues.identifier) AS identifiers')
       .group('finding_aids.eadid,finding_aid_versions.id')
       .each do |fa|
-        add_to_input_zip(zout, fa)
+        add_to_zip(zout_in, fa.eadid, fa.file)
 
         # Apply all relevant fixes to Finding Aid
         repaired = Fixes
@@ -78,16 +79,13 @@ class Run < ActiveRecord::Base
         File.open(File.join(outdir, "#{fa.eadid}.xml"), 'w', 0644) do |f|
           repaired.write_xml_to(f, encoding: 'UTF-8')
         end
+
+        add_to_zip(zout_out, fa.eadid, File.open(File.join(outdir, "#{fa.eadid}.xml"), 'r'))
     end
 
-    system("find #{outdir} -name '*.xml' | zip #{File.join(outdir, 'out')} -j -@")
     update(completed_at: DateTime.now)
   ensure
-    begin
-      zout.close # Input zip done
-    rescue java.io.IOException => e
-      # already closed, nothing to do here
-    end
+    close_zipfiles(zout_in, zout_out)
   end
 
   # Convenience method for doing analysis and processing in one go.
@@ -96,12 +94,12 @@ class Run < ActiveRecord::Base
     perform_processing!
   end
 
-  # Convenience method for adding to input zip
-  # @param zout [Java::Util::Zip::ZipOutputStream] directory to store zip in
-  # @param fav [FindingAidVersion] version to add to zip
-  def add_to_input_zip(zout, fav)
-    zout.put_next_entry(java.util.zip.ZipEntry.new("#{fav.eadid}.xml"))
-    file = fav.file
+  # Convenience method for adding to zip
+  # @param zout [Java::Util::Zip::ZipOutputStream] the zip being written to
+  # @param eadid [String] the eadid, used to construct filename in zip
+  # @param file [File] an open file containing to add to zip
+  def add_to_zip(zout, eadid, file)
+    zout.put_next_entry(java.util.zip.ZipEntry.new("#{eadid}.xml"))
     file.binmode
     file.each_line do |line|
       bytes = line.to_java_bytes
@@ -109,4 +107,17 @@ class Run < ActiveRecord::Base
     end
     file.close
   end
+
+  # Convenience method for closing zipfiles
+  # @param zouts [Array<Java::Util::Zip::ZipOutputStream>] zipfiles what need closing
+  def close_zipfiles(*zouts)
+    zouts.each do |zout|
+      begin
+        zout.close
+      rescue java.io.IOException => e
+        # already closed, nothing to do here
+      end
+    end
+  end
+
 end
