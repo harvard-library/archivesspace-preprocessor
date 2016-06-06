@@ -64,7 +64,7 @@ class Run < ActiveRecord::Base
                    .to_h
                    .select {|issue_id, _| fa.identifiers.include? issue_id}
                    .reduce(fa.xml) do|xml, (issue_id, fix)|
-          pe = processing_events.create(issue_id: Issue.find_by(identifier: issue_id).id,
+          pe = processing_events.create(issue_id: schematron.issues.find_by(identifier: issue_id).id,
                                         finding_aid_version_id: fa.id)
           pre_fix_xml = xml.dup
           begin # In case of failure, catch the XML
