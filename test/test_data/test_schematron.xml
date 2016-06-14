@@ -8,6 +8,9 @@
     <active pattern="date-unitdate-automated" />
     <active pattern="container-automated" />
     <active pattern="dao-automated" />
+    <active pattern="any-automated" />
+    <active pattern="c-automated" />
+    <active pattern="note-automated" />
   </phase>
   <phase id="manual">
     <active pattern="descgrp-manual" />
@@ -39,7 +42,7 @@
     </rule>
     <rule context="//*:descgrp[@type and @type != 'add']/*:accessrestrict|
                    //*:descgrp[@type and @type != 'add']/*:accruals|
-                   //*:descgrp[@type and @type != 'add']/*:acquinfo|
+                   //*:descgrp[@type and @type != 'add']/*:acqinfo|
                    //*:descgrp[@type and @type != 'add']/*:altformavail|
                    //*:descgrp[@type and @type != 'add']/*:appraisal|
                    //*:descgrp[@type and @type != 'add']/*:custodhist|
@@ -49,7 +52,7 @@
                    //*:descgrp[@type and @type != 'add']/*:userestrict">
       <!-- 'descgrp' sub-elements of kinds valid outside of 'note' -->
       <assert test="not(.)" diagnostics="da-3">'descgrp' is deprecated, and must be removed. Element children of the following types must be reparented into 'descgrp's parent element:
-      'accessrestrict', 'accruals', 'acquinfo', 'altformavail', 'appraisal', 'custodhist', 'note', 'prefercite', 'processinfo', 'userestrict', 'accessrestrict', 'accruals', 'acquinfo', 'altformavail', 'appraisal', 'custodhist', 'note', 'prefercite', 'processinfo', 'userestrict'</assert>
+      'accessrestrict', 'accruals', 'acqinfo', 'altformavail', 'appraisal', 'custodhist', 'note', 'prefercite', 'processinfo', 'userestrict'</assert>
     </rule>
   </pattern>
 
@@ -130,17 +133,10 @@
   </pattern>
 
   <pattern id="date-unitdate-automated">
-    <rule context="//*:date">
-      <!-- 'date' element -->
+    <rule context="//*:date|//*:unitdate">
+      <!-- 'date' and 'unitdate' elements -->
       <assert test="not(.[@startYear or @endYear])" diagnostics="dua-1">
-        'date' element must not contain 'startYear' or 'endYear' attributes.
-      </assert>
-    </rule>
-
-    <rule context="//*:unitdate">
-      <!-- 'unitdate' element -->
-      <assert test="not(.[@startYear or @endYear])" diagnostics="dua-1">
-        'unitdate' element must not contain 'startYear' or 'endYear' attributes.
+        'date' and 'unitdate' elements must not contain 'startYear' or 'endYear' attributes.
       </assert>
     </rule>
   </pattern>
@@ -157,8 +153,44 @@
   <pattern id="dao-automated">
     <rule context="//*:dao">
       <!-- 'dao' element -->
-      <assert test=".[not(@xlink:title)]" diagnostics="dao-1">
+      <assert test=".[@xlink:title]" diagnostics="dao-1">
         'dao' element must contain 'xlink:title' attribute.
+      </assert>
+    </rule>
+  </pattern>
+
+  <pattern id="any-automated">
+    <rule context="//*">
+      <!-- Any element ('//*') -->
+      <assert test=".[node() or @*]" diagnostics="noempty-1">
+        Any element must contain either text, element, or attribute content.
+      </assert>
+    </rule>
+  </pattern>
+
+  <pattern id="c-automated">
+    <rule context="//*:c">
+      <!-- 'c' element -->
+      <assert test=".[(@level and @level != 'otherlevel') or (@level = 'otherlevel' and normalize-space(@otherlevel))]" diagnostics="c-1">
+        'c' element must contain a value in its 'level' attribute.  If that value is 'otherlevel', the 'c' must also contain an 'otherlevel' attribute.
+      </assert>
+    </rule>
+  </pattern>
+
+  <pattern id="note-automated">
+    <rule context="//*:note">
+      <!-- 'note' element -->
+      <assert test="not(./ancestor::*/controlaccess)" diagnostics="note-1">
+        'controlaccess' elements cannot contain 'note' elements.
+      </assert>
+      <assert test="../local-name() != 'archdesc'" diagnostics="note-2">
+        'archdesc' elements cannot contain 'note' elements. 'note' elements should be converted to 'odd' elements.
+      </assert>
+      <assert test="../local-name() != 'c'" diagnostics="note-3">
+        'c' and 'archdesc' elements cannot contain 'note' elements. 'note' elements should be converted to 'odd' elements.
+      </assert>
+      <assert test="local-name(..) != 'did'" diagnostics="note-4">
+        'did' element cannot contain 'note' elements.  'note' elements should be converted to 'odd' elements, which should be moved out of their parent 'did' elements and inserted as a following sibling of same.
       </assert>
     </rule>
   </pattern>
@@ -187,6 +219,14 @@ Content: Content from '<value-of select="local-name(.)" />' element's 'startYear
     </diagnostic>
     <diagnostic id="ca-1">Ref-number: 17</diagnostic>
     <diagnostic id="dao-1">Ref-number: 9</diagnostic>
+    <diagnostic id="noempty-1">Ref-number: 46
+Content: '<value-of select="local-name(.)" />' element should not be empty
+    </diagnostic>
+    <diagnostic id="c-1">Ref-number: 44</diagnostic>
+    <diagnostic id="note-1">Ref-number: 23.1</diagnostic>
+    <diagnostic id="note-2">Ref-number: 23.2</diagnostic>
+    <diagnostic id="note-3">Ref-number: 23.3</diagnostic>
+    <diagnostic id="note-4">Ref-number: 23.4</diagnostic>
   </diagnostics>
 
 </schema>

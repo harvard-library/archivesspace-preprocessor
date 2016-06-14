@@ -49,7 +49,10 @@ class IndividualFixesTest < ActiveSupport::TestCase
     Fixes.to_h.each do |k,v|
       if FAIDS_LIST.include? k
         it "tests that fix '#{k}' works" do
-          issue_id = Issue.find_by(schematron: @sf, identifier: k).id
+          # Note: Multiple issues SHOULD NOT be associated with one identifier, but CAN BE.
+          #       Any fix should fix all problems which share an identifier, and ideally,
+          #       DON'T DO THIS, reporting will be subtly incorrect
+          issue_ids = Issue.where(schematron: @sf, identifier: k).pluck(:id)
 
           # State of the Finding Aid before fix
           pre = @checker.check(@faids[k])
@@ -60,8 +63,8 @@ class IndividualFixesTest < ActiveSupport::TestCase
           fixed_fa = FindingAidVersion.find_or_create_by(digest: fixed_file.digest)
           post = @checker.check(fixed_fa)
 
-          assert(pre.any? {|hsh| hsh[:issue_id] == issue_id}, "no issues present in test case '#{k}.xml' before processing")
-          assert(post.none? {|hsh| hsh[:issue_id] == issue_id}, "issues present in test case '#{k}.xml' after processing")
+          assert(pre.any? {|hsh| issue_ids.include? hsh[:issue_id]}, "no issues present in test case '#{k}.xml' before processing")
+          assert(post.none? {|hsh| issue_ids.include? hsh[:issue_id]}, "issues present in test case '#{k}.xml' after processing")
         end
       end
     end

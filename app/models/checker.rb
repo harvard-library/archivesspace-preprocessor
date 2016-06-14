@@ -2,6 +2,7 @@
 class Checker
   def initialize(stron = ->() {Schematron.current}, run = nil)
     @schematron = stron.kind_of?(Proc) ? stron.call : stron
+    @issue_ids = stron.issues.pluck(:identifier, :id).to_h
     @checker = Schematronium.new(@schematron.file)
     @run = run
   end
@@ -24,8 +25,7 @@ class Checker
       {
         run_id: @run.try(:id),
         finding_aid_version_id: faid.id,
-        issue_id: Issue.find_by(schematron_id: @schematron.id,
-                                identifier: diag['diagnostic']).id,
+        issue_id: @issue_ids[diag['diagnostic']],
         location: el['location'],
         line_number: s_xml.xpath(el['location']).get_line_number,
         diagnostic_info: diag.inner_html
