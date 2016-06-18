@@ -66,10 +66,16 @@ class Run < ActiveRecord::Base
                    .reduce(fa.xml) do|xml, (issue_id, fix)|
           pe = processing_events.create(issue_id: schematron.issues.find_by(identifier: issue_id).id,
                                         finding_aid_version_id: fa.id)
-          pre_fix_xml = xml.dup
+          begin
+            pre_fix_xml = xml.dup
+          # HAX: Swallow mysterious namespace failure, come ON Noko
+          rescue Java::OrgW3cDom::DOMException => e
+            pre_fix_xml = Nokogiri::XML(xml.serialize, nil, 'UTF-8') {|config| config.nonet}
+          end
+
           begin # In case of failure, catch the XML
             fix.(xml)
-          rescue Fixes::Failure => e
+          rescue Fixes::Failure, StandardError => e
             pe.update(failed: true)
             pre_fix_xml
           end
