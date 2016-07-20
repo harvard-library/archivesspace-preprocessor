@@ -140,11 +140,17 @@
         'date' and 'unitdate' elements must not contain 'startYear' or 'endYear' attributes.
       </assert>
 
-      <assert test="normalize-space(string-join(./@startYear | ./@endYear | ./@normal | ./text(), ''))" diagnostics="noempty-2">
+      <assert test="normalize-space(string-join((./@startYear, ./@endYear, ./@normal, ./text()), ''))" diagnostics="noempty-2">
         'date' and 'unitdate' elements must contain a value in either or both of their 'normal' attribute or their text content.
       </assert>
+
+      <assert test="not(.[@startYear or @endYear or @normal]) or not(.[@startYear gt @endYear] or .[tokenize(@normal, '/')[1] gt tokenize(@normal, '/')[2]])" diagnostics="dua-3">
+        'date' and 'unitdate' elements must not have ending dates previous to their start dates.
+      </assert>
     </rule>
+
   </pattern>
+
 
   <pattern id="container-automated">
     <rule context="//*:container">
@@ -152,6 +158,11 @@
       <assert test=".[@type]" diagnostics="ca-1">
         'container' element must contain 'type' attribute.
       </assert>
+    </rule>
+
+    <rule context="//*:date|//*:unitdate">
+      <!-- 'date' and 'unitdate' elements with ranges -->
+
     </rule>
   </pattern>
 
@@ -203,9 +214,9 @@
   <pattern id="unitdate-automated">
     <rule context="//*:unitdate">
       <!-- 'unitdate' element -->
-      <assert test="(matches(./text(), 'ca|circa|approx|approximately', 'i') and @certainty = 'approximate') or (not(matches(./text(), 'ca|circa|approx|approximately', 'i')) and @certainty != 'approximate')"
+      <assert test="(matches(string-join(./text(), ''), 'ca|circa|approx|approximately', 'i') and @certainty = 'approximate') or (not(matches(string-join(./text(), ''), 'ca|circa|approx|approximately', 'i')) and @certainty != 'approximate')"
               diagnostics="dua-2">
-        'date' and 'unitdate' containing approximation language must carry 'certainty' attribute with value 'approximate'.
+        'unitdate' containing approximation language must carry 'certainty' attribute with value 'approximate'.
       </assert>
     </rule>
   </pattern>
@@ -244,6 +255,7 @@ Content: '<value-of select="local-name(.)" />' element should not be empty
     <diagnostic id="note-4">Ref-number: 23.4</diagnostic>
     <diagnostic id="noempty-2">Ref-number: 46</diagnostic>
     <diagnostic id="dua-2">Ref-number: 47</diagnostic>
+    <diagnostic id="dua-3">Ref-number: ???</diagnostic>
   </diagnostics>
 
 </schema>

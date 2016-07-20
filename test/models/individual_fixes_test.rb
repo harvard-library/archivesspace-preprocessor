@@ -13,7 +13,11 @@ require 'test_helper'
 #   1. A schematron covering issue "squirrel-7", located at /test/test_data/individual_fixes/schematron.xml
 #   2. A finding aid with the problem described by "squirrel-7", located at
 #      /test/test_data/individual_fixes/eads/suirrel-7.xml
-#   3. A fix, located at
+#   3. A fix, located at ROOT_DIR/system/fixes
+#
+# Note: These test methods run ONLY the fix in question, not "that fix and its dependencies"
+#       Therefore, your test data should be designed so that any dependent fixes would not need
+#       to be run.
 class IndividualFixesTest < ActiveSupport::TestCase
   # HAX: This setup needs to be done at load time, because, it needs to be
   #      available to the metaprogramming below
