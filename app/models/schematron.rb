@@ -31,15 +31,22 @@ class Schematron < ActiveRecord::Base
       sf = SchematronFile.new(sf.read)
     end
 
-    Schematron.find_by(digest: sf.digest) || Schematron.create(digest: sf.digest,
-                                                               issues_attributes: sf.issue_attrs)
+    me = Schematron.find_by(digest: sf.digest) || Schematron.new(digest: sf.digest,
+                                                                 issues_attributes: sf.issue_attrs)
+    if me.persisted?
+      me.touch
+    else
+      me.save
+    end
+
+    me
   end
 
   # Gets most recently created Schematron
   #
   # @return [Schematron] the most recently created Schematron record
   def self.current
-    order(created_at: :desc).first
+    order(updated_at: :desc).first
   end
 
   # @return [SchematronFile] the SchematronFile associated with this record
