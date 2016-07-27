@@ -12,6 +12,7 @@
     <active pattern="c-automated" />
     <active pattern="note-automated" />
     <active pattern="unitdate-automated" />
+    <active pattern="unitid-automated" />
   </phase>
   <phase id="manual">
     <active pattern="descgrp-manual" />
@@ -33,24 +34,24 @@
       <assert test="not(.)" diagnostics="da-1">'head' element should be dropped from descgrp</assert>
     </rule>
 
-    <rule context="//*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:address|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:blockquote|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:chronlist|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:list|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:p">
+    <rule context="//*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:address|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:blockquote|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:chronlist|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:list|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:p">
       <!-- 'descgrp' sub-elements of kinds valid in 'note' element -->
       <assert test="not(.)" diagnostics="da-2">'descgrp' is deprecated, and must be removed. 'address', 'blockquote', 'chronlist', 'list', and 'p' children of 'descgrp' must be reparented into a new 'note' element in the 'descgrp's parent element</assert>
     </rule>
-    <rule context="//*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:accessrestrict|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:accruals|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:acqinfo|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:altformavail|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:appraisal|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:custodhist|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:note|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:prefercite|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:processinfo|
-                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodingAnalog = '544')]/*:userestrict">
+    <rule context="//*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:accessrestrict|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:accruals|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:acqinfo|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:altformavail|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:appraisal|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:custodhist|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:note|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:prefercite|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:processinfo|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:userestrict">
       <!-- 'descgrp' sub-elements of kinds valid outside of 'note' -->
       <assert test="not(.)" diagnostics="da-3">'descgrp' is deprecated, and must be removed. Element children of the following types must be reparented into 'descgrp's parent element:
       'accessrestrict', 'accruals', 'acqinfo', 'altformavail', 'appraisal', 'custodhist', 'note', 'prefercite', 'processinfo', 'userestrict'</assert>
@@ -221,6 +222,22 @@
     </rule>
   </pattern>
 
+  <pattern id="unitid-automated">
+    <rule context="//*:did[count(./*:unitid) gt 1]">
+      <!-- 'unitid' element -->
+      <assert test="not(.)" diagnostics="unitid-1">
+        More than one 'unitid' element may not be provided per level of description ('did' element), per ArchivesSpace.  One authoritative 'unitid' element should be decided on or created, method of choice/construction is left to local practice to determine.
+      </assert>
+    </rule>
+
+    <rule context="//*:unitid">
+      <!-- 'unitid' elements pointed at by 'ref' elements -->
+      <assert test="not(./@id = //*:ref/@target)" diagnostics="unitid-2">
+        'ref' elements must not point at 'unitid' elements.  'target' attribute should be rewritten to point at parent 'c'.
+      </assert>
+    </rule>
+  </pattern>
+
   <diagnostics>
     <diagnostic id="enm-1">Ref-number: 18
     Content: Value is "<value-of select="." />"</diagnostic>
@@ -255,7 +272,9 @@ Content: '<value-of select="local-name(.)" />' element should not be empty
     <diagnostic id="note-4">Ref-number: 23.4</diagnostic>
     <diagnostic id="noempty-2">Ref-number: 46</diagnostic>
     <diagnostic id="dua-2">Ref-number: 47</diagnostic>
-    <diagnostic id="dua-3">Ref-number: ???</diagnostic>
+    <diagnostic id="dua-3">Ref-number: 57</diagnostic>
+    <diagnostic id="unitid-1">Ref-number: 43</diagnostic>
+    <diagnostic id="unitid-2">Ref-number: 55</diagnostic>
   </diagnostics>
 
 </schema>
