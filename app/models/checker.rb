@@ -32,4 +32,21 @@ class Checker
       }
     end
   end
+
+  def check_str(xmlstr)
+    xml = @checker.check(xmlstr)
+    xml.remove_namespaces!
+    errs = xml.xpath('//failed-assert | //successful-report')
+
+    errs.map do |el|
+      diag = el.at_xpath('./diagnostic-reference')
+      {
+        run_id: @run.try(:id),
+        issue_id: @issue_ids[diag['diagnostic']],
+        location: el['location'],
+        line_number: -1,
+        diagnostic_info: diag.inner_html
+      }
+    end
+  end
 end

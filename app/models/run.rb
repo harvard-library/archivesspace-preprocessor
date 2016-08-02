@@ -23,16 +23,33 @@ class Run < ActiveRecord::Base
   # Run checker over a set of provided faids, storing information
   # on found errors in the database
   def perform_analysis(faids)
-    checker = Checker.new(schematron, self)
+    @checker = Checker.new(schematron, self)
     faids.each do |faid|
       faid = faid.current if faid.is_a? FindingAid
       ActiveRecord::Base.transaction do
-        checker.check(faid).each do |h|
+        @checker.check(faid).each do |h|
           ConcreteIssue.create!(h)
         end
         self.finding_aid_versions << faid
         self.increment! :eads_processed
       end
+    end
+  end
+
+  # Helper method that performs one step of reduction
+  def apply_fix(xml, fix, pe)
+    begin
+      pre_fix_xml = xml.dup
+    # HAX: Swallow mysterious namespace failure, come ON Noko
+    rescue Java::OrgW3cDom::DOMException => e
+      pre_fix_xml = Nokogiri::XML(xml.serialize, nil, 'UTF-8') {|config| config.nonet}
+    end
+
+    begin # In case of failure, catch the XML
+      fix.(xml)
+    rescue Fixes::Failure, StandardError => e
+      pe.update(failed: true)
+      pre_fix_xml
     end
   end
 
@@ -62,25 +79,29 @@ class Run < ActiveRecord::Base
         # Apply all relevant fixes to Finding Aid
         repaired = Fixes
                    .to_h
-                   .select {|issue_id, _| fa.identifiers.include? issue_id}
-                   .reduce(fa.xml) do|xml, (issue_id, fix)|
-          pe = processing_events.create(issue_id: schematron.issues.find_by(identifier: issue_id).id,
+                   .select {|identifier, _| fa.identifiers.include? identifier}
+                   .reduce(fa.xml) do|xml, (identifier, fix)|
+          pe = processing_events.create(issue_id: schematron.issues.find_by(identifier: identifier).id,
                                         finding_aid_version_id: fa.id)
-          begin
-            pre_fix_xml = xml.dup
-          # HAX: Swallow mysterious namespace failure, come ON Noko
-          rescue Java::OrgW3cDom::DOMException => e
-            pre_fix_xml = Nokogiri::XML(xml.serialize, nil, 'UTF-8') {|config| config.nonet}
-          end
-
-          begin # In case of failure, catch the XML
-            fix.(xml)
-          rescue Fixes::Failure, StandardError => e
-            pe.update(failed: true)
-            pre_fix_xml
-          end
+          apply_fix(xml, fix, pe)
 
         end # end of .reduce
+
+        # Any problems which have fixes that exist now should theoretically
+        # be things that were shadowed by the first pass, so take a second pass
+        remaining_problems = schematron.issues.where(id: @checker.check_str(repaired.serialize(encoding: 'UTF-8')).map {|el| el[:issue_id]}.uniq).pluck(:identifier) & Fixes.to_h.keys
+
+        # Run a second round of fixing if there are remaining problems
+        unless remaining_problems.blank?
+          repaired = Fixes
+                     .to_h
+                     .select {|identifier, _| remaining_problems.include? identifier}
+                     .reduce(repaired) do |xml, (identifier, fix)|
+            pe = processing_events.create(issue_id: schematron.issues.find_by(identifier: identifier).id,
+                                          finding_aid_version_id: fa.id)
+            apply_fix(xml, fix, pe)
+          end
+        end
 
         File.open(File.join(outdir, "#{fa.eadid}.xml"), 'w', 0644) do |f|
           repaired.write_xml_to(f, encoding: 'UTF-8')

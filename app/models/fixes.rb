@@ -36,6 +36,13 @@ class Fixes
 
   end
 
+  # Delegate #key? on the class to the internal hash
+  # @param key [Symbol, String] key to check for
+  # @return [Boolean] whether key is present
+  def self.key?(key)
+    @@fixes.key?(key)
+  end
+
   # Definitions block, which sets the context to a Fix instantiation
   # Within this block, {#fix_for} can be used to define new fixes.
   def self.definitions(&block)
