@@ -37,7 +37,7 @@ class Run < ActiveRecord::Base
   end
 
   # Helper method that performs one step of reduction
-  def apply_fix(xml, fix, pe)
+  def apply_fix(xml, fix, pe = nil)
     begin
       pre_fix_xml = xml.dup
     # HAX: Swallow mysterious namespace failure, come ON Noko
@@ -48,7 +48,7 @@ class Run < ActiveRecord::Base
     begin # In case of failure, catch the XML
       fix.(xml)
     rescue Fixes::Failure, StandardError => e
-      pe.update(failed: true)
+      pe.update(failed: true) if pe
       pre_fix_xml
     end
   end
@@ -76,11 +76,16 @@ class Run < ActiveRecord::Base
       .each do |fa|
         add_to_zip(zout_in, fa.eadid, fa.file)
 
+        # Preflight XML
+        fa_xml = Fixes.preflights.values.reduce(fa.xml) do |xml, fix|
+          apply_fix(xml, fix)
+        end
+
         # Apply all relevant fixes to Finding Aid
         repaired = Fixes
                    .to_h
                    .select {|identifier, _| fa.identifiers.include? identifier}
-                   .reduce(fa.xml) do|xml, (identifier, fix)|
+                   .reduce(fa_xml) do|xml, (identifier, fix)|
           pe = processing_events.create(issue_id: schematron.issues.find_by(identifier: identifier).id,
                                         finding_aid_version_id: fa.id)
           apply_fix(xml, fix, pe)

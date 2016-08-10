@@ -22,7 +22,17 @@ class Fixes
   #   [[x, y], [x, z]] means y and z depend on x
   @@constraints ||= []
 
-  # Make the class enumberable to support iteration over fixes
+  # Special "preflight" fixes that run unconditionally over
+  # every finding aid, prior to any other fixes
+  @@preflights ||= {}.with_indifferent_access
+
+  # Expose preflights variable for use in Run
+  # @return [Hash{String => Lambda}] preflights
+  def self.preflights
+    @@preflights
+  end
+
+  # Make the class enumerable to support iteration over fixes
   class << self
     include Enumerable
 
@@ -104,17 +114,26 @@ The following edges remain in your dependency graph after processing:
   #
   # @param identifier [String, Symbol] key for retrieving the fix, should match an {Issue} identifier
   # @param depends_on [Array?] fixes that must be run before this fix
+  # @param preflight [Boolean] Whether a fix should be run unconditionally prior to run
   # @param block [Block] implementation of the fix
   # @return [Lambda] the fix
-  def fix_for(identifier, depends_on: [], &block)
-    depends_on.each do |dep|
-      @@constraints << [dep, identifier]
-    end
+  def fix_for(identifier, depends_on: [], preflight: false, &block)
+    unless preflight
+      depends_on.each do |dep|
+        @@constraints << [dep, identifier]
+      end
 
-    @@fixes[identifier] = -> (xml) do
-      @xml = xml
-      yield
-      @xml
+      @@fixes[identifier] = -> (xml) do
+        @xml = xml
+        yield
+        @xml
+      end
+    else
+      @@preflights[identifier] = -> (xml) do
+        @xml = xml
+        yield
+        @xml
+      end
     end
   end
 
@@ -124,6 +143,7 @@ The following edges remain in your dependency graph after processing:
   def self.refresh_fixes(dir = nil)
     @@fixes.clear
     @@constraints.clear
+    @@preflights.clear
     definitions do
       Dir[File.join(dir || FILE_DIR, '*.rb')].each do |fname|
         fixes_content = IO.read(fname)

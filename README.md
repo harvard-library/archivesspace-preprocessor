@@ -124,6 +124,8 @@ Within a fix, the following variable is defined:
 
 Changes should be made directly to it, using the Nokogiri API ([suggested entry point to docs](http://www.nokogiri.org/tutorials/modifying_an_html_xml_document.html)).  This variable is implicitly returned at the end of the fix block. Any changes made will be passed on to the next fix, and reflected in the final finding aid.
 
+If a fix is marked as "preflight", it will be run non-conditionally on EVERY finding aid, after Schematron checking but before other processing. Currently, changes made by preflights are NOT tracked; BE CAREFUL, and make as little use of them as possible!
+
 #### Runs
 
 `Runs` are the top level grouping of objects in the app.  A `Run` represents a collection of all the objects and information produced by running the tool over a set of `FindingAidVersions` with a particular `Schematron` and set of `Fixes`, producing a particular set of `ConcreteIssues`, `ProcessingEvents`, and output EADs (which, again, are associated via filesystem naming convention, rather than in the database).
@@ -144,6 +146,13 @@ end
 fix_for "issue-2", depends_on: ["issue-1"] do
   ead = @xml.at_xpath('/ead')
   ead['level'] += "_stuff_added_to_level"
+end
+
+# Preflight fix
+fix_for "preflight-1", preflight: true do
+  @xml.at_xpath('//extent').each do |ex|
+    ex.content = ex.content.strip
+  end
 end
 ```
 
