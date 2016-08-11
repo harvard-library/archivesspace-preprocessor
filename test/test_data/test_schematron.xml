@@ -13,6 +13,7 @@
     <active pattern="note-automated" />
     <active pattern="unitdate-automated" />
     <active pattern="unitid-automated" />
+    <active pattern="unittitle-automated" />
   </phase>
   <phase id="manual">
     <active pattern="descgrp-manual" />
@@ -238,6 +239,22 @@
     </rule>
   </pattern>
 
+  <pattern id="unittitle-automated">
+    <rule context="//*:did[count(./*:unittitle) gt 1]">
+      <!-- 'unittitle' element -->
+      <assert test="not(.)" diagnostics="unittitle-1">
+        More than one 'unittitle' element may not be provided per level of description ('did' element), per ArchivesSpace.  One authoritative 'unittitle' element should be decided on or created, method of choice/construction is left to local practice to determine.
+      </assert>
+    </rule>
+
+    <rule context="//*:unittitle">
+      <!-- 'unittitle' elements pointed at by 'ref' elements -->
+      <assert test="not(./@id = //*:ref/@target)" diagnostics="unittitle-2">
+        'ref' elements must not point at 'unititle' elements.  'target' attribute should be rewritten to point at parent 'c'.
+      </assert>
+    </rule>
+  </pattern>
+
   <diagnostics>
     <diagnostic id="enm-1">Ref-number: 18
     Content: Value is "<value-of select="." />"</diagnostic>
@@ -275,6 +292,8 @@ Content: '<value-of select="local-name(.)" />' element should not be empty
     <diagnostic id="dua-3">Ref-number: 57</diagnostic>
     <diagnostic id="unitid-1">Ref-number: 43</diagnostic>
     <diagnostic id="unitid-2">Ref-number: 55</diagnostic>
+    <diagnostic id="unittitle-1">Ref-number: 28</diagnostic>
+    <diagnostic id="unittitle-2">Ref-number: 28</diagnostic>
   </diagnostics>
 
 </schema>
