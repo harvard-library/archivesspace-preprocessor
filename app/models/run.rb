@@ -108,6 +108,17 @@ class Run < ActiveRecord::Base
           end
         end
 
+        # Add notice of processing to revisiondesc
+        today = DateTime.now.in_time_zone
+
+        rd = repaired.at_xpath('/ead/eadheader/revisiondesc') || repaired.at_xpath('/ead/eadheader').add_child('<revisiondesc />').first
+        rd.prepend_child("\n" + <<-FRAGMENT.strip_heredoc + "\n")
+          <change>
+            <date calendar="gregorian" era="ce" normal="#{today.strftime('%Y%m%d')}">#{today.strftime('%d/%m/%Y')}</date>
+            <item>This resource was modified by the ArchivesSpace Preprocessor developed by the Harvard Library (https://github.com/harvard-library/archivesspace-preprocessor)</item>
+          </change>
+        FRAGMENT
+
         File.open(File.join(outdir, "#{fa.eadid}.xml"), 'w', 0644) do |f|
           repaired.write_xml_to(f, encoding: 'UTF-8')
         end
