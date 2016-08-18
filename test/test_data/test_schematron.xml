@@ -18,6 +18,7 @@
     <active pattern="daogrp-automated" />
     <active pattern="namegrp-automated" />
     <active pattern="identifier-automated" />
+    <active pattern="bibliography-automated" />
   </phase>
   <phase id="manual">
     <active pattern="descgrp-manual" />
@@ -164,6 +165,10 @@
       <assert test=".[@type]" diagnostics="ca-1">
         'container' element must contain 'type' attribute.
       </assert>
+
+      <assert test=".[@label]" diagnostics="ca-2">
+        'container' element must contain 'label' attribute.
+      </assert>
     </rule>
   </pattern>
 
@@ -291,6 +296,15 @@
     </rule>
   </pattern>
 
+  <pattern id="bibliography-automated">
+    <rule context="//*:bibliography/*:list">
+      <!-- 'bibliography' element -->
+      <assert test="not(.)" diagnostics="bibliography-1">
+        'bibliography' element with 'list' element as content imports incorrectly.  Change 'item' elements to 'bibref' elements, move into parent 'bibliography', drop 'list'.
+      </assert>
+    </rule>
+  </pattern>
+
   <diagnostics>
     <diagnostic id="enm-1">Ref-number: 18
     Content: Value is "<value-of select="." />"</diagnostic>
@@ -313,7 +327,7 @@ Content: '<value-of select="local-name(.)" />' element can be moved out of 'desc
     <diagnostic id="dua-1">Ref-number: 38
 Content: Content from '<value-of select="local-name(.)" />' element's 'startYear' (<value-of select="./@startYear" />) and 'endYear' (<value-of select="./@endYear" />) attributes should be combined into a single 'normal' attribute separated by '/' (<value-of select="./@startYear" />/<value-of select="./@endYear" />)
     </diagnostic>
-    <diagnostic id="ca-1">Ref-number: 17</diagnostic>
+    <diagnostic id="ca-1">Ref-number: 6</diagnostic>
     <diagnostic id="dao-1">Ref-number: 9</diagnostic>
     <diagnostic id="noempty-1">Ref-number: 46
 Content: '<value-of select="local-name(.)" />' element should not be empty
@@ -334,6 +348,8 @@ Content: '<value-of select="local-name(.)" />' element should not be empty
     <diagnostic id="daogrp-1">Ref-number: 10</diagnostic>
     <diagnostic id="namegrp-1">Ref-number: 22</diagnostic>
     <diagnostic id="identifier-1">Ref-number: 59</diagnostic>
+    <diagnostic id="ca-2">Ref-number: 6.2</diagnostic>
+    <diagnostic id="bibliography-1">Ref-number: 20.2</diagnostic>
   </diagnostics>
 
 </schema>
