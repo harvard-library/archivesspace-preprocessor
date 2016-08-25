@@ -17,6 +17,7 @@
     <active pattern="scopecontent-automated" />
     <active pattern="daogrp-automated" />
     <active pattern="namegrp-automated" />
+    <active pattern="name-automated" />
     <active pattern="identifier-automated" />
     <active pattern="bibliography-automated" />
   </phase>
@@ -25,12 +26,13 @@
     <active pattern="extent-nonnumeric-manual" />
     <active pattern="did-manual" />
     <active pattern="table-manual" />
+    <active pattern="change-manual" />
   </phase>
 
   <pattern id="extent-nonnumeric-manual">
     <rule context="//*:extent">
       <!-- 'extent' elements -->
-      <assert test="matches(., '^[0123456789]')" diagnostics="enm-1">'extent' element content should not start with non-numeric character.</assert>
+      <assert test="matches(., '^\s*[0123456789.]')" diagnostics="enm-1">'extent' element content should not start with non-numeric character except '.'.</assert>
     </rule>
   </pattern>
 
@@ -305,6 +307,23 @@
     </rule>
   </pattern>
 
+  <pattern id="change-manual">
+    <rule context="//*:revisiondesc/*:change">
+      <!-- 'change' element in 'revisiondesc' -->
+      <assert test=".[*:date and *:item]" diagnostics="change-1">
+        'revisiondesc/change' element must contain both a date and an item subelement.
+      </assert>
+    </rule>
+  </pattern>
+  <pattern id="name-automated">
+    <rule context="//*:name">
+      <!-- 'name' element -->
+      <assert test=".[not(@encodinganalog = ('110', '111', '130', '240', '245', '610', '611', '630', '650', '651', '654', '700', '710'))]" diagnostics="name-1">
+        'name' elements with 'encodinganalog' values that correspond to more specific EAD elements should be represented by those elements instead of 'name'.
+      </assert>
+    </rule>
+  </pattern>
+
   <diagnostics>
     <diagnostic id="enm-1">Ref-number: 18
     Content: Value is "<value-of select="." />"</diagnostic>
@@ -350,6 +369,9 @@ Content: '<value-of select="local-name(.)" />' element should not be empty
     <diagnostic id="identifier-1">Ref-number: 59</diagnostic>
     <diagnostic id="ca-2">Ref-number: 6.2</diagnostic>
     <diagnostic id="bibliography-1">Ref-number: 20.2</diagnostic>
+    <diagnostic id="change-1">Ref-number: 9001</diagnostic>
+    <diagnostic id="name-1">Ref-number: 9002
+Content: encodinganalog value is '<value-of select="./@encodinganalog" />', local practice at Harvard is to represent values according to the following mappings: 110,111,710=corpname, 130,240,245=title, 610,611,630,650,654=subject, 651=geogname, 700=persname</diagnostic>
   </diagnostics>
 
 </schema>
