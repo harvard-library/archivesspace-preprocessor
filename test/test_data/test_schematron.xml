@@ -63,7 +63,7 @@
                    //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:userestrict">
       <!-- 'descgrp' sub-elements of kinds valid outside of 'note' -->
       <assert test="not(.)" diagnostics="da-3">'descgrp' is deprecated, and must be removed. Element children of the following types must be reparented into 'descgrp's parent element:
-      'accessrestrict', 'accruals', 'acqinfo', 'altformavail', 'appraisal', 'custodhist', 'note', 'prefercite', 'processinfo', 'separatedmaterial 'userestrict'</assert>
+      'accessrestrict', 'accruals', 'acqinfo', 'altformavail', 'appraisal', 'custodhist', 'note', 'prefercite', 'processinfo', 'separatedmaterial', 'userestrict'</assert>
     </rule>
   </pattern>
 
@@ -255,9 +255,13 @@
     </rule>
 
     <rule context="//*:unittitle">
-      <!-- 'unittitle' elements pointed at by 'ref' elements -->
+      <!-- 'unittitle' elements -->
       <assert test="not(./@id = //*:ref/@target)" diagnostics="unittitle-2">
         'ref' elements must not point at 'unititle' elements.  'target' attribute should be rewritten to point at parent 'c'.
+      </assert>
+
+      <assert test="not(.//*:unitdate)" diagnostics="unittitle-3">
+        'unitdate' elements nested inside 'unittitle' elements will be pulled out by ArchivesSpace, and thus leave gaps in their parent's content.  Suggest copying 'unitdate' content directly into parent element, and moving 'unitdate' to following-sibling position relative to its enclosing 'unitdate'.
       </assert>
     </rule>
   </pattern>
@@ -371,8 +375,9 @@ Content: '<value-of select="local-name(.)" />' element should not be empty
     <diagnostic id="ca-2">Ref-number: 6.2</diagnostic>
     <diagnostic id="bibliography-1">Ref-number: 20.2</diagnostic>
     <diagnostic id="change-1">Ref-number: 9001</diagnostic>
-    <diagnostic id="name-1">Ref-number: 9002
+    <diagnostic id="name-1">Ref-number: 55
 Content: encodinganalog value is '<value-of select="./@encodinganalog" />', local practice at Harvard is to represent values according to the following mappings: 110,111,710=corpname, 130,240,245=title, 610,611,630,650,654=subject, 651=geogname, 700=persname</diagnostic>
+    <diagnostic id="unittitle-3">Ref-number: 40</diagnostic>
   </diagnostics>
 
 </schema>
