@@ -8,8 +8,7 @@ class Checker
   end
 
   # @param faid [FindingAid, FindingAidVersion] An input EAD to be checked via Schematron
-  # @return [Array] Issues found when running schematron over an EAD file, in the form of
-  #   an Array of Hashes that are suitable for passing to ConcreteIssues constructor
+  # @return [Array] Issues found, elements of array are suitable for passing to ConcreteIssues constructor
   def check(faid)
     # Resolve down to concrete FindingAidFile for passing to Schematronium
     faid = faid.current if faid.is_a? FindingAid
@@ -33,6 +32,9 @@ class Checker
     end
   end
 
+  # Note: Separate str version exists because saxon XML can't provide line numbers when run on a str not backed by a file
+  # @param xmlstr [String] An input string containing EAD content to be checked via Schematron
+  # @return [Array<Hash>] Issues found, elements of array are suitable for passing to ConcreteIssues constructor
   def check_str(xmlstr)
     xml = @checker.check(xmlstr)
     xml.remove_namespaces!
