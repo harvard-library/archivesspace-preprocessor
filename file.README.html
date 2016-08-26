@@ -76,7 +76,6 @@
   <li>A JVM capable of running JRuby 9.0.5.0+</li>
   <li>JRuby 9.0.5.0+ (targets MRI 2.2)</li>
   <li>Bundler</li>
-  <li>zip utility</li>
 </ul>
 
 <p>This system is tested and run in production in the following environment:</p>
@@ -115,6 +114,8 @@
 <h3 id="developmenttest">Development/Test</h3>
 
 <p>In order to run the test suite, you’ll need to install <a href="http://phantomjs.org">PhantomJS</a></p>
+
+<p>Developer documentation, generated via Yard, is available <a href="http://harvard-library.github.io/archivesspace-preprocessor/">here</a>.</p>
 
 <h2 id="application-set-up-steps">Application Set-up Steps</h2>
 
@@ -226,6 +227,8 @@ bundle exec rake aspace:ingest:schematron FILE=/path/to/my/schematronfile.xml</p
 
 <p>Changes should be made directly to it, using the Nokogiri API (<a href="http://www.nokogiri.org/tutorials/modifying_an_html_xml_document.html">suggested entry point to docs</a>).  This variable is implicitly returned at the end of the fix block. Any changes made will be passed on to the next fix, and reflected in the final finding aid.</p>
 
+<p>If a fix is marked as “preflight”, it will be run non-conditionally on EVERY finding aid, after Schematron checking but before other processing. Currently, changes made by preflights are NOT tracked; BE CAREFUL, and make as little use of them as possible!</p>
+
 <h4 id="runs">Runs</h4>
 
 <p><code>Runs</code> are the top level grouping of objects in the app.  A <code>Run</code> represents a collection of all the objects and information produced by running the tool over a set of <code>FindingAidVersions</code> with a particular <code>Schematron</code> and set of <code>Fixes</code>, producing a particular set of <code>ConcreteIssues</code>, <code>ProcessingEvents</code>, and output EADs (which, again, are associated via filesystem naming convention, rather than in the database).</p>
@@ -246,6 +249,13 @@ end</p>
 <p>fix_for “issue-2”, depends_on: [“issue-1”] do
   ead = @xml.at_xpath(‘/ead’)
   ead[‘level’] += “_stuff_added_to_level”
+end</p>
+
+<h1 id="preflight-fix">Preflight fix</h1>
+<p>fix_for “preflight-1”, preflight: true do
+  @xml.at_xpath(‘//extent’).each do |ex|
+    ex.content = ex.content.strip
+  end
 end
 ```</p>
 
@@ -282,7 +292,7 @@ end
 </div></div>
 
     <div id="footer">
-  Generated on Fri Apr 29 12:09:50 2016 by
+  Generated on Fri Aug 26 15:55:50 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.2.3).
 </div>
