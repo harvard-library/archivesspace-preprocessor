@@ -59,10 +59,11 @@
                    //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:note|
                    //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:prefercite|
                    //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:processinfo|
+                   //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:separatedmaterial|
                    //*:descgrp[(@type and @type != 'add') or (not(normalize-space(@type)) and @encodinganalog = '544')]/*:userestrict">
       <!-- 'descgrp' sub-elements of kinds valid outside of 'note' -->
       <assert test="not(.)" diagnostics="da-3">'descgrp' is deprecated, and must be removed. Element children of the following types must be reparented into 'descgrp's parent element:
-      'accessrestrict', 'accruals', 'acqinfo', 'altformavail', 'appraisal', 'custodhist', 'note', 'prefercite', 'processinfo', 'userestrict'</assert>
+      'accessrestrict', 'accruals', 'acqinfo', 'altformavail', 'appraisal', 'custodhist', 'note', 'prefercite', 'processinfo', 'separatedmaterial 'userestrict'</assert>
     </rule>
   </pattern>
 
