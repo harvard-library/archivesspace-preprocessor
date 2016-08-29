@@ -148,7 +148,7 @@ The following edges remain in your dependency graph after processing:
       Dir[File.join(dir || FILE_DIR, '*.rb')].each do |fname|
         fixes_content = IO.read(fname)
         raise "File `#{fname}` does not contain fixes" unless fixes_content.index('fix_for')
-        eval fixes_content
+        eval fixes_content, nil, fname, 1
       end
     end
   end
