@@ -20,6 +20,7 @@
     <active pattern="name-automated" />
     <active pattern="identifier-automated" />
     <active pattern="bibliography-automated" />
+    <active pattern="ptrgrp-automated" />
   </phase>
   <phase id="manual">
     <active pattern="descgrp-manual" />
@@ -324,7 +325,14 @@
     <rule context="//*:name">
       <!-- 'name' element -->
       <assert test=".[not(@encodinganalog = ('110', '111', '130', '240', '245', '610', '611', '630', '650', '651', '654', '700', '710'))]" diagnostics="name-1">
-        'name' elements with 'encodinganalog' values that correspond to more specific EAD elements should be represented by those elements instead of 'name'.
+        'name' elements with 'encodinganalog' attribute values that correspond to more specific EAD elements should be represented by those elements instead of 'name'.
+      </assert>
+    </rule>
+    </pattern><pattern id="ptrgrp-automated">
+    <rule context="//*:ptrgrp">
+      <!-- 'ptrgrp' element -->
+      <assert test="not(.)" diagnostics="ptrgrp-1">
+        'ptrgrp' elements with nested 'ref' elements are not properly imported by ArchivesSpace. The 'ptrgrp' should be replaced with a 'ref' element and the 'ref's to nested 'ptr's.
       </assert>
     </rule>
   </pattern>
@@ -378,6 +386,7 @@ Content: '<value-of select="local-name(.)" />' element should not be empty
     <diagnostic id="name-1">Ref-number: 55
 Content: encodinganalog value is '<value-of select="./@encodinganalog" />', local practice at Harvard is to represent values according to the following mappings: 110,111,710=corpname, 130,240,245=title, 610,611,630,650,654=subject, 651=geogname, 700=persname</diagnostic>
     <diagnostic id="unittitle-3">Ref-number: 40</diagnostic>
+    <diagnostic id="ptrgrp-1">Ref-number: 53</diagnostic>
   </diagnostics>
 
 </schema>
