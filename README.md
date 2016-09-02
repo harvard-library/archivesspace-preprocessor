@@ -44,7 +44,11 @@ Developer documentation, generated via Yard, is available [here](http://harvard-
   TIME_ZONE='Eastern Time (US & Canada)'                                    # Defaults to UTC if not provided
   ```
 6. Add a schematron file to the application
-7. Add [Fixes](#fixes) to application (Harvard's set live [here](http://github.com/harvard-library/aspace-processor-fixes))
+
+  ```sh
+  bundle exec rake aspace:ingest:schematron FILE=/path/to/my/schematronfile.xml
+  ```
+7. Add [Fixes](#fixes) to application (Harvard's set live [here](http://github.com/harvard-library/aspace-processor-fixes)) by copying them into the `system/fixes` directory.
 
 ## Usage Instructions
 
