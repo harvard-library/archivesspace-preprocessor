@@ -113,7 +113,7 @@ class Run < ActiveRecord::Base
         rd = repaired.at_xpath('/ead/eadheader/revisiondesc') || repaired.at_xpath('/ead/eadheader').add_child('<revisiondesc />').first
         rd.prepend_child(Nokogiri::XML::DocumentFragment.new(repaired, "\n" + <<-FRAGMENT.strip_heredoc + "\n"))
           <change>
-            <date calendar="gregorian" era="ce" normal="#{today.strftime('%Y%m%d')}">#{today.strftime('%d/%m/%Y')}</date>
+            <date calendar="gregorian" era="ce" normal="#{today.strftime('%Y%m%d')}">#{today.strftime('%m/%d/%Y')}</date>
             <item>This resource was modified by the ArchivesSpace Preprocessor developed by the Harvard Library (https://github.com/harvard-library/archivesspace-preprocessor)</item>
           </change>
         FRAGMENT
