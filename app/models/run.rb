@@ -6,14 +6,20 @@ require 'java'
 # 1. Execute schematron checker against finding aid
 # 2. Record ConcreteIssues against FindingAidVersions
 # 3. Apply relevant Fixes to finding aids, producing amended XML
-# 4. Record ProcessingEvents (this step happens fix application)
+# 4. Record ProcessingEvents (this step happens during fix application)
 # 5. Save final XML result to file
+#
+# Steps 2-4 may happen repeatedly if necessary
 class Run < ActiveRecord::Base
   # Directory to output files as ingested
   INPUT_DIR =  File.join(Rails.root, 'public', 'input')
 
   # Directory to output processed files
   OUTPUT_DIR = File.join(Rails.root, 'public', 'output')
+
+  # Maximum number of additional passes of checker/fixes to run
+  # after preflights and initial pass
+  MAX_PASSES = ENV.fetch('MAX_PASSES', 5)
 
   belongs_to :schematron
   has_and_belongs_to_many :finding_aid_versions
@@ -93,11 +99,13 @@ class Run < ActiveRecord::Base
         end # end of .reduce
 
         # Any problems which have fixes that exist now should theoretically
-        # be things that were shadowed by the first pass, so take a second pass
-        remaining_problems = schematron.issues.where(id: @checker.check_str(repaired.serialize(encoding: 'UTF-8')).map {|el| el[:issue_id]}.uniq).pluck(:identifier) & Fixes.to_h.keys
+        # be things that were shadowed by the first pass, so take additional passes
+        # untill either no known issues or MAX_PASSES
+        MAX_PASSES.times do
+          remaining_problems = schematron.issues.where(id: @checker.check_str(repaired.serialize(encoding: 'UTF-8')).map {|el| el[:issue_id]}.uniq).pluck(:identifier) & Fixes.to_h.keys
 
-        # Run a second round of fixing if there are remaining problems
-        unless remaining_problems.blank?
+          # Run a second round of fixing if there are remaining problems
+          break if remaining_problems.blank?
           repaired = Fixes
                      .to_h
                      .select {|identifier, _| remaining_problems.include? identifier}
@@ -107,6 +115,7 @@ class Run < ActiveRecord::Base
             apply_fix(xml, fix, pe)
           end
         end
+
 
         # Add notice of processing to revisiondesc
         today = DateTime.now.in_time_zone
