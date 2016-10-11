@@ -79,7 +79,7 @@ For reference, here's an automatically generated ER diagram of the application's
 
 A short description of how the tool functions, using model names, would look something like this:
 
-    A Run of the processor consists of the Checker being used to run a Schematron over one or more FindingAidVersions, producing ConcreteIssues. If the Run is intended to produce amended EAD as output, each FindingAidVersion is then processed, and depending on what Issues it has, Fixes are run over it in an order determined by dependencies amongst them.  Fixes applied are tracked in the database in the form of ProcessingEvents.
+> A Run of the processor consists of the Checker being used to run a Schematron over one or more FindingAidVersions, producing ConcreteIssues. If the Run is intended to produce amended EAD as output, each FindingAidVersion is then processed, and depending on what Issues it has, Fixes are run over it in an order determined by dependencies amongst them.  Fixes applied are tracked in the database in the form of ProcessingEvents.
 
 There are quite a few models here, but the objects tracked by the system are:
 
