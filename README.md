@@ -43,18 +43,20 @@ Developer documentation, generated via Yard, is available [here](http://harvard-
   SECRET_KEY_BASE=ThirtyPlusCharStringOfRandomnessGottenFromRakeSecretMaybe # Required in RAILS_ENV=production
   TIME_ZONE='Eastern Time (US & Canada)'                                    # Defaults to UTC if not provided
   ```
+
 6. Add a schematron file to the application
 
   ```sh
   bundle exec rake aspace:ingest:schematron FILE=/path/to/my/schematronfile.xml
   ```
+
 7. Add [Fixes](#fixes) to application (Harvard's set live [here](http://github.com/harvard-library/aspace-processor-fixes)) by copying them into the `system/fixes` directory.
 
 ## Usage Instructions
 
 Although ArchivesSpace Preprocessor is a Rails application, in many ways, it's more useful to think of it as a command-line preprocessing script.  At the end of the day, the primary workflow is:
 
-``` sh
+```sh
 # Add a schematron to the preprocessor from the command line.
 bundle exec rake aspace:ingest:schematron FILE=/path/to/my/schematronfile.xml
 
