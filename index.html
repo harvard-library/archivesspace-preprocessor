@@ -130,15 +130,25 @@
 <p><code>
   SECRET_KEY_BASE=ThirtyPlusCharStringOfRandomnessGottenFromRakeSecretMaybe # Required in RAILS_ENV=production
   TIME_ZONE='Eastern Time (US &amp; Canada)'                                    # Defaults to UTC if not provided
- </code>
-6. Add a schematron file to the application
-7. Add <a href="#fixes">Fixes</a> to application (Harvard’s set live <a href="http://github.com/harvard-library/aspace-processor-fixes">here</a>)</p>
+ </code></p>
+
+<ol>
+  <li>Add a schematron file to the application</li>
+</ol>
+
+<p><code>sh
+  bundle exec rake aspace:ingest:schematron FILE=/path/to/my/schematronfile.xml
+ </code></p>
+
+<ol>
+  <li>Add <a href="#fixes">Fixes</a> to application (Harvard’s set live <a href="http://github.com/harvard-library/aspace-processor-fixes">here</a>) by copying them into the <code>system/fixes</code> directory.</li>
+</ol>
 
 <h2 id="usage-instructions">Usage Instructions</h2>
 
 <p>Although ArchivesSpace Preprocessor is a Rails application, in many ways, it’s more useful to think of it as a command-line preprocessing script.  At the end of the day, the primary workflow is:</p>
 
-<p>``` sh
+<p>```sh
 # Add a schematron to the preprocessor from the command line.
 bundle exec rake aspace:ingest:schematron FILE=/path/to/my/schematronfile.xml</p>
 
@@ -161,8 +171,9 @@ bundle exec rake aspace:ingest:schematron FILE=/path/to/my/schematronfile.xml</p
 
 <p>A short description of how the tool functions, using model names, would look something like this:</p>
 
-<pre class="code ruby"><code class="ruby">A Run of the processor consists of the Checker being used to run a Schematron over one or more FindingAidVersions, producing ConcreteIssues. If the Run is intended to produce amended EAD as output, each FindingAidVersion is then processed, and depending on what Issues it has, Fixes are run over it in an order determined by dependencies amongst them.  Fixes applied are tracked in the database in the form of ProcessingEvents.
-</code></pre>
+<blockquote>
+  <p>A Run of the processor consists of the Checker being used to run a Schematron over one or more FindingAidVersions, producing ConcreteIssues. If the Run is intended to produce amended EAD as output, each FindingAidVersion is then processed, and depending on what Issues it has, Fixes are run over it in an order determined by dependencies amongst them.  Fixes applied are tracked in the database in the form of ProcessingEvents.</p>
+</blockquote>
 
 <p>There are quite a few models here, but the objects tracked by the system are:</p>
 
@@ -292,7 +303,7 @@ end
 </div></div>
 
     <div id="footer">
-  Generated on Fri Aug 26 15:55:50 2016 by
+  Generated on Tue Oct 11 13:55:06 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.2.3).
 </div>
