@@ -224,7 +224,7 @@
   <pattern id="unitdate-automated">
     <rule context="//*:unitdate">
       <!-- 'unitdate' element -->
-      <assert test="(matches(string-join(./text(), ''), 'ca|circa|approx|approximately', 'i') and @certainty = 'approximate') or (not(matches(string-join(./text(), ''), 'ca|circa|approx|approximately', 'i')) and @certainty != 'approximate')"
+      <assert test="not(matches(string-join(./text(), ''), '(circa|ca|c|approximately|approx)(\s|\.)', 'i'))"
               diagnostics="dua-2">
         'unitdate' containing approximation language must carry 'certainty' attribute with value 'approximate'.
       </assert>

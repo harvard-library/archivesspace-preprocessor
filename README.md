@@ -92,9 +92,148 @@ There are quite a few models here, but the objects tracked by the system are:
 
 `Schematrons` are uniquely identified by a SHA-256 digest of their content.  Any change to contents is considered to be a completely different `Schematron`.
 
-### Issues (and ConcreteIssues)
+While fully describing Schematron documents is best left to the ISO documentation, the basic structure expected of a Schematron document usable by this tool is:
+
+``` xml
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
+  <ns uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+  <ns uri="urn:isbn:1-931666-22-9" prefix="ead"/>
+
+  <!-- patterns with things that can be automatically fixed  go here -->
+  <phase id="automated">
+    <active pattern="automated-1" />
+    ...more patterns...
+    <active pattern="automated-9001" />
+  </phase>
+
+  <!-- patterns with things that need manual fixes go here -->
+  <phase id="manual">
+    <active pattern="manual-1" />
+    ...more patterns...
+    <active pattern="manual-9001" />
+  </phase>
+
+  <pattern id="automated-1">
+    <rule context="/*:ead">
+      <!-- 'ead' element -->
+      <assert test="." diagnostics="ead-1">'ead' element must exist at root of document.</assert>
+    </rule>
+  </pattern>
+
+  <diagnostics>
+    <diagnostic id="ead-1">Ref-number: 1
+Content: Root element should be 'ead', is '<value-of select="local-name(.)" />'
+    </diagnostic>
+  </diagnostics>
+<schema>
+```
+
+Patterns are more or less optional for this tool, but if you're also using the schematron in the [EAD Checker](https://github.com/harvard-library/archivesspace-checker), it's important to have them, and to have them sorted into the 'automated' and 'manual' phases.
+
+Rules establish context for the `<assert>`s within them; the `test` attribute in an assertion is evaluated in context of the element selected by the `<rule>`'s `context` attribute.  Multiple `<assert>`s can be wrapped in one rule.  The comment at the start of the rule is *not optional*; it's used by the [EAD Checker](https://github.com/harvard-library/archivesspace-checker) as part of generating documentation, and parsed in this tool as well.
+
+`<assert>`s are processed into Issues, and will be thoroughly described in the next section.
+
+It is STRONGLY recommended for people implementing this tool to look at the [test schematron](test/test_data/test_schematron.xml) and use it as a base for their own.
+
+### Issues
 
 `Issues` are a representation of problems described in a `Schematron`.  A variety of contextual information is parsed out of from the Schematron file and present in the database, but the main field to be aware of is the `identifier` field.  This is a unique ID provided by the creator of the Schematron document, taken from the `diagnostics` attribute of the `<assert>`s within the schematron document.
+
+To add an issue, you have to add several items to the Schematron you are using with the tool. Namely:
+
+1. You must (if using patterns in your schematron) either create a new pattern, or choose an existing pattern to add your new issue to.
+   1. If you add a new pattern, you must add an `<active>` element referencing it to the relevant `<phase>`.  In general, you'll want to add them to the 'automated' phase.
+2. Within the new or existing `<pattern>`, either add a new rule or choose an existing one.
+3. Within the new or existing `<rule>`, add a new `<assert>`, making sure to give it a unique `diagnostics` attribute.
+4. Within the `<diagnostics>` element, create a new `<diagnostic>`, with the `id` equal to the `diagnostics` attribute of your new assertion.
+
+See below for more detailed descriptions each element.
+
+#### Phases/Actives
+
+This tool and [EAD Checker](https://github.com/harvard-library/archivesspace-checker) both expect there to be two `<phase>`s, with the `id`s 'automated' and 'manual'.  Each `<pattern>` should have an `<active>` in one of these two phases.
+
+For example, see [above](#schematrons)
+
+#### Patterns
+
+No real special care needs to be taken here.  `<patterns>` are just a grouping mechanism; as long as you remember to create an `<active>` for all your `<pattern>`s, you're fine.
+
+Example `<pattern>`:
+
+``` xml
+<pattern id="some-unique-id">
+  ...
+</pattern>
+```
+
+#### Rules
+
+`<rule>`s establish a context in which `<assert`s get executed.  If you have several tests which affect the same element or a particular collection of elements, grouping them in one `<rule>` can improve clarity and save effort.
+
+A `<rule>` MUST have:
+
+1. a `context` attribute, containing XPath to select the context within which `<assert>`s should be executed.
+2. its first child must be a comment describing this context in human-readable terms.
+3. one or more `<assert>`s.
+
+Example `<rule>`:
+
+``` xml
+<rule context="/*:ead/*:archdesc/*[not(local-name(.) = 'did')]//*:did">
+  <!-- 'did' elements (anywhere below collection-level)-->
+  <assert test="count(./*:unitdate|./*:unittitle) > 0" diagnostics="didm-4">
+    'did' elements must contain a either a 'unitdate' element, a 'unittitle' element or both.
+  </assert>
+</rule>
+```
+
+#### Asserts
+
+`<assert>`s are where the actual things the schematron is meant to test for are located.
+
+Because `<asserts>` are assertions, they are representations of the correct structure wanted. Always remember when writing `test`s, you are describing what SHOULD be the case if the problem was not present, not describing the problem directly.
+
+An `<assert>` must have:
+
+1. a `test` attribute, describing the _correct_ structure expected.
+2. a `diagnostics` attribute, with a value matching that of a `<diagnostic>`'s `id` attribute below.
+3. text content which describes the problem and specifies the suggested remedy in human-readable terms.
+
+Example `<assert>`:
+
+``` xml
+<assert test="count(./*:unitdate|./*:unittitle) > 0" diagnostics="didm-4">
+  'did' elements must contain a either a 'unitdate' element, a 'unittitle' element or both.
+</assert>
+```
+
+#### Diagnostics
+
+At the bottom of your schematron, there must be a `<diagnostics>`, which must contain one `<diagnostic>` for each `<assert>`.
+
+A `<diagnostic>` must have:
+
+1. an `id` attribute, with a value matching that of the `diagnostics` attribute on an `<assert>` earlier in the document.
+2. Its content is processed by this tool into key:value pairs, and should be formatted in the following manner:
+   1. content must be left-justified.  The first character should be flush to the closing `>` of the opening tag, subsequent lines should be justified to the left margin of the file.
+   2. keys should be separated from values by the first literal `:` token found on the line.
+   3. Two keys are treated specially:
+      1. `Ref-number`, which is used to refer to an external id system (e.g. bug tracking ids)
+      2. `Content`, which is processed into a separate DB field.
+
+Within diagnostics, you can use `<value-of>` to select content from the XML file being checked.  The context node is the same as the `context` of the `<rule>` for the related `<assert>`.  Note that the output generated by `<diagnostic>` elements DOES NOT contain mixed content, so selecting elements will essentially interpolate their text content, rather than reproducing their whole structure.
+
+Example `<diagnostic>`:
+
+``` xml
+<diagnostic id="da-2">Ref-number: 11
+Content: '<value-of select="local-name(.)" />' element can be moved out of 'descgrp' element into a new 'note' element in surrounding '<value-of select="local-name(./../..)" />'</diagnostic>
+```
+
+### ConcreteIssues
 
 `ConcreteIssues` are representations of `Issues` actually found in particular `FindingAidVersions`, and include location and other context info about the specific instance of said `Issue`.
 
