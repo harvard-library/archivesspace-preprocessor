@@ -55,6 +55,11 @@ class Run < ActiveRecord::Base
       fix.(xml)
     rescue Fixes::Failure, StandardError => e
       pe.update(failed: true) if pe
+      logger.tagged('Fixes') {
+        logger.warn { "Failed with #{e.class}: #{e.message}" }
+        logger.warn {"ProcessingEvent: #{pe.id}, Issue identifier: #{pe.issue.identifier}" }
+        logger.warn { "Locations:\n#{e.backtrace.grep(/fixes\//).map {|el| "\t" + el}.join("\n")}" }
+      }
       pre_fix_xml
     end
   end
@@ -119,6 +124,7 @@ class Run < ActiveRecord::Base
 
         # Add notice of processing to revisiondesc
         today = DateTime.now.in_time_zone
+
         rd = repaired.at_xpath('/ead/eadheader/revisiondesc') || repaired.at_xpath('/ead/eadheader').add_child('<revisiondesc />').first
         rd.prepend_child(Nokogiri::XML::DocumentFragment.new(repaired, "\n" + <<-FRAGMENT.strip_heredoc + "\n"))
           <change>
