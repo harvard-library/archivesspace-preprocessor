@@ -283,6 +283,13 @@
         'daogrp' element is not well supported in ArchivesSpace.  Remove 'daogrp', and rewrite contained 'daoloc' elements to 'dao's, taking xlink attributes from 'arc' elements.
       </assert>
     </rule>
+   
+    <rule context="//*:daogrp/*:arc[@xlink:show = 'new']">
+      <!-- 'arc' element -->
+      <assert test=".[@xlink:actuate = 'onRequest']" diagnostics = "daogrp-2">
+        'arc' elements with the 'xlink:show' attribute of 'new' should have the 'xlink:actuate' attribute 'onRequest'. 
+      </assert>
+    </rule>
   </pattern>
   <pattern id="namegrp-automated">
     <rule context="//*:namegrp">
@@ -387,6 +394,7 @@ Content: '<value-of select="local-name(.)" />' element should not be empty
 Content: encodinganalog value is '<value-of select="./@encodinganalog" />', local practice at Harvard is to represent values according to the following mappings: 110,111,710=corpname, 130,240,245=title, 610,611,630,650,654=subject, 651=geogname, 700=persname</diagnostic>
     <diagnostic id="unittitle-3">Ref-number: 40</diagnostic>
     <diagnostic id="ptrgrp-1">Ref-number: 53</diagnostic>
+    <diagnostic id="daogrp-2">Ref-number: 63</diagnostic>
   </diagnostics>
 
 </schema>

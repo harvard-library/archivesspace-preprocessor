@@ -57,7 +57,9 @@ class Run < ActiveRecord::Base
       pe.update(failed: true) if pe
       logger.tagged('Fixes') {
         logger.warn { "Failed with #{e.class}: #{e.message}" }
-        logger.warn {"ProcessingEvent: #{pe.id}, Issue identifier: #{pe.issue.identifier}" }
+        if pe
+          logger.warn {"ProcessingEvent: #{pe.id}, Issue identifier: #{pe.issue.identifier}" }
+        end
         logger.warn { "Locations:\n#{e.backtrace.grep(/fixes\//).map {|el| "\t" + el}.join("\n")}" }
       }
       pre_fix_xml
