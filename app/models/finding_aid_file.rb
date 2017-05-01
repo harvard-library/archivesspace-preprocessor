@@ -23,7 +23,8 @@ class FindingAidFile < SimpleDelegator
     xml.remove_namespaces!
 
     eadid = xml.at_xpath('/ead/eadheader/eadid')
-    repo = Repository.find_or_initialize_by(code: eadid.text[0..2])
+
+    repo = Repository.find_or_initialize_by(code: eadid.text[/^\D+/])
     unless repo.id
       repo.name = 'unknown repository'
       repo.save!
