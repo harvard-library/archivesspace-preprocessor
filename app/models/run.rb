@@ -126,8 +126,7 @@ class Run < ActiveRecord::Base
 
         # Add notice of processing to revisiondesc
         today = DateTime.now.in_time_zone
-
-        rd = repaired.at_xpath('/ead/eadheader/revisiondesc') || repaired.at_xpath('/ead/eadheader').add_child('<revisiondesc />').first
+        rd = repaired.at_xpath('/ead/eadheader/revisiondesc') || repaired.at_xpath('/ead/eadheader').add_child(Nokogiri::XML::DocumentFragment.new(repaired, '<revisiondesc />')).first
         rd.prepend_child(Nokogiri::XML::DocumentFragment.new(repaired, "\n" + <<-FRAGMENT.strip_heredoc + "\n"))
           <change>
             <date calendar="gregorian" era="ce" normal="#{today.strftime('%Y%m%d')}">#{today.strftime('%m/%d/%Y')}</date>
