@@ -11,6 +11,7 @@ The ArchivesSpace Preprocessing system processes EAD files and applies changes (
 * Unix-like system
 * A JVM capable of running JRuby 9.0.5.0+
 * JRuby 9.0.5.0+ (targets MRI 2.2)
+* PostgreSQL 9.4+ (requires jsonb column support)
 * Bundler
 
 This system is tested and run in production in the following environment:
@@ -18,7 +19,7 @@ This system is tested and run in production in the following environment:
 | Components               |                      |
 |--------------------------|----------------------|
 | **Operating System**     | OSX, Linux (RHEL 6.7)|
-| **Database**             | PostgreSQL 9.x       |
+| **Database**             | PostgreSQL 9.6       |
 | **Web Server**           | Apache 2.x           |
 | **Application Server**   | Passenger            |
 | **Ruby version manager** | RVM                  |
