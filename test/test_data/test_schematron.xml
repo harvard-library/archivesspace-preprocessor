@@ -258,7 +258,7 @@
     <rule context="//*:unittitle">
       <!-- 'unittitle' elements -->
       <assert test="not(./@id = //*:ref/@target)" diagnostics="unittitle-2">
-        'ref' elements must not point at 'unititle' elements.  'target' attribute should be rewritten to point at parent 'c'.
+        'ref' elements must not point at 'unittitle' elements.  'target' attribute should be rewritten to point at parent 'c'.
       </assert>
 
       <assert test="not(.//*:unitdate)" diagnostics="unittitle-3">
@@ -283,11 +283,11 @@
         'daogrp' element is not well supported in ArchivesSpace.  Remove 'daogrp', and rewrite contained 'daoloc' elements to 'dao's, taking xlink attributes from 'arc' elements.
       </assert>
     </rule>
-   
+
     <rule context="//*:daogrp/*:arc[@xlink:show = 'new']">
       <!-- 'arc' element -->
       <assert test=".[@xlink:actuate = 'onRequest']" diagnostics = "daogrp-2">
-        'arc' elements with the 'xlink:show' attribute of 'new' should have the 'xlink:actuate' attribute 'onRequest'. 
+        'arc' elements with the 'xlink:show' attribute of 'new' should have the 'xlink:actuate' attribute 'onRequest'.
       </assert>
     </rule>
   </pattern>
