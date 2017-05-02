@@ -5,15 +5,18 @@ require 'test_helper'
 #
 #   1. Put your "we use it in production" schematron at /test/test_data/individual_fixes/schematron.xml
 #   2. Put finding aids that contain the errors your fixes correct into /test/test_data/individual_fixes/eads/,
-#          making sure to name them after the issue they present that you mean to test.
+#          making sure to name them after the issue they present that you mean to test. Multiple tests can be
+#          provided for the same issue, by naming them in this format: "${identifier}__#{other_text}.xml"
 #   3. Fixes will be picked up from the application's system/fixes directory, as in dev/production
 #
 # To provide a concrete example: to test a fix for an issue with identifier "squirrel-7", you would need:
 #
 #   1. A schematron covering issue "squirrel-7", located at /test/test_data/individual_fixes/schematron.xml
 #   2. A finding aid with the problem described by "squirrel-7", located at
-#      /test/test_data/individual_fixes/eads/suirrel-7.xml
+#      /test/test_data/individual_fixes/eads/squirrel-7.xml
 #   3. A fix, located at ROOT_DIR/system/fixes
+#
+# If you wanted to add another test for "squirrel-7", you could add an ead file named, for instance,  squirrel-7__alternate.xml
 #
 # Note: These test methods run ONLY the fix in question, not "that fix and its dependencies"
 #       Therefore, your test data should be designed so that any dependent fixes would not need
@@ -51,24 +54,25 @@ class IndividualFixesTest < ActiveSupport::TestCase
 
     # Metaprogramming ahoy! This loop and if run at file load, and are the reason for HAX above
     Fixes.to_h.each do |k,v|
-      if FAIDS_LIST.include? k
-        it "tests that fix '#{k}' works" do
+      FAIDS_LIST.select{|el| (m = el.match(/^.*?(?=__|$)/)) && m[0] == k}.each do |fname|
+        remainder = fname.split("__")[1]
+        it "tests that fix '#{k}'#{" (" + remainder + ")" if remainder} works" do
           # Note: Multiple issues SHOULD NOT be associated with one identifier, but CAN BE.
           #       Any fix should fix all problems which share an identifier, and ideally,
           #       DON'T DO THIS, reporting will be subtly incorrect
           issue_ids = Issue.where(schematron: @sf, identifier: k).pluck(:id)
 
           # State of the Finding Aid before fix
-          pre = @checker.check(@faids[k])
+          pre = @checker.check(@faids[fname])
 
           # State of the finding Aid after fix
-          fa_xml = Nokogiri.XML(@faids[k].file.read)
+          fa_xml = Nokogiri.XML(@faids[fname].file.read)
           fixed_file = FindingAidFile.new(Fixes[k].(fa_xml).to_s)
           fixed_fa = FindingAidVersion.find_or_create_by(digest: fixed_file.digest)
           post = @checker.check(fixed_fa)
 
-          assert(pre.any? {|hsh| issue_ids.include? hsh[:issue_id]}, "no issues present in test case '#{k}.xml' before processing")
-          assert(post.none? {|hsh| issue_ids.include? hsh[:issue_id]}, "issues present in test case '#{k}.xml' after processing")
+          assert(pre.any? {|hsh| issue_ids.include? hsh[:issue_id]}, "no issues present in test case '#{fname}.xml' before processing")
+          assert(post.none? {|hsh| issue_ids.include? hsh[:issue_id]}, "issues present in test case '#{fname}.xml' after processing")
         end
       end
     end
