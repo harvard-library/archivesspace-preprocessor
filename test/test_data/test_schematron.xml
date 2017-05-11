@@ -21,6 +21,7 @@
     <active pattern="identifier-automated" />
     <active pattern="bibliography-automated" />
     <active pattern="ptrgrp-automated" />
+    <active pattern="nested-list-automated" />
   </phase>
   <phase id="manual">
     <active pattern="descgrp-manual" />
@@ -195,7 +196,7 @@
   </pattern>
 
   <pattern id="c-automated">
-    <rule context="//*:c">
+    <rule context="//*:c|//*:c01|//*:c02|//*:c03|//*:c04|//*:c05|//*:c06|//*:c07|//*:c08|//*:c09|//*:c10|//*:c11|//*:c12 ">
       <!-- 'c' element -->
       <assert test=".[(@level and @level != 'otherlevel') or (@level = 'otherlevel' and normalize-space(@otherlevel))]" diagnostics="c-1">
         'c' element must contain a value in its 'level' attribute.  If that value is 'otherlevel', the 'c' must also contain an 'otherlevel' attribute.
@@ -335,11 +336,26 @@
         'name' elements with 'encodinganalog' attribute values that correspond to more specific EAD elements should be represented by those elements instead of 'name'.
       </assert>
     </rule>
-    </pattern><pattern id="ptrgrp-automated">
+  </pattern>
+
+  <pattern id="ptrgrp-automated">
     <rule context="//*:ptrgrp">
       <!-- 'ptrgrp' element -->
       <assert test="not(.)" diagnostics="ptrgrp-1">
         'ptrgrp' elements with nested 'ref' elements are not properly imported by ArchivesSpace. The 'ptrgrp' should be replaced with a 'ref' element and the 'ref's to nested 'ptr's.
+      </assert>
+    </rule>
+  </pattern>
+
+  <pattern id="nested-list-automated">
+    <rule context="//*:list">
+      <!-- 'list' element -->
+      <assert test="not(//*:item/*:list)" diagnostics="nested-list-1">
+        'item' elements with 'list' element children are not properly imported by ArchivesSpace.  'list' elements should be flattened so that no nesting occurs.
+      </assert>
+
+      <assert test="not(//*:item/*[not(./self::list)]//list)" diagnostics="nested-list-2">
+        'item' elements with non-'list' children which have 'list' children are not properly imported by ArchivesSpace.  'list' elements should be flattened so that no nesting occurs.
       </assert>
     </rule>
   </pattern>
@@ -395,6 +411,8 @@ Content: encodinganalog value is '<value-of select="./@encodinganalog" />', loca
     <diagnostic id="unittitle-3">Ref-number: 40</diagnostic>
     <diagnostic id="ptrgrp-1">Ref-number: 53</diagnostic>
     <diagnostic id="daogrp-2">Ref-number: 63</diagnostic>
+    <diagnostic id="nested-list-1">Ref-number: 20.1</diagnostic>
+    <diagnostic id="nested-list-2">Ref-number: 20.2</diagnostic>
   </diagnostics>
 
 </schema>
