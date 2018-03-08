@@ -33,7 +33,7 @@ class Run < ActiveRecord::Base
     faids.each do |faid|
       faid = faid.current if faid.is_a? FindingAid
       ActiveRecord::Base.transaction do
-        @checker.check(faid).each do |h|
+        @checker.check(faid) do |h|
           ConcreteIssue.create!(h)
         end
         self.finding_aid_versions << faid

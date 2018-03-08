@@ -179,10 +179,10 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    saxon-xslt (0.7.2-java)
-    schematronium (0.1.4-java)
+    saxon-xslt (0.8.2-java)
+    schematronium (0.2.0-java)
       nokogiri (~> 1.6)
-      saxon-xslt (~> 0.7)
+      saxon-xslt (~> 0.8)
     slop (3.6.0)
     spoon (0.0.4)
       ffi
@@ -244,7 +244,7 @@ DEPENDENCIES
   railroady
   rails (= 4.2.7.1)
   sass-rails (~> 5.0)
-  schematronium
+  schematronium (= 0.2.0)
   therubyrhino
   tzinfo-data
   uglifier (>= 1.3.0)

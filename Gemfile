@@ -59,4 +59,4 @@ gem 'pry-doc'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
-gem 'schematronium'
+gem 'schematronium', '0.2.0'
