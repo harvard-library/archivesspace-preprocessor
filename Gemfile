@@ -8,7 +8,7 @@ gem 'activerecord-jdbcpostgresql-adapter'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Bootstrap
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '~> 3.4.1'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -20,9 +20,10 @@ gem 'jbuilder', '~> 2.0'
 # jqPlot-Rails - least outdated package
 gem 'outfielding-jqplot-rails', '~> 1.0.0'
 gem 'dotenv-rails'
+gem 'nokogiri', '>= 1.13.4'
+gem 'puma', '>= 5.6.4'
 
 group :development do
-  gem 'puma' # Because Webrick is terrible
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-rvm'
   gem 'listen'
