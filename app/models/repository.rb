@@ -1,5 +1,5 @@
 # An institution the produces finding aids
-class Repository < ActiveRecord::Base
+class Repository < ApplicationRecord
   has_many :finding_aids
 
   # PrettyPrint repo name and code for display

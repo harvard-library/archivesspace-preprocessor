@@ -1,7 +1,7 @@
 # A specific version of an archival finding aid.
 #
 # This is a concrete representation, specified by file content
-class FindingAidVersion < ActiveRecord::Base
+class FindingAidVersion < ApplicationRecord
   before_create :find_or_create_faid
 
   # Internal validator class (preferred over validates_each bc YARD can't see validates_each)

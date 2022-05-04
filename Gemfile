@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 # Because RVM can't parse the ruby declaration, the following comment is needed
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7.1'
+gem 'rails', '5.0'
 # Use jdbcpostgresql as the database for Active Record
 gem 'activerecord-jdbcpostgresql-adapter'
 # Use SCSS for stylesheets

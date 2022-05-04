@@ -10,7 +10,7 @@ require 'java'
 # 5. Save final XML result to file
 #
 # Steps 2-4 may happen repeatedly if necessary
-class Run < ActiveRecord::Base
+class Run < ApplicationRecord
   # Directory to output files as ingested
   INPUT_DIR =  File.join(Rails.root, 'public', 'input')
 

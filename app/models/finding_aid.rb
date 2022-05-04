@@ -2,7 +2,7 @@
 #
 # This is a logical representation, which represents all versions
 # of an EAD file regardless of changes in content
-class FindingAid < ActiveRecord::Base
+class FindingAid < ApplicationRecord
   belongs_to :repository
   has_many :finding_aid_versions, dependent: :destroy
   has_many :runs, through: :finding_aid_versions

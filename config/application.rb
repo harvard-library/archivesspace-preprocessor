@@ -18,7 +18,7 @@ module AspaceProcessor
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # Set time zone from env if present
     config.time_zone = ENV['TIME_ZONE'] if ENV['TIME_ZONE']
-
+    ActiveSupport.halt_callback_chains_on_return_false = false
     config.x.time_display_fmt = ENV.fetch('TIME_ZONE_DISPLAY_FORMAT',
                                           '%l:%M:%S%P %Z on %A, %B %d %Y (%F %T %Z %z)')
 
