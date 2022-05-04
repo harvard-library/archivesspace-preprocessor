@@ -2,8 +2,8 @@
 <table class="table">
   <thead></thead>
   <tbody>
-    <tr><td class="bold">Started at</td>         <td><%= pp_time @run.created_at %></td></tr>
-    <tr><td class="bold">Finished at</td>        <td><%= pp_time @run.updated_at %></td></tr>
+    <tr><td class="bold">Started at</td>         <td><%= @run.created_at %></td></tr>
+    <tr><td class="bold">Finished at</td>        <td><%= @run.updated_at %></td></tr>
     <tr><td class="bold">Run for Processing</td> <td><%= @run.run_for_processing? ? "✓" : "❌" %></td></tr>
     <tr><td class="bold">Eads Processed</td>     <td><%= @run.eads_processed %></td></tr>
     <tr><td class="bold">Input EADs</td>         <td><%= link_to "Zip file", input_path(@run), download: "#{@run.name}_input.zip" %></td></tr>
