@@ -1,4 +1,4 @@
-class DropRemediationsJustUseIdentifier < ActiveRecord::Migration
+class DropRemediationsJustUseIdentifier < ActiveRecord::Migration[4.2]
   def change
     drop_table :remediations do |t|
       t.string :issue_identifier, null: false, index: :unique # effective FKey to issues.identifier

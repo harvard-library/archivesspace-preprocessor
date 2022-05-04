@@ -1,4 +1,4 @@
-class AddContextInfoToRuns < ActiveRecord::Migration
+class AddContextInfoToRuns < ActiveRecord::Migration[4.2]
   def change
     add_column :runs, :name, :string, index: true, unique: false
     add_column :runs, :data, :jsonb

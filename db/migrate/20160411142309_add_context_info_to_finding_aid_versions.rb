@@ -1,4 +1,4 @@
-class AddContextInfoToFindingAidVersions < ActiveRecord::Migration
+class AddContextInfoToFindingAidVersions < ActiveRecord::Migration[4.2]
   class FindingAidVersion < ActiveRecord::Base
     # guard class
   end

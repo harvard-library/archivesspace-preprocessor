@@ -1,4 +1,4 @@
-class MoveTagsFromIssueToConcreteIssue < ActiveRecord::Migration
+class MoveTagsFromIssueToConcreteIssue < ActiveRecord::Migration[4.2]
   class ConcreteIssue < ActiveRecord::Base
     # Guard class for use in migration
   end
