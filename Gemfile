@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 # Because RVM can't parse the ruby declaration, the following comment is needed
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0'
+gem 'rails', '6.1.5.1'
 # Use jdbcpostgresql as the database for Active Record
 gem 'activerecord-jdbcpostgresql-adapter'
 # Use SCSS for stylesheets
@@ -25,6 +25,7 @@ group :development do
   gem 'puma' # Because Webrick is terrible
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-rvm'
+  gem 'listen'
 end
 
 group :doc do
