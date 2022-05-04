@@ -12,7 +12,7 @@ class FindingAidVersion < ApplicationRecord
     end
   end
 
-  belongs_to :finding_aid
+  belongs_to :finding_aid, required: false
   delegate :eadid, to: :finding_aid
   has_and_belongs_to_many :runs
   has_many :concrete_issues, dependent: :destroy

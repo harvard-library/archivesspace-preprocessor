@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'rake'
 class RakeIngestTest < ActionDispatch::IntegrationTest
   def rake(name)
     Rake::Task[name].invoke

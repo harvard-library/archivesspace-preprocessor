@@ -6,7 +6,8 @@ class Checker
   end
 
   AXIS_ARGS = [Saxon::S9API::Axis::CHILD, Saxon::S9API::QName.new('http://purl.oclc.org/dsdl/svrl', 'diagnostic-reference')]
-
+  DIAGNOSTIC = Saxon::S9API::QName.new('diagnostic')
+  LOCATION = Saxon::S9API::QName.new('location')
   def initialize(stron = ->() {Schematron.current}, run = nil)
     @schematron = stron.kind_of?(Proc) ? stron.call : stron
     @issue_ids = stron.issues.pluck(:identifier, :id).to_h
@@ -22,18 +23,19 @@ class Checker
 
     s_xml = Saxon.XML(faid.file)
     xml = @checker.check(faid.file, nokogiri: false)
-    xml.remove_namespaces!
+
     errs = xml.xpath('//*:failed-assert | //*:successful-report')
 
     results = []
     errs.each do |el|
       diag = el.axis_iterator(*AXIS_ARGS).first
+      location = Saxon::S9API::QName.new('location')
       out = {
         run_id: @run.try(:id),
         finding_aid_version_id: faid.id,
-        issue_id: @issue_ids[diag.get_attribute_value(Saxon::S9API::QName.new('diagnostic'))],
-        location: el.get_attribute_value(Saxon::S9API::QName.new('location')),
-        line_number: s_xml.xpath(el['location']).get_line_number,
+        issue_id: @issue_ids[diag.get_attribute_value(DIAGNOSTIC)],
+        location: el.get_attribute_value(LOCATION),
+        line_number: s_xml.xpath(el.get_attribute_value(LOCATION)).get_line_number,
         diagnostic_info: diag.get_string_value
       }
       if block_given?

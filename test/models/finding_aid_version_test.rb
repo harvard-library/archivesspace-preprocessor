@@ -5,10 +5,12 @@ class FindingAidVersionTest < ActiveSupport::TestCase
     @population = Dir[File.join(FindingAidFile::FILE_DIR, '*.xml')].count
     @faf = FindingAidFile.new( IO.read(File.join(Rails.root, 'test', 'test_data', 'test_ead.xml')) )
     @finding_aid_version = FindingAidVersion.create( @faf.fav_attr )
+    binding.irb
   end
 
   describe FindingAidVersion do
     it "can save a FindingAid version" do
+      binding.irb
       faid = FindingAidVersion.find(@finding_aid_version.id)
       faid.touch
       assert faid.save, "FindingAidVersion failed with: #{faid.errors.keys.join(', ')}"
