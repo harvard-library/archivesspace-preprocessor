@@ -273,6 +273,7 @@ GEM
 
 PLATFORMS
   java
+  universal-java-1.8
 
 DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
@@ -309,4 +310,4 @@ DEPENDENCIES
   yard-activerecord
 
 BUNDLED WITH
-   1.17.3
+   2.3.13

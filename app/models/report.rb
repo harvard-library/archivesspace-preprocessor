@@ -14,7 +14,7 @@ class Report
       where(runs: {id: run.id}).
       group('repositories.id', 'issues.id').
       order('code, substr').
-      pluck('code','substr(issues.message, 0, 120)', 'COUNT(concrete_issues.id)').
+      pluck('code', Arel.sql('substr(issues.message, 0, 120)'), 'COUNT(concrete_issues.id)').
       group_by {|el| el[1]}.
       map do |k, v|
         [k, v.map {|el| [el[0], el[2]]}.to_h] # Drop message from vals, then hashify
