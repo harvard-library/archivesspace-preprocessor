@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 # Because RVM can't parse the ruby declaration, the following comment is needed
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '6.1.5.1'
+gem 'rails', '6.1.6.1'
 # Use jdbcpostgresql as the database for Active Record
 gem 'activerecord-jdbcpostgresql-adapter'
 # Use SCSS for stylesheets
@@ -20,7 +20,7 @@ gem 'jbuilder', '~> 2.0'
 # jqPlot-Rails - least outdated package
 gem 'outfielding-jqplot-rails', '~> 1.0.0'
 gem 'dotenv-rails'
-gem 'nokogiri', '>= 1.13.4'
+gem 'nokogiri', '>= 1.13.6'
 gem 'puma', '>= 5.6.4'
 
 group :development do
