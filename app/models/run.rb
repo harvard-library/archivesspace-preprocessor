@@ -33,8 +33,8 @@ class Run < ApplicationRecord
     faids.each do |faid|
       faid = faid.current if faid.is_a? FindingAid
       ActiveRecord::Base.transaction do
-        @checker.check(faid) do |h|
-          ConcreteIssue.create!(h)
+        @checker.check(faid).each_slice(1000)  do |batch|
+          ConcreteIssue.insert_all(batch)
         end
         self.finding_aid_versions << faid
         self.increment! :eads_processed

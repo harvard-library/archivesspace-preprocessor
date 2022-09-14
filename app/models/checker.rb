@@ -29,14 +29,20 @@ class Checker
     results = []
     errs.each do |el|
       diag = el.axis_iterator(*AXIS_ARGS).first
-      location = Saxon::S9API::QName.new('location')
+      diag_content = diag.get_string_value
+      tags = diag_content.split("\n")
+               .map {|s| s.match(/([^\s:]+): (.+)/)}
+               .reject(&:blank?)
+               .map {|m| m[1..2]}
+               .to_h
       out = {
         run_id: @run.try(:id),
         finding_aid_version_id: faid.id,
         issue_id: @issue_ids[diag.get_attribute_value(DIAGNOSTIC)],
         location: el.get_attribute_value(LOCATION),
         line_number: s_xml.xpath(el.get_attribute_value(LOCATION)).get_line_number,
-        diagnostic_info: diag.get_string_value
+        diagnostic_info: diag_content,
+        tags: tags
       }
       if block_given?
         yield out
@@ -56,12 +62,19 @@ class Checker
 
     errs.map do |el|
       diag = el.axis_iterator(*AXIS_ARGS).first
+      diag_content = diag.get_string_value
+      tags = diag_content.split("\n")
+               .map {|s| s.match(/([^\s:]+): (.+)/)}
+               .reject(&:blank?)
+               .map {|m| m[1..2]}
+               .to_h
       {
         run_id: @run.try(:id),
-        issue_id: @issue_ids[diag.get_attribute_value(Saxon::S9API::QName.new('diagnostic'))],
-        location: el.get_attribute_value(Saxon::S9API::QName.new('location')),
+        issue_id: @issue_ids[diag.get_attribute_value(DIAGNOSTIC)],
+        location: el.get_attribute_value(LOCATION),
         line_number: -1,
-        diagnostic_info: diag.get_string_value
+        diagnostic_info: diag_content,
+        tags: tags
       }
     end
   end
