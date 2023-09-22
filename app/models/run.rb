@@ -1,4 +1,5 @@
 require 'java'
+require 'thread'
 
 # A process consisting of the following steps, repeated over
 # the current version of each FindingAid:
@@ -21,6 +22,9 @@ class Run < ApplicationRecord
   # after preflights and initial pass
   MAX_PASSES = ENV.fetch('MAX_PASSES', 5)
 
+  # Number of threads to run concurrently
+  NUM_THREADS = ENV.fetch('NUM_THREADS', 4)
+
   belongs_to :schematron
   has_and_belongs_to_many :finding_aid_versions
   has_many :concrete_issues, dependent: :destroy
@@ -29,16 +33,31 @@ class Run < ApplicationRecord
   # Run checker over a set of provided faids, storing information
   # on found errors in the database
   def perform_analysis(faids)
-    @checker = Checker.new(schematron, self)
-    faids.each do |faid|
-      faid = faid.current if faid.is_a? FindingAid
-      ActiveRecord::Base.transaction do
-        @checker.check(faid).each_slice(1000)  do |batch|
-          ConcreteIssue.insert_all(batch)
+    q = Thread::Queue.new
+    faids.each do |faid| q << faid end
+
+    threads = NUM_THREADS.times.map do
+      Thread.new do
+        Rails.application.executor.wrap do
+          checker = Checker.new(schematron, self)
+          begin
+            while true
+              faid = q.pop(non_block: true)
+              ActiveRecord::Base.transaction do
+                checker.check().each_slice(1000) do |batch|
+                  ConcreteIssue.insert_all(batch)
+                end
+                self.finding_aid_versions << faid
+                self.increment! :eads_processed
+              end
+            end
+          rescue ThreadError => e
+          end
         end
-        self.finding_aid_versions << faid
-        self.increment! :eads_processed
       end
+    end
+    ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
+      threads.each(&:join)
     end
   end
 
